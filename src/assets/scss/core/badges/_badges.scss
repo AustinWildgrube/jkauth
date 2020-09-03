@@ -1,0 +1,27 @@
+.badge {
+  border-radius: .375rem;
+  display: inline-block;
+  font-size: 66%;
+  font-weight: 600;
+  line-height: 1;
+  padding: .35rem .375rem;
+  text-align: center;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.badge--active {
+  background-color: color(status, active-background);
+  color: color(status, active-text);
+}
+
+.badge--success {
+  background-color: color(status, success-background);
+  color: color(status, success-text);
+}
+
+.badge--danger {
+  background-color: color(status, expired-background);
+  color: color(status, expired-text);
+}

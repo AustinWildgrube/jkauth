@@ -1,0 +1,87 @@
+<!--Done-->
+<div class="script-users">
+  <div class="script-users__header">
+    <nav aria-label="breadcrumb">
+      <h6 class="script-users__header-page-title">Script Users</h6>
+      <ol class="breadcrumbs">
+        <li class="breadcrumb">
+          <a class="breadcrumb__link" routerLink="/dashboard">Dashboard</a>
+        </li>
+        <li class="breadcrumb">
+          <a class="breadcrumb__link" routerLink="/dashboard/scripts">Scripts</a>
+        </li>
+        <li class="breadcrumb breadcrumb--active" aria-current="page">Script Users</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="script-users__table">
+    <div class="account__table">
+      <table class="table table--align-center table--flush">
+        <thead class="table-header table-header--light">
+        <tr class="table-row">
+          <th class="table-head">User</th>
+          <th class="table-head">Email</th>
+          <th class="table-head">Key Expires At</th>
+          <th class="table-head">HWIDs</th>
+        </tr>
+        </thead>
+        <tbody class="table-body">
+          <ng-container *ngFor="let scriptUser of scriptUsers">
+            <tr class="table-row">
+              <td class="table-data table-data--dark">
+                <b>{{ scriptUser.name }}</b>
+              </td>
+              <td class="table-data">
+                {{ scriptUser.login_mail }}
+              </td>
+              <td class="table-data">
+                {{ scriptUser.expires_at }}
+              </td>
+              <td class="table-data">
+                <a class="table-action table-action-edit" (click)="openSubTable(scriptUser.id);" href="javascript:void(0)" type="button"
+                   aria-describedby="View HWIDs">
+                  <i class="gg-eye"></i>
+                </a>
+              </td>
+            </tr>
+            <tr *ngIf="showHwids && showUser === scriptUser.id">
+              <td colspan="4">
+                <table class="table align--center table--flush">
+                  <thead class="table-header table-header--light">
+                    <tr class="table-row">
+                      <th class="table-head">HWID</th>
+                      <th class="table-head">Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-body">
+                  <tr *ngFor="let hwid of hwidList" class="table-body">
+                    <ng-container *ngIf="showUser === scriptUser.id && hwid.user_id === showUser">
+                      <td class="table-data table-data--dark">
+                        <b> {{ hwid.hwid }} </b>
+                      </td>
+                      <td class="table-data">
+                        {{ hwid.ts }}
+                      </td>
+                    </ng-container>
+                  </tr>
+                  <ng-container *ngIf="hwidList.length === 0">
+                    <td class="table-data table-data--text-center" colspan="2">
+                      <span> No HWIDs </span>
+                    </td>
+                  </ng-container>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+        </ng-container>
+        <tr *ngIf="scriptUsers && scriptUsers.length === 0">
+          <td class="table-data table-data--text-center" colspan="4">
+            <span> No Users </span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+.cookie {
+  align-items: center;
+  background-color: color(monochrome, black);
+  border-radius: 3px;
+  bottom: 8px;
+  color: color(monochrome, white);
+  display: flex;
+  font-size: .75rem;
+  justify-content: space-between;
+  left: 8px;
+  padding: 8px 21px;
+  position: fixed;
+  right: 8px;
+
+  @media #{$mobile-lg} {
+    flex-direction: column;
+  }
+}
+
+.cookie__text {
+  margin-bottom: 0;
+  max-width: 75%;
+
+  @media #{$mobile-lg} {
+    text-align: center;
+    max-width: 100%;
+  }
+}
+
+.cookie__buttons {
+  min-width: max-content;
+
+  @media #{$mobile-lg} {
+    margin-top: 8px;
+    width: 100%;
+  }
+}
+
+.cookie-button {
+  @media #{$mobile-lg} {
+    margin-right: 8px;
+    width: calc(50% - 8px);
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}

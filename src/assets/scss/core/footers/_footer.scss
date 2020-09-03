@@ -1,0 +1,23 @@
+.footer {
+  background-color: color(monochrome, white);
+  display: flex;
+  justify-content: flex-end;
+  padding: 24px 140px;
+  width: 100%;
+
+  @media #{$tablet} {
+    padding: 12px 40px;
+  }
+
+  @media #{$mobile-lg} {
+    justify-content: center;
+    margin-top: 24px;
+    padding: 12px 40px;
+  }
+}
+
+.footer__copywrite {
+  color: color(text, base);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}

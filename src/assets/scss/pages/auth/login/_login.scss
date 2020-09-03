@@ -1,0 +1,52 @@
+.login {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+
+  @extend .index;
+}
+
+.login__form-box {
+  border: 2px solid color(theme, secondary);
+  max-width: 450px;
+  padding: 44px 54px;
+  width: 450px;
+
+  @media #{$mobile-lg} {
+    width: 350px;
+  }
+}
+
+.login__form-box-header {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.login__form-box-title {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+
+  @extend .index__product-section-title;
+}
+
+.login__form-box-message {
+  color: color(text, muted);
+  font-size: 1rem;
+}
+
+.login__form-box-error {
+  color: color(status, expired-text);
+  font-size: .875rem;
+}
+
+.login__register-link {
+  color: color(text, base);
+
+  &:hover {
+    color: color(text, muted);
+    text-decoration: none;
+  }
+}

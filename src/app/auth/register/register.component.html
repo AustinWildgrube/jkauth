@@ -1,0 +1,69 @@
+<!--done-->
+<div class="register">
+  <div class="register__form-box">
+    <div class="register__form-box-header">
+      <h1 class="register__form-box-title">Welcome!</h1>
+      <p class="register__form-box-message">
+        Thank you for using JKAuth!
+      </p>
+      <p *ngIf="missingParameter" class="register__form-box-error">Hmm looks like there is a blank field.</p>
+      <p *ngIf="invalidEmail" class="register__form-box-error">Your email contains invalid characters.</p>
+      <p *ngIf="userExists" class="register__form-box-error">A user matching your details already exists. Try logging in!</p>
+      <p *ngIf="unknownError" class="register__form-box-error">A unknown error has occured.</p>
+      <p *ngIf="registrationForm && registrationForm.hasError('confirm')" class="register__form-box-error">
+        Your passwords do not match!
+      </p>
+    </div>
+
+    <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
+      <div class="form-group">
+        <div class="input-group input-group-alternative">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="gg-user"></i>
+            </span>
+          </div>
+          <input class="form-control" formControlName="username" placeholder="Username" type="text" aria-label="Username">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group input-group-alternative">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="gg-mail"></i>
+            </span>
+          </div>
+          <input class="form-control" formControlName="email" placeholder="Email" type="email" aria-label="Email">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group input-group-alternative">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="gg-password"></i>
+            </span>
+          </div>
+          <input class="form-control" formControlName="password" placeholder="Password" type="password" aria-label="Password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group input-group-alternative">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="gg-password"></i>
+            </span>
+          </div>
+          <input class="form-control" formControlName="passwordConfirmation" placeholder="Confirm Password" type="password"
+                 aria-label="Confirm Password">
+        </div>
+      </div>
+      <button class="button button--outline button--block" type="submit">
+        Register
+      </button>
+    </form>
+  </div>
+
+  <a class="register__login-link" routerLink="/auth/login">
+    <small>Already have an account?</small>
+  </a>
+</div>

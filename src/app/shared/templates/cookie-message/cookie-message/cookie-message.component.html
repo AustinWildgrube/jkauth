@@ -1,0 +1,11 @@
+<div *ngIf="showCookieMessage" class="cookie">
+  <p class="cookie__text">
+    This website uses cookies to enhance your experience. By accepting to use cookies you agree that you have read the information located
+    in our Privacy Policy as well as our Terms of Service.
+  </p>
+
+  <div class="cookie__buttons">
+    <button class="button button--outline button--inverted button--small cookie-button" (click)="useCookie(true)">Accept</button>
+    <button class="button button--small cookie-button" (click)="useCookie(false)">Decline</button>
+  </div>
+</div>

@@ -1,0 +1,259 @@
+.header {
+  background-color: color(monochrome, white);
+  height: 96px;
+  left: 0;
+  padding: 0 140px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+
+  @media #{$tablet} {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+  }
+
+  @media #{$mobile-lg} {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+  }
+}
+
+.header__nav {
+  color: color(monochrome, white);
+  display: inline-flex;
+  height: 100%;
+  vertical-align: top;
+  width: 45%;
+
+  @media #{$tablet} {
+    display: none;
+  }
+
+  @media #{$mobile-lg} {
+    display: none;
+  }
+}
+
+.header__nav-list {
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+.header__nav-list-item {
+  align-items: center;
+  color: color(text, base);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: .75rem;
+  font-weight: 600;
+  height: 100%;
+  letter-spacing: .1em;
+  line-height: 23px;
+  padding-right: 22px;
+  position: relative;
+  text-transform: uppercase;
+  width: max-content;
+
+  &:hover {
+    color: color(text, muted);
+    text-decoration: none;
+  }
+
+  i {
+    --ggs: .8;
+  }
+}
+
+.header__nav-list-dropdown {
+  padding: 0;
+}
+
+.header__logo {
+  align-items: center;
+  color: color(text, base);
+  display: inline-flex;
+  font-size: 1.25rem;
+  font-weight: 700;
+  height: 100%;
+  letter-spacing: .2em;
+  justify-content: center;
+  margin-bottom: 0;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: top;
+  width: 10%;
+
+  @media #{$tablet} {
+    width: initial;
+  }
+
+  @media #{$mobile-lg} {
+    width: initial;
+  }
+
+  &:hover {
+    color: color(text, base);
+    text-decoration: none;
+  }
+}
+
+.header__user-actions {
+  align-items: center;
+  display: inline-flex;
+  height: 100%;
+  justify-content: flex-end;
+  vertical-align: top;
+  width: 45%;
+
+  i {
+    cursor: pointer;
+    margin-right: 4px;
+
+    --ggs: .8;
+
+    @media #{$tablet} {
+      --ggs: .9;
+    }
+
+    @media #{$mobile-lg} {
+      --ggs: .9;
+    }
+  }
+}
+
+.header__cart-toggle {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+}
+
+.header__cart {
+  min-width: 250px;
+}
+
+.header__cart-amount {
+  color: color(text, base);
+  font-size: .75rem;
+}
+
+.header__user-actions-login {
+  padding-right: 0;
+
+  @extend .header__nav-list-item;
+}
+
+.header__account-dropdown {
+  padding-right: 0;
+
+  @media #{$tablet} {
+    display: none;
+  }
+
+  @media #{$mobile-lg} {
+    display: none;
+  }
+}
+
+.header__account {
+  align-items: center;
+  border-radius: 5px;
+  color: color(text, base);
+  cursor: pointer;
+  display: inline-flex;
+  text-align: end;
+
+  @media #{$tablet} {
+    display: none;
+  }
+
+  @media #{$mobile-lg} {
+    display: none;
+  }
+}
+
+.header__account-details {
+  display: flex;
+  font-size: .75rem;
+  flex-direction: column;
+  letter-spacing: .1em;
+  margin-right: 8px;
+}
+
+.header__avatar {
+  align-items: center;
+  background-color: color(theme, secondary);
+  border-radius: 5px;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+}
+
+.header__roles {
+  color: color(text, muted);
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.header__mobile-menu-toggle {
+  display: none;
+
+  @media #{$tablet} {
+    display: block;
+  }
+
+  @media #{$mobile-lg} {
+    display: block;
+  }
+}
+
+.mobile-menu {
+  background-color: color(monochrome, black);
+  bottom: 0;
+  height: 0;
+  left: 0;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: -100px;
+  transition: all .5s ease-in-out;
+  width: 100vw;
+  z-index: 1;
+}
+
+.mobile-menu--open {
+  padding: 8px 40px 40px;
+  top: 96px;
+
+  @media #{$tablet} {
+    display: block;
+    height: 100vh;
+  }
+
+  @media #{$mobile-lg} {
+    display: block;
+    height: 100vh;
+  }
+}
+
+.mobile-menu__list {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu__list-item {
+  color: color(monochrome, white);
+  justify-content: center;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  padding-right: 0;
+  text-align: center;
+  width: 100%;
+
+  @extend .header__nav-list-item;
+}

@@ -1,0 +1,35 @@
+<!--Done-->
+<div class="index">
+  <div class="index_banner">
+    <img class="index__banner-image" src="assets/images/ashe.png" alt="Ashe Banner Image">
+
+    <div class="index__banner-text">
+      <h1 class="index__banner-title">Play Better.</h1>
+      <span class="index__banner-description">We have everything you need to play smarter, not harder. Stomp the enemy team with
+        confidence.
+      </span>
+    </div>
+  </div>
+
+  <h2 class="index__product-section-title">Newest Products</h2>
+  <div class="index__products">
+    <div *ngFor="let script of newScriptsList; let i = index" class="index__product" (mouseover)="productHover(i, true)"
+         (mouseout)="productHover(i, false)">
+      <img *ngIf="script.image" class="index__product-image" [src]="script.image" [alt]="script.sname + ' Product Image'">
+      <span *ngIf="!script.image" class="index__product-image"></span>
+
+      <div class="index__product-details">
+        <h3 class="index__product-name">{{ script.sname }}</h3>
+        <span class="index__product-author">{{ script.name }}</span>
+
+        <span *ngIf="!isAuthenticated" class="index__product-price">{{ script.price_eur | currency: 'EUR' }}</span>
+        <span *ngIf="isAuthenticated && (!isHovered || isHovered && hoveredIndex !== i)" class="index__product-price">
+          {{ script.price_eur | currency: 'EUR' }}
+        </span>
+        <span *ngIf="isAuthenticated && (isHovered && hoveredIndex === i)" class="index__product-cart" (click)="addToCart(script.id)">
+          Add to cart
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,164 @@
+.index {
+  background-color: color(monochrome, white);
+  margin-top: 96px;
+  min-height: calc(100vh - 96px - 85px);
+  padding: 0 140px 0;
+
+  @media #{$tablet} {
+    padding: 0 40px 0;
+  }
+
+  @media #{$mobile-lg} {
+    padding: 0 40px 0;
+  }
+}
+
+.index_banner {
+  background-color: color('theme', 'secondary');
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  height: 570px;
+  justify-content: flex-end;
+  margin-bottom: 100px;
+  padding-bottom: 75px;
+  padding-left: 125px;
+  position: relative;
+  width: 100%;
+
+  @media #{$tablet} {
+    padding-left: 75px;
+  }
+
+  @media #{$mobile-lg} {
+    align-items: center;
+    height: 400px;
+    justify-content: center;
+    margin-bottom: 75px;
+    padding: 20px;
+  }
+}
+
+.index__banner-image {
+  max-width: 600px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50vw;
+
+  @media #{$mobile-lg} {
+    display: none;
+  }
+}
+
+.index__banner-text {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  justify-self: flex-end;
+  text-align: left;
+  max-width: 23.75rem;
+}
+
+.index__banner-title {
+  color: color(text, base);
+  font-size: 1.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1875em;
+  line-height: 40px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.index__banner-description {
+  color: color(text, muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 26px;
+  max-height: 61px;
+
+  @media #{$mobile-lg} {
+    max-height: initial;
+  }
+}
+
+.index__product-section-title {
+  color: color(text, base);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+  padding: 0 15px;
+  text-transform: uppercase;
+}
+
+.index__products {
+  display: grid;
+  grid-template: 1fr / repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  max-height: 300px;
+  overflow: hidden;
+  padding: 0 15px;
+
+  @media #{$mobile-lg} {
+    max-height: calc(300px * 3);
+  }
+}
+
+.index__product-image {
+  background-color: color(theme, secondary);
+  border-radius: 3px;
+  display: block;
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.index__product-details {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 12px;
+}
+
+.index__product-name {
+  color: color(text, base);
+  font-size: .75rem;
+  letter-spacing: 2px;
+  line-height: 22px;
+  margin-bottom: 0;
+  text-align: center;
+  text-transform: uppercase;
+  word-break: break-all;
+}
+
+.index__product-author {
+  color: color(text, base);
+  cursor: pointer;
+  font-size: .75rem;
+  letter-spacing: 1px;
+  line-height: 22px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.index__product-price {
+  color: #999;
+  font-size: .75rem;
+  font-family: Montserrat,sans-serif;
+  letter-spacing: 1px;
+}
+
+.index__product-cart {
+  color: color(text, base);
+  cursor: pointer;
+  font-size: .65rem;
+  letter-spacing: 1px;
+  line-height: 22px;
+  margin-bottom: 0;
+  margin-top: -4px;
+  text-align: center;
+  text-transform: uppercase;
+}

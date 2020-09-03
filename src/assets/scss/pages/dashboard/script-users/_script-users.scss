@@ -1,0 +1,11 @@
+.script-users {
+  @extend .index;
+}
+
+.script-users__header {
+  @extend .scripts__header;
+}
+
+.script-users__header-page-title {
+  @extend .scripts__header-page-title;
+}

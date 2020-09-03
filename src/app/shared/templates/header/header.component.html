@@ -1,0 +1,135 @@
+<!-- Done -->
+<div class="header">
+  <nav class="header__nav">
+    <ul class="header__nav-list">
+      <ng-container *ngIf="userDetails">
+        <ng-container *ngFor="let role of userDetails.role">
+          <li *ngIf="role === 'admin'" class="header__nav-list-item">
+            <div class="col-auto header__nav-list-dropdown" dropdown>
+              <a class="header__nav-list-item" dropdownToggle>Admin Dashboard <i class="gg-chevron-down"></i></a>
+              <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
+                <ul class="dropdown__list">
+                  <li class="dropdown__list-item dropdown-item">
+                    <a class="dropdown__list-item" routerLink="/admin/scripts">All Scripts</a>
+                  </li>
+                  <li class="dropdown__list-item dropdown-item">
+                    <a class="dropdown__list-item" routerLink="/admin/users">All Users</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li *ngIf="role === 'developer'" class="header__nav-list-item">
+            <div class="col-auto header__nav-list-dropdown" dropdown>
+              <a class="header__nav-list-item" dropdownToggle>Dashboard <i class="gg-chevron-down"></i></a>
+              <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
+                <ul class="dropdown__list">
+                  <li class="dropdown__list-item dropdown-item">
+                    <a class="dropdown__list-item" routerLink="/dashboard/scripts">Scripts</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ng-container>
+      </ng-container>
+      <li class="header__nav-list-item">
+        <a class="header__nav-list-item" routerLink="/shop">
+          Shop
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <a class="header__logo" routerLink="/">
+    JKAuth
+  </a>
+
+  <div class="header__user-actions">
+    <ng-container *ngIf="isAuthenticated">
+      <div class="col-auto" dropdown>
+        <div class="header__cart-toggle" dropdownToggle>
+          <i class="gg-shopping-cart"></i>
+          <span class="header__cart-amount">({{ cartInventoryLength }})</span>
+        </div>
+
+        <div  class="dropdown dropdown-menu header__cart" aria-labelledby="dropdownMenuButton" *dropdownMenu>
+          <ul class="dropdown__cart-list">
+            <li *ngFor="let cartItem of cartInventory; let i = index" class="dropdown__cart-list-item dropdown-item">
+              <img *ngIf="cartItem.image" class="dropdown__cart-list-item-image" [src]="cartItem.image" alt="Product Image">
+              <span *ngIf="!cartItem.image" class="dropdown__cart-list-item-image"></span>
+              <div class="dropdown__cart-list-item-details">
+                <span class="dropdown__cart-list-item-name">{{ cartItem.sname }}</span>
+                <span class="dropdown__cart-list-item-price">{{ cartItem.price_eur | currency: 'EUR' }}</span>
+              </div>
+              <i class="dropdown__cart-list-item-delete gg-close" (click)="deleteFomCart(cartItem.id)"></i>
+            </li>
+          </ul>
+
+          <a *ngIf="cartInventoryLength != 0" class="button button--outline button--block button--inverted button--anchor"
+             routerLink="/checkout">
+            Checkout
+          </a>
+        </div>
+      </div>
+
+      <div class="col-auto header__account-dropdown" dropdown>
+        <div class="header__account" dropdownToggle>
+          <div class="header__account-details">
+            <span class="header__username">{{ username }}</span>
+            <span class="header__roles">
+              <ng-container *ngFor="let role of userDetails.role">
+                {{ role }}
+              </ng-container>
+            </span>
+          </div>
+          <span *ngIf="username" class="header__avatar">{{ username.charAt(0) }}</span>
+        </div>
+        <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
+          <ul class="dropdown__list">
+            <li class="dropdown__list-item dropdown-item">
+              <a class="dropdown__list-item" routerLink="/account">Keys</a>
+            </li>
+            <li class="dropdown__list-item dropdown-item">
+              <button class="dropdown__list-item" (click)="logout()" type="button">Logout</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ng-container>
+
+    <a *ngIf="!isAuthenticated" class="header__user-actions-login" routerLink="/auth/login">Login</a>
+
+    <i class="header__mobile-menu-toggle gg-menu-right-alt" (click)="toggleMobileMenu()"></i>
+  </div>
+</div>
+
+<div class="mobile-menu" [ngClass]="{'mobile-menu--open': mobileMenu}">
+  <ul class="mobile-menu__list">
+    <ng-container *ngIf="userDetails">
+      <ng-container *ngFor="let role of userDetails.role">
+        <li *ngIf="role === 'admin'" class="mobile-menu__list-item">
+          <a class="mobile-menu__list-item" (click)="toggleMobileMenu()" routerLink="/admin">Admin Dashboard</a>
+        </li>
+        <li *ngIf="role === 'developer'" class="mobile-menu__list-item">
+          <a class="mobile-menu__list-item" routerLink="/dashboard/scripts">Dashboard Scripts</a>
+        </li>
+      </ng-container>
+    </ng-container>
+    <li class="mobile-menu__list-item">
+      <a class="mobile-menu__list-item" (click)="toggleMobileMenu()" routerLink="/shop">
+        Shop
+      </a>
+    </li>
+    <li class="mobile-menu__list-item">
+      <a class="mobile-menu__list-item" (click)="toggleMobileMenu()" routerLink="/account">
+        Keys
+      </a>
+    </li>
+    <li class="mobile-menu__list-item">
+      <span class="mobile-menu__list-item" (click)="logout(); toggleMobileMenu()">
+        Logout
+      </span>
+    </li>
+  </ul>
+</div>

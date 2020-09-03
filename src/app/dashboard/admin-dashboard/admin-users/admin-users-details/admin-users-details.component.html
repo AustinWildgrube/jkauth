@@ -1,0 +1,216 @@
+<!--Done-->
+<div class="user-details">
+  <div class="user-details__header">
+    <nav aria-label="breadcrumb">
+      <h6 class="user-details__header-page-title">User Details</h6>
+      <ol class="breadcrumbs">
+        <li class="breadcrumb">
+          <a class="breadcrumb__link" routerLink="/admin">Admin Dashboard</a>
+        </li>
+        <li class="breadcrumb">
+          <a class="breadcrumb__link" routerLink="/users">All Users</a>
+        </li>
+        <li class="breadcrumb breadcrumb--active" aria-current="page">User Details</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="user-details__wrapper" *ngIf="userInfo">
+    <div class="user-info">
+      <div class="user-info__banner">
+        <div class="user-info__banner-text">
+          <h2 class="user-info__banner-title">Total Purchases</h2>
+          <span>{{ userPaymentsListLength }}</span>
+        </div>
+        <span class="user-info__banner-icon">
+          <i class="gg-math-equal"></i>
+        </span>
+      </div>
+      <div class="user-info__banner">
+        <div class="user-info__banner-text">
+          <h2 class="user-info__banner-title">Total EUR Spent</h2>
+          <span>{{ totalUsedSpent | currency: 'EUR' }}</span>
+        </div>
+        <span class="user-info__banner-icon">
+          <i class="gg-euro"></i>
+        </span>
+      </div>
+
+      <h2 class="user-info__tables-title">Purchases</h2>
+      <div class="user-info__table">
+        <table class="table table--align-center table--flush">
+          <thead class="table-header table-header--light">
+          <tr class="table-row">
+            <th class="table-head">Id</th>
+            <th class="table-head">Script</th>
+            <th class="table-head">EUR Recieved</th>
+            <th class="table-head">Last Update</th>
+            <th class="table-head">Order Status</th>
+          </tr>
+          </thead>
+          <tbody class="table-body">
+          <ng-container *ngFor="let userPayments of userPaymentsList">
+            <tr class="table-row">
+              <td class="table-data">
+                {{ userPayments.id }}
+              </td>
+              <td class="table-data">
+                {{ userPayments.sname }}
+              </td>
+              <td class="table-data">
+                {{ userPayments.funds_received_usd | currency: 'EUR' }}
+              </td>
+              <td class="table-data">
+                {{ userPayments.last_update | date: 'medium' }}
+              </td>
+              <td class="table-data">
+                <span *ngIf="userPayments.current_status !== 'Complete'" class="badge badge--danger">Incomplete</span>
+                <span *ngIf="userPayments.current_status === 'Complete'" class="badge badge--success">Complete</span>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="userPaymentsList && userPaymentsList.length === 0" class="table-row">
+            <td class="table-data table-data--text-center" colspan="5">No Purchases</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 class="user-info__tables-title">HWIDs</h2>
+      <div class="user-info__table">
+        <table class="table table--align-center table--flush">
+          <thead class="table-header table-header--light">
+          <tr class="table-row">
+            <th class="table-head">Script</th>
+            <th class="table-head">HWID</th>
+            <th class="table-head">Last Used</th>
+            <th class="table-head">Status</th>
+          </tr>
+          </thead>
+          <tbody class="table-body">
+          <ng-container *ngFor="let userHwid of userHwidList">
+            <tr class="table-row">
+              <td class="table-data">
+                <b>{{ userHwid.sname }}</b>
+              </td>
+              <td class="table-data">
+                {{ userHwid.hwid }}
+              </td>
+              <td class="table-data">
+                {{ userHwid.ts | date: 'medium' }}
+              </td>
+              <td class="table-data">
+                <span *ngIf="userHwid.is_banned" class="badge badge--danger">Banned</span>
+                <span *ngIf="!userHwid.is_banned" class="badge badge--active">Active</span>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="userHwidList && userHwidList.length === 0" class="table-row">
+            <td class="table-data table-data--text-center" colspan="4">No HWIDs</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-container *ngIf="userInfo.is_developer || userInfo.is_admin">
+        <h2 class="user-info__tables-title">Scripts Developed</h2>
+        <div class="user-info__table">
+          <table class="table table--align-center table--flush">
+            <thead class="table-header table-header--light">
+            <tr class="table-row">
+              <th class="table-head">Name</th>
+              <th class="table-head">Trial Time</th>
+              <th class="table-head">Price</th>
+            </tr>
+            </thead>
+            <tbody class="table-body">
+            <ng-container *ngFor="let script of userScriptsList">
+              <tr class="table-row">
+                <td class="table-data">
+                  <b *ngIf="script.sname">{{ script.sname }}</b>
+                </td>
+                <td class="table-data">
+                  {{ script.trial_time }}
+                </td>
+                <td class="table-data">
+                  {{ script.price_eur | currency: 'EUR' }}
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="userScriptsList && userScriptsList.length === 0" class="table-row">
+              <td class="table-data table-data--text-center" colspan="3">No Scripts Developed</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="user-side">
+      <div class="user-side__actions">
+        <div class='user-side__actions-info'>
+          <span *ngIf="userInfo.name" class="user-side__actions-avatar">{{ userInfo.name.charAt(0) }}</span>
+          <div class="user-side__actions-text">
+            <span class="user-side__actions-username">{{ userInfo.name }}</span>
+            <ng-container *ngIf="userInfo.is_admin">
+              Admin
+            </ng-container>
+            <ng-container *ngIf="userInfo.is_developer">
+              Developer
+            </ng-container>
+            <ng-container *ngIf="userInfo.is_reseller">
+              Reseller
+            </ng-container>
+            <ng-container *ngIf="userInfo.is_banned">
+              Banned
+            </ng-container>
+            <ng-container *ngIf="userInfo.disabled">
+              Disabled
+            </ng-container>
+            <ng-container *ngIf="!userInfo.is_admin && !userInfo.is_developer && !userInfo.is_banned">
+              User
+            </ng-container>
+            <span>{{ userInfo.login_mail }}</span>
+          </div>
+        </div>
+        <div class="user-side__actions-buttons">
+          <div class="col-auto user-side__actions-dropdown" dropdown>
+            <button class="button button--small dropdown-toggle" dropdownToggle>
+              Promote
+            </button>
+            <div class="dropdown dropdown-menu" *dropdownMenu>
+              <button *ngIf="!userInfo.is_reseller" class="dropdown__list-item dropdown-item"
+                      (click)="promoteUser(userInfo.id, userInfo.name, 'reseller')" type="button">
+                Promote to Reseller
+              </button>
+              <button *ngIf="!userInfo.is_developer" class="dropdown__list-item dropdown-item"
+                      (click)="promoteUser(userInfo.id, userInfo.name, 'developer')" type="button">
+                Promote to Developer
+              </button>
+              <button *ngIf="!userInfo.is_admin" class="dropdown__list-item dropdown-item"
+                      (click)="promoteUser(userInfo.id, userInfo.name, 'admin')" type="button">
+                Promote to Admin
+              </button>
+            </div>
+          </div>
+
+          <div class="col-auto user-side__actions-dropdown" dropdown>
+            <button class="button button--small dropdown-toggle" dropdownToggle>
+              Discipline
+            </button>
+            <div class="dropdown dropdown-menu" *dropdownMenu>
+              <button class="dropdown__list-item dropdown-item" (click)="disableUser(userInfo.id, userInfo.name)"
+                      type="button">
+                Disable
+              </button>
+              <button class="dropdown__list-item dropdown-item" (click)="banUser(userInfo.id, userInfo.name)"
+                      type="button">
+                Ban
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

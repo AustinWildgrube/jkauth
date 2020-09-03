@@ -1,0 +1,98 @@
+<!--Done-->
+<div class="account">
+  <div class="account__user">
+    <h1 class="account__user-title">Account</h1>
+
+    <span *ngIf="username" class="account__user-avatar">
+      {{ username.charAt(0) }}
+    </span>
+
+    <span *ngIf="username" class="account__user-info">{{ username }}</span>
+
+    <span class="account__user-info account__user-info--muted">
+      <ng-container *ngIf="userDetails && userDetails.is_admin">Admin </ng-container>
+      <ng-container *ngIf="userDetails && userDetails.is_reseller">Reseller </ng-container>
+      <ng-container *ngIf="userDetails && userDetails.is_developer">Developer </ng-container>
+      User
+    </span>
+  </div>
+
+  <div class="account__tables">
+    <div class="account__tables-header">
+      <h2 class="account__tables-title account__tables-title--no-margin">Keys</h2>
+      <button class="button button--small button--outline button--mobile-no" (click)="startKeygenDownload()" [disabled]="keygenIsGenerating">
+        Download Keygen File
+      </button>
+    </div>
+    <div class="account__table">
+      <table class="table table--align-center table--flush">
+        <thead class="table-header table-header--light">
+          <tr class="table-row">
+            <th class="table-head">Script</th>
+            <th class="table-head">Expire Date</th>
+            <th class="table-head">Current Status</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <ng-container *ngFor="let auth of auths">
+            <tr class="table-row">
+              <td class="table-data table-data--dark">
+                <b>{{ auth.script[0].sname }}</b>
+              </td>
+              <td class="table-data">
+                {{ auth.expires_at }}
+              </td>
+              <td class="table-data">
+                <span *ngIf="auth.expires_at < currentDate">
+                  <span class="badge badge--danger">Active</span>
+                </span>
+                <span *ngIf="auth.expires_at > currentDate">
+                  <span class="badge badge--danger">Expired</span>
+                </span>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="auths && auths.length === 0" class="table-row">
+            <td class="table-data table-data--center table-data--text-center" colspan="3">No Keys Purchased</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="account__tables-title">Purchases</h2>
+    <div class="account__table">
+      <table class="table table--align-center table--flush">
+        <thead class="table-header table-header--light">
+          <tr class="table-row">
+            <th class="table-head">Script</th>
+            <th class="table-head">Purchase Date</th>
+            <th class="table-head">Current Status</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <ng-container *ngFor="let purchase of purchases">
+            <tr class="table-row">
+              <td class="table-data table-data--dark">
+                <b>{{ purchase.script_id }}</b>
+              </td>
+              <td class="table-data">
+                <span>{{ purchase.last_update }}</span>
+              </td>
+              <td class="table-data">
+                <span *ngIf="purchase.current_status !== 'Complete'">
+                  <span class="badge badge--danger">Incomplete</span>
+                </span>
+                <span *ngIf="purchase.current_status === 'Complete'">
+                  <span class="badge badge--success">Complete</span>
+                </span>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="purchases && purchases.length === 0" class="table-row">
+            <td class="table-data table-data--text-center table-data--center" colspan="3">No Purchases</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

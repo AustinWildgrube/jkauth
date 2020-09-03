@@ -1,0 +1,48 @@
+<!--done-->
+<div class="checkout">
+  <h6 class="checkout__page-title">Checkout</h6>
+
+  <div class="checkout__cart">
+    <ul class="checkout__cart-items">
+      <li *ngFor="let cartItem of cartInventory; let i = index" class="checkout__cart-item">
+        <img *ngIf="cartItem.image" class="checkout__cart-item-image" [src]="cartItem.image" alt="Product Image">
+        <span *ngIf="!cartItem.image" class="checkout__cart-item-image"></span>
+
+        <div class="checkout__cart-item-info">
+          <div class="checkout__cart-item-info-top">
+            <span class="checkout__cart-item-info-name">{{ cartItem.sname }}</span>
+            <span class="checkout__cart-item-info-price">
+              {{ cartItem.amount }} x {{ cartItem.price_eur | currency: 'EUR' }}
+            </span>
+          </div>
+
+          <div class="checkout__cart-item-info-middle">
+            <span class="checkout__cart-item-info-author">{{ cartItem.author_name }}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="checkout__totals">
+    <span class="checkout__totals-title">Subtotal</span>
+    <span class="checkout__totals-number">{{ cartTotal | currency: 'EUR' }}</span>
+  </div>
+
+  <div class="checkout__totals  checkout__totals--padding-bottom">
+    <span class="checkout__totals-title">Discounts</span>
+    <span class="checkout__totals-number">None</span>
+  </div>
+
+  <div class="checkout__totals-final">
+    <div class="checkout__totals">
+      <span class="checkout__totals-title">Total</span>
+      <span class="checkout__totals-number">{{ cartTotal | currency: 'EUR' }}</span>
+    </div>
+
+    <div class="checkout__button-wrapper">
+      <button class="button button--outline button--small checkout__button" (click)="choosePaymentOption()">Finish Checkout</button>
+    </div>
+  </div>
+
+</div>

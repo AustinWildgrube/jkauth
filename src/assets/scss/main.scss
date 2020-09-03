@@ -1,0 +1,32 @@
+@import 'core/utilities/fonts';
+@import 'core/reset/reset';
+
+@import 'core/utilities/variables';
+@import 'core/utilities/functions';
+@import 'core/utilities/overrides';
+
+@import 'core/headers/header';
+@import 'core/footers/footer';
+@import 'core/dropdowns/dropdowns';
+@import 'core/buttons/button';
+@import 'core/tables/tables';
+@import 'core/tables/table-actions';
+@import 'core/badges/badges';
+@import 'core/breadcrumbs/breadcrumbs';
+@import 'core/cards/cards';
+@import 'core/forms/forms';
+@import 'core/modals/modals';
+@import 'core/cookie-message/cookie-message';
+
+@import 'pages/index/index';
+@import 'pages/store/store';
+@import 'pages/account/account';
+@import 'pages/checkout/checkout';
+
+@import 'pages/dashboard/scripts';
+@import 'pages/dashboard/script-users/script-users';
+@import 'pages/dashboard/admin-users/admin-users';
+@import 'pages/dashboard/admin-users/admin-users-details';
+
+@import 'pages/auth/login/login';
+@import 'pages/auth/register/register';

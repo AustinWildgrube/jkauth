@@ -1,0 +1,29 @@
+<!--Done-->
+<div class="store">
+  <div class="store__filters">
+    <h2 class="store__product-section-title">All Products</h2>
+    <input class="store__filter-input form-control" [(ngModel)]="searchTerm" placeholder="Search Products" type="text"
+           aria-label="Search Products">
+  </div>
+
+  <div class="store__products">
+    <div *ngFor="let script of newScriptsList | filter: searchTerm; let i = index" class="store__product"
+         (mouseover)="productHover(i, true)" (mouseout)="productHover(i, false)">
+      <img *ngIf="script.image" class="store__product-image" [src]="script.image" [alt]="script.sname + ' Product Image'">
+      <span *ngIf="!script.image" class="store__product-image"></span>
+
+      <div class="store__product-details">
+        <h3 class="store__product-name">{{ script.sname }}</h3>
+        <span class="store__product-author">{{ script.name }}</span>
+
+        <span *ngIf="!isAuthenticated" class="store__product-price">{{ script.price_eur | currency: 'EUR' }}</span>
+        <span *ngIf="isAuthenticated && (!isHovered || isHovered && hoveredIndex !== i)" class="store__product-price">
+          {{ script.price_eur | currency: 'EUR' }}
+        </span>
+        <span *ngIf="isAuthenticated && (isHovered && hoveredIndex === i)" class="store__product-cart" (click)="addToCart(script.id)">
+          Add to cart
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

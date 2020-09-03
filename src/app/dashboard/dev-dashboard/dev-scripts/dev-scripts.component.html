@@ -1,0 +1,158 @@
+<!--Done-->
+<div class="scripts">
+  <div class="scripts__header">
+    <nav aria-label="breadcrumb">
+      <h6 class="scripts__header-page-title">Scripts</h6>
+      <ol class="breadcrumbs">
+        <li class="breadcrumb">
+          <a class="breadcrumb__link" routerLink="/dashboard">Dashboard</a>
+        </li>
+        <li class="breadcrumb breadcrumb--active" aria-current="page">Scripts</li>
+      </ol>
+    </nav>
+
+    <button class="button button--small button--outline button--mobile-no" (click)="openModal(addScriptModal)" type="button">
+      Add Script
+    </button>
+  </div>
+
+  <ul class="scripts__grid">
+    <li *ngFor="let script of scriptsList; let i = index" class="card">
+      <div class="card__header scripts__header">
+        <div class="scripts__script-details">
+          <img *ngIf="script.image" class="scripts__script-details-image" [src]="script.image" [alt]="script.sname + 'Product Image'"/>
+          <span *ngIf="!script.image" class="scripts__script-details-image"></span>
+
+          <div class="scripts__script-details-flex">
+            <h2 class="scripts__script-details-name">{{ script.sname }}</h2>
+            <span class="scripts__script-details-price">{{ script.price_eur | currency: 'EUR' }}</span>
+          </div>
+        </div>
+
+        <div class="col-auto dscript-options" dropdown>
+          <button class="button button--small button--outline dscript-options__button" dropdownToggle>Options</button>
+          <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
+            <ul class="dropdown__list">
+              <li class="dropdown__list-item dropdown-item">
+                <a class="dropdown__list-item" (click)="selectCurrentScript(script.id, script.sname)" [routerLink]="script.sname | slugify"
+                   type="button">
+                  View Users
+                </a>
+              </li>
+              <li class="dropdown__list-item dropdown-item">
+                <button class="dropdown__list-item" (click)="chooseEditScript(script.sname); openModal(editScriptModal)" type="button">
+                  Edit Script
+                </button>
+              </li>
+              <li class="dropdown__list-item dropdown-item">
+                <button class="dropdown__list-item" (click)="deleteScript(script.sname)" type="button">Delete Script</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card__body scripts__body">
+        <div class="scripts__script-statistics">
+          <div class="scripts__script-statistic">
+            <span *ngIf="scriptData[i]">{{ scriptData[i].totalUsd | currency: 'EUR' }}</span>
+            <small class="d-block">Total Revenue</small>
+          </div>
+          <div class="scripts__script-statistic">
+            <span *ngIf="scriptData[i]">{{ scriptData[i].totalUsers }}</span>
+            <small class="d-block">Total Users</small>
+          </div>
+          <div class="scripts__script-statistic">
+            <span *ngIf="scriptData[i]">{{ scriptData[i].activeUsers }}</span>
+            <small class="d-block">Active Users</small>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<ng-template #addScriptModal>
+  <div class="modal modal-content">
+    <div class="modal__header">
+      <h3 class="modal__header-title">Add a script</h3>
+      <p *ngIf="insufficentArgs" class="modal__header-error">Check your inputs; There is an error with your submission.</p>
+      <p *ngIf="scriptAlreadyExists" class="modal__header-error">A script with that name already exists.</p>
+    </div>
+    <div class="modal__body container-fluid">
+      <form class="row no-gutters" [formGroup]="addScriptForm" (ngSubmit)="submitScript()">
+        <div class="form-group col-12">
+          <label class="form-control-label" for="script-name">Script Name <span class="form-control-label--required">*</span></label>
+          <input class="form-control" id="script-name" formControlName="name" type="text">
+        </div>
+
+        <div class="form-group col-6 pr-2">
+          <label class="form-control-label" for="script-price">Price (EUR) <span class="form-control-label--required">*</span></label>
+          <input class="form-control" id="script-price" formControlName="price" type="number">
+        </div>
+
+        <div class="form-group col-6 pl-2">
+          <label class="form-control-label" for="trial-time">Trial Time (seconds)</label>
+          <input class="form-control" id="trial-time" formControlName="trialTime" type="text">
+        </div>
+
+        <div class="form-group col-12">
+          <label class="form-control-label" for="script-image">Script Image <span class="form-control-label--required">*</span></label>
+          <input class="form-control" id="script-image" (change)="onSelectImage($event, 'image',  'add')" type="file">
+        </div>
+
+        <div class="form-group col-12">
+          <label class="form-control-label" for="lua-shard">Hanbot Shard <span class="form-control-label--required">*</span></label>
+          <input class="form-control" id="lua-shard" (change)="onSelectImage($event, 'lua', 'add')" type="file">
+        </div>
+
+        <button class="button button--outline button--block" [disabled]="addScriptBuffering" type="submit">Add</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #editScriptModal>
+  <div class="modal modal-content">
+    <div class="modal__header">
+      <h3 class="modal__header-title">Edit a script</h3>
+      <p *ngIf="insufficentArgs" class="modal__header-error">Check your inputs; There is an error with your submission.</p>
+      <p *ngIf="scriptAlreadyExists" class="modal__header-error">A script with that name already exists.</p>
+    </div>
+    <div class="modal__body container-fluid">
+      <form class="row no-gutters" [formGroup]="editScriptForm" (ngSubmit)="submitEditedScript()">
+        <div class="form-group col-6 pr-2">
+          <label class="form-control-label" for="edit-script-name">Script Name <span class="form-control-label--required">*</span></label>
+          <input class="form-control" id="edit-script-name" [value]="editScriptName" type="text" disabled>
+        </div>
+
+        <div class="form-group col-6 pl-2">
+          <label class="form-control-label" for="edit-script-name-new">New Script Name</label>
+          <input class="form-control" id="edit-script-name-new" formControlName="editName" type="text">
+        </div>
+
+        <div class="form-group col-6 pr-2">
+          <label class="form-control-label" for="edit-script-price">Price (EUR)</label>
+          <input class="form-control" id="edit-script-price" formControlName="editPrice" type="number">
+        </div>
+
+        <div class="form-group col-6 pl-2">
+          <label class="form-control-label" for="edit-trial-time">Trial Time (seconds)</label>
+          <input class="form-control" id="edit-trial-time" formControlName="editTrialTime" type="text">
+        </div>
+
+        <div class="form-group col-12">
+          <label class="form-control-label" for="edit-script-image">Script Image</label>
+          <input class="form-control" id="edit-script-image" (change)="onSelectImage($event, 'image',  'edit')"
+                 type="file">
+        </div>
+
+        <div class="form-group col-12">
+          <label class="form-control-label" for="edit-lua-shard">Hanbot Shard</label>
+          <input class="form-control" id="edit-lua-shard" (change)="onSelectImage($event, 'lua', 'edit')" type="file">
+        </div>
+
+        <button class="button button--outline button--block" type="submit">Edit Script</button>
+      </form>
+    </div>
+  </div>
+</ng-template>

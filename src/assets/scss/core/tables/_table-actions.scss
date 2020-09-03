@@ -1,0 +1,36 @@
+.table-actions {
+  align-items: center;
+  display: flex;
+}
+
+.table-action {
+  font-size: .875rem;
+  color: color(text, base);
+  margin: 0 0.25rem;
+
+  &:hover {
+    color: color(text, muted);
+  }
+}
+
+.table-action-edit {
+  color: color(text, muted);
+  display: inline-block;
+  margin-right: 16px;
+
+  i {
+    margin: 0;
+
+    --ggs: .8;
+  }
+}
+
+.table-action-delete {
+  display: inline-block;
+
+  --ggs: .8;
+
+  &:hover {
+    color: color(status, expired-text);
+  }
+}

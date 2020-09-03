@@ -1,0 +1,19 @@
+.breadcrumbs {
+  display: inline-flex;
+}
+
+.breadcrumb {
+  background-color: transparent;
+  color: color(text, base);
+  font-size: .875rem;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.breadcrumb__link {
+  color: color(text, base);
+}
+
+.breadcrumb--active {
+  color: color(text, base);
+}

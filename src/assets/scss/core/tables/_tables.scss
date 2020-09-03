@@ -1,0 +1,78 @@
+.table {
+  margin-bottom: 0;
+}
+
+.table-header .table-head {
+  padding: .75rem;
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid color(theme, secondary);
+  border-top: 1px solid color(theme, secondary);
+}
+
+.table-head {
+  font-weight: 600;
+}
+
+.table-head,
+.table-data {
+  color: color(text, muted);
+  white-space: nowrap;
+
+  &.table-data--dark {
+    color: color(text, base);
+  }
+}
+
+.table-data {
+  font-size: .75rem;
+}
+
+.table-data--text-center {
+  text-align: center;
+}
+
+.table--align-center {
+  .table-data,
+  .table-head {
+    vertical-align: middle;
+  }
+}
+
+.table--flush {
+  .table-data,
+  .table-head {
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .table-body {
+    .table-row {
+      &:first-child {
+        .table-data,
+        .table-head {
+          border-top: 0;
+        }
+      }
+
+      &:last-child {
+        .table-data,
+        .table-head {
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+.table-header--light {
+  .table-head {
+    background-color: color(theme, secondary);
+    color: color(text, muted);
+
+    a {
+      color: color(monochrome, gray);
+    }
+  }
+}

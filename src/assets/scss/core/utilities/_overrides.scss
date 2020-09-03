@@ -1,0 +1,48 @@
+//Swal
+#swal2-title {
+  color: color(text, base);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+#swal2-content {
+  color: color(text, muted);
+  font-size: .875rem;
+}
+
+.swal2-popup {
+  .swal2-actions {
+    .swal2-confirm {
+      background-color: transparent;
+      border: 1px solid color(monochrome, black) !important;
+      border-radius: 3px;
+      color: color(monochrome, black);
+      font-size: .75rem;
+      letter-spacing: 0.025em;
+      padding: 4px 16px;
+      position: relative;
+      text-transform: none;
+      width: calc(50% - 12px);
+    }
+
+    .swal2-actions:not(.swal2-loading) .swal2-styled:hover {
+      background-color: transparent !important;
+    }
+
+    .swal2-cancel {
+      background-color: color(monochrome, black);
+      border: 1px solid color(monochrome, black) !important;
+      border-radius: 3px;
+      color: color(monochrome, white);
+      font-size: .75rem;
+      letter-spacing: 0.025em;
+      padding: 4px 16px;
+      position: relative;
+      text-transform: none;
+      width: calc(50% - 12px);
+    }
+  }
+}

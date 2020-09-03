@@ -1,0 +1,45 @@
+<!--Done-->
+<div class="users">
+  <div class="users__header">
+    <nav aria-label="breadcrumb">
+      <h6 class="users__header-page-title">All Users</h6>
+      <ol class="breadcrumbs">
+        <li class="breadcrumb">
+          <a class="breadcrumb__link" routerLink="/admin">Admin Dashboard</a>
+        </li>
+        <li class="breadcrumb breadcrumb--active" aria-current="page">All Users</li>
+      </ol>
+    </nav>
+  </div>
+
+  <ul class="users__grid">
+    <li *ngFor="let user of allUsers" class="card">
+      <div class="card__header users__grid-header">
+        <div class="users__user-details">
+          <span *ngIf="user.name" class="users__avatar">{{ user.name.charAt(0) }}</span>
+          <div class="users__user-details-info">
+            <h4 class="users_username">{{ user.name }}</h4>
+            <small class="users_email">{{ user.login_mail }}</small>
+          </div>
+        </div>
+
+        <div class="col-auto users__options" dropdown>
+          <button class="button button--small button--outline users__options-button" dropdownToggle>Options</button>
+          <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
+            <ul class="dropdown__list">
+              <li class="dropdown__list-item dropdown-item">
+                <a class="dropdown__list-item" (click)="selectUser(user.id)" [routerLink]="user.name | slugify"
+                   [queryParams]="{ user_id: user.id}">
+                  View User Details
+                </a>
+              </li>
+              <li class="dropdown__list-item dropdown-item">
+                <button class="dropdown__list-item" (click)="banUser(user.id, user.name)" type="button">Ban User</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,36 @@
+$theme-colors-custom: (
+  theme: (
+    base: #101947,
+    secondary: #f0f3f8
+  ),
+  monochrome: (
+    white: #fff,
+    black: #000,
+    gray: #aaa
+  ),
+  text: (
+    base: #080808,
+    muted: #718096
+  ),
+  status: (
+    success-text: #1bc56d,
+    success-background: #c9f7d1,
+
+    unused-text: #3699ff,
+    unused-background: #e1f0ff,
+
+    active-text: #8950fc,
+    active-background: #eee5ff,
+
+    expired-text: #f80031,
+    expired-background: #fdd1da
+  )
+);
+
+$desktop-lg: 'only screen and (min-width: 1201px) and (max-width: 1700px)';
+$desktop-md: 'only screen and (min-width: 1200px) and (max-width: 1499px)';
+$desktop-sm: 'only screen and (min-width: 992px) and (max-width: 1199px)';
+$tablet: 'only screen and (min-width: 768px) and (max-width: 991px)';
+$mobile-lg: 'only screen and (max-width: 767px)';
+$mobile-md: 'only screen and (max-width: 575px)';
+$mobile-sm: 'only screen and (max-width: 479px)';

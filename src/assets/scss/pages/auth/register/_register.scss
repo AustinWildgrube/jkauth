@@ -1,0 +1,27 @@
+.register {
+  @extend .login;
+}
+
+.register__form-box {
+  @extend .login__form-box;
+}
+
+.register__form-box-header {
+  @extend .login__form-box-header;
+}
+
+.register__form-box-title {
+  @extend .login__form-box-title;
+}
+
+.register__form-box-message {
+  @extend .login__form-box-message;
+}
+
+.register__form-box-error {
+  @extend .login__form-box-error;
+}
+
+.register__login-link {
+  @extend .login__register-link;
+}
