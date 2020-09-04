@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { HeaderComponent } from './header/header.component';
@@ -27,7 +29,8 @@ import { CookieMessageComponent } from './cookie-message/cookie-message/cookie-m
     imports: [
         CommonModule,
         RouterModule,
-        BsDropdownModule
+        BsDropdownModule,
+        ReactiveFormsModule
     ]
 })
 export class TemplatesModule { }

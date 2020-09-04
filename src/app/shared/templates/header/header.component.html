@@ -88,6 +88,9 @@
         <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
           <ul class="dropdown__list">
             <li class="dropdown__list-item dropdown-item">
+              <a class="dropdown__list-item" (click)="openModal(editAccountSettings)">Hanbot ID</a>
+            </li>
+            <li class="dropdown__list-item dropdown-item">
               <a class="dropdown__list-item" routerLink="/account">Keys</a>
             </li>
             <li class="dropdown__list-item dropdown-item">
@@ -122,6 +125,11 @@
       </a>
     </li>
     <li class="mobile-menu__list-item">
+      <a class="mobile-menu__list-item" (click)="openModal(editAccountSettings)">
+        Hanbot ID
+      </a>
+    </li>
+    <li class="mobile-menu__list-item">
       <a class="mobile-menu__list-item" (click)="toggleMobileMenu()" routerLink="/account">
         Keys
       </a>
@@ -133,3 +141,21 @@
     </li>
   </ul>
 </div>
+
+<ng-template #editAccountSettings>
+  <div class="modal modal-content">
+    <div class="modal__header">
+      <h3 class="modal__header-title">Edit your account</h3>
+    </div>
+    <div class="modal__body container-fluid">
+      <form class="row no-gutters" [formGroup]="settingsForm" (ngSubmit)="submitSettingsForm()">
+        <div class="form-group col-12">
+          <label class="form-control-label" for="hanbot-id">Hanbot User ID</label>
+          <input class="form-control" id="hanbot-id" formControlName="hanbotId" type="number" min="0">
+        </div>
+
+        <button class="button button--outline button--block" type="submit">Save Settings</button>
+      </form>
+    </div>
+  </div>
+</ng-template>

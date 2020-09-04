@@ -39,4 +39,8 @@ export class UserService {
     public getKeygenFile(): Observable<any> {
         return this.http.get(`${environment.apiEndpoint}/user/keyfile/get_keyfile.php`);
     }
+
+    public updateHanbotId(hanbotFormData: FormData): Observable<any> {
+        return this.http.post(`${environment.apiEndpoint}/user/update.php`, hanbotFormData);
+    }
 }
