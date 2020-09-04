@@ -37,7 +37,6 @@ export class AccountComponent implements OnInit {
     this.getSelfDetails();
     this.getSelfPurchases();
     this.getSelfAuths();
-    this.getKeyFile();
   }
 
   public getKeyFile(): void {
