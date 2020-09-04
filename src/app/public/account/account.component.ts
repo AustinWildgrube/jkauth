@@ -8,8 +8,6 @@ import { Auths } from '../../shared/models/auths';
 import { AdminUser } from '../../shared/models/admin-user';
 import { UserPayments } from '../../shared/models/user-payments';
 
-import Swal from 'sweetalert2';
-
 @UntilDestroy()
 @Component({
   selector: 'app-account',
@@ -39,54 +37,16 @@ export class AccountComponent implements OnInit {
     this.getSelfDetails();
     this.getSelfPurchases();
     this.getSelfAuths();
-    this.getKeygenStatus();
+    this.getKeyFile();
   }
 
-  public startKeygenDownload(): void {
-    this.keygenIsGenerating = true;
-    this.userService.startKeygenDownload().pipe(untilDestroyed(this)).subscribe(_ => {});
-
-    Swal.fire({
-      title: 'May Take up to a Minute to Generate!',
-      html: 'We will notify you when it is downloading!',
-      timer: 3000,
-      timerProgressBar: true,
-      onBeforeOpen: () => {
-        Swal.showLoading();
-      },
+  public getKeyFile(): void {
+    this.userService.getKeygenFile().pipe(untilDestroyed(this)).subscribe(response => {
+      this.dyanmicDownloadByHtmlTag({
+        fileName: 'JKAuth Key',
+        text: JSON.stringify(response.file)
+      });
     });
-
-    this.getKeygenStatus();
-  }
-
-  private getKeygenStatus(): void {
-    setInterval(() => {
-      if (this.keygenIsGenerating) {
-        this.userService.getKeygenStatus().pipe(untilDestroyed(this)).subscribe(response => {
-          if (response.status === 201) {
-            this.keygenIsGenerating = false;
-
-            this.userService.getKeygenFile().pipe(untilDestroyed(this)).subscribe(responseTwo => {
-              this.dyanmicDownloadByHtmlTag({
-                fileName: 'JKAuth Key',
-                text: JSON.stringify(responseTwo.file)
-              });
-
-              Swal.fire({
-                html: 'Your file has finished generating',
-                timer: 3000,
-                timerProgressBar: true,
-                onBeforeOpen: () => {
-                  Swal.showLoading();
-                },
-              });
-            });
-          } else if (response.status === 400) {
-            this.keygenIsGenerating = true;
-          }
-        });
-      }
-    }, 10 * 1000);
   }
 
   private getSelfDetails(): void {

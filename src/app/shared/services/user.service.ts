@@ -36,14 +36,6 @@ export class UserService {
         return this.http.get(`${environment.apiEndpoint}/user/auths/self.php`);
     }
 
-    public startKeygenDownload(): Observable<any> {
-        return this.http.get(`${environment.apiEndpoint}/user/keyfile/start_generate.php`);
-    }
-
-    public getKeygenStatus(): Observable<any> {
-        return this.http.get(`${environment.apiEndpoint}/user/keyfile/get_status.php`, {observe : 'response'});
-    }
-
     public getKeygenFile(): Observable<any> {
         return this.http.get(`${environment.apiEndpoint}/user/keyfile/get_keyfile.php`);
     }
