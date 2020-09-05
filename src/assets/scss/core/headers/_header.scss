@@ -144,6 +144,14 @@
   padding-right: 0;
 
   @extend .header__nav-list-item;
+
+  @media #{$tablet} {
+    padding-right: 22px;
+  }
+
+  @media #{$mobile-lg} {
+    padding-right: 22px;
+  }
 }
 
 .header__account-dropdown {

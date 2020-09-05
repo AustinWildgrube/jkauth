@@ -117,16 +117,16 @@
         <li *ngIf="role === 'developer'" class="mobile-menu__list-item">
           <a class="mobile-menu__list-item" routerLink="/dashboard/scripts">Dashboard Scripts</a>
         </li>
+        <li class="mobile-menu__list-item">
+          <a class="mobile-menu__list-item" (click)="openModal(editAccountSettings)">
+            Hanbot ID
+          </a>
+        </li>
       </ng-container>
     </ng-container>
     <li class="mobile-menu__list-item">
       <a class="mobile-menu__list-item" (click)="toggleMobileMenu()" routerLink="/shop">
         Shop
-      </a>
-    </li>
-    <li class="mobile-menu__list-item">
-      <a class="mobile-menu__list-item" (click)="openModal(editAccountSettings)">
-        Hanbot ID
       </a>
     </li>
     <li class="mobile-menu__list-item">
