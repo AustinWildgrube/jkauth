@@ -55,10 +55,10 @@ export class HeaderComponent implements OnInit {
     if (this.authService.userValue != null) {
       this.isAuthenticated = true;
       this.userDetails = this.authService.userValue;
+      this.getOwnDetails();
     }
 
     this.getCart();
-    this.getOwnDetails();
   }
 
   public openModal(content: TemplateRef<any>): void {
