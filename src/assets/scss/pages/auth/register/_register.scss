@@ -25,3 +25,7 @@
 .register__login-link {
   @extend .login__register-link;
 }
+
+.register__other-options {
+  @extend .login__other-options;
+}

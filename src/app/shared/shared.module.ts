@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TemplatesModule } from './templates/templates.module';
@@ -14,6 +15,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
         SlugifyPipe
     ],
     imports: [
+        RouterModule,
         ReactiveFormsModule,
         HttpClientModule,
         CommonModule,

@@ -42,6 +42,17 @@
   font-size: .875rem;
 }
 
+.login__other-options {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 425px;
+
+  @media #{$mobile-lg} {
+    width: 325px;
+  }
+}
+
 .login__register-link {
   color: color(text, base);
 

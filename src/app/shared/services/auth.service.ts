@@ -72,6 +72,14 @@ export class AuthService {
         return this.http.post(`${environment.apiEndpoint}/auth/new.php`, registerFormData);
     }
 
+    public forgotPassword(forgotFormData: FormData): Observable<any> {
+        return this.http.post(`${environment.apiEndpoint}/user/reset_pw.php`, forgotFormData);
+    }
+
+    public modifyPassword(resetPassword: FormData): Observable<any> {
+        return this.http.post(`${environment.apiEndpoint}/user/modify_pw.php`, resetPassword);
+    }
+
     public logout(): void {
         if (this.useCookies === true) {
             this.cookieService.delete('auth_token');

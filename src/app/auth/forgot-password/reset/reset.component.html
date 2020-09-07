@@ -2,22 +2,25 @@
 <div class="login">
   <div class="login__form-box">
     <div class="login__form-box-header">
-      <h1 class="login__form-box-title">Welcome!</h1>
+      <h1 class="login__form-box-title">Reset Your Password</h1>
       <p class="login__form-box-message">
-        Thank you for using JKAuth!
+        After resetting you will need to log in again.
       </p>
-      <p *ngIf="failedLogin" class="login__form-box-error">You have entered in an incorrect username and/or password.</p>
+      <p *ngIf="resetForm && resetForm.hasError('confirm')" class="register__form-box-error">
+        Your passwords do not match!
+      </p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
+    <form [formGroup]="resetForm" (ngSubmit)="submitResetForm()">
       <div class="form-group">
         <div class="input-group input-group-alternative">
           <div class="input-group-prepend">
             <span class="input-group-text">
-              <i class="gg-user"></i>
+              <i class="gg-password"></i>
             </span>
           </div>
-          <input class="form-control" id="username" formControlName="username" placeholder="Username" type="text" aria-label="Username">
+          <input class="form-control" id="password" formControlName="password" placeholder="Password" type="password"
+                 aria-label="Password">
         </div>
       </div>
       <div class="form-group">
@@ -27,11 +30,12 @@
               <i class="gg-password"></i>
             </span>
           </div>
-          <input class="form-control" id="password" formControlName="password" placeholder="Password" type="password" aria-label="Password">
+          <input class="form-control" id="password-confirmation" formControlName="passwordConfirmation"
+                 placeholder="Confirm Password" type="password" aria-label="Confirm Password">
         </div>
       </div>
       <button class="button button--outline button--block" type="submit">
-        Login in
+        Change Password
       </button>
     </form>
   </div>
@@ -40,8 +44,8 @@
     <a class="login__register-link" routerLink="/authentication/register">
       <small>Create account</small>
     </a>
-    <a class="login__register-link" routerLink="/authentication/forgot-password">
-      <small>Forgot password</small>
+    <a class="login__register-link" routerLink="/authentication/login">
+      <small>Login</small>
     </a>
   </div>
 </div>
