@@ -132,7 +132,11 @@ export class DevScriptsComponent implements OnInit {
     }
 
     if (this.editScriptForm.get('editPrice').value) {
-      this.editScriptFormData.append('price_usd', this.editScriptForm.get('editPrice').value);
+      this.editScriptFormData.append('price_eur', this.editScriptForm.get('editPrice').value);
+    }
+
+    if (this.editScriptForm.get('editImage').value) {
+      this.editScriptFormData.append('image', this.editScriptForm.get('editImage').value);
     }
 
     if (this.editScriptForm.get('editShard').value) {
