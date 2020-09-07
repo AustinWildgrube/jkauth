@@ -222,15 +222,24 @@
 .mobile-menu {
   background-color: color(monochrome, black);
   bottom: 0;
+  display: none;
   height: 0;
   left: 0;
   padding: 0;
   position: absolute;
   right: 0;
-  top: -100px;
+  top: -500px;
   transition: all .5s ease-in-out;
   width: 100vw;
   z-index: 1;
+
+  @media #{$tablet} {
+    display: initial;
+  }
+
+  @media #{$mobile-lg} {
+    display: initial;
+  }
 }
 
 .mobile-menu--open {
