@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
   cart: boolean;
   account: boolean;
   mobileMenu: boolean;
+  idInputEmpty: boolean;
 
   constructor(private formBuilder: FormBuilder, private modalService: NgbModal, private authService: AuthService,
               private cartService: CartService, private scriptService: ScriptService,
@@ -45,8 +46,6 @@ export class HeaderComponent implements OnInit {
     this.cart = false;
     this.account = false;
     this.mobileMenu = false;
-
-    this.hanbotFormData = new FormData();
 
     this.settingsForm = this.formBuilder.group({
       hanbotId: [null, [Validators.required, Validators.minLength(1)]],
@@ -62,6 +61,8 @@ export class HeaderComponent implements OnInit {
   }
 
   public openModal(content: TemplateRef<any>): void {
+    this.idInputEmpty = false;
+
     this.modalService.open(content, { centered: true });
   }
 
@@ -102,30 +103,36 @@ export class HeaderComponent implements OnInit {
   }
 
   public submitSettingsForm(): void {
-    this.hanbotFormData.append('hanbot_id', this.settingsForm.get('hanbotId').value);
+    if (this.settingsForm.get('hanbotId').value) {
+      this.idInputEmpty = false;
+      this.hanbotFormData = new FormData();
+      this.hanbotFormData.append('hanbot_id', this.settingsForm.get('hanbotId').value);
 
-    this.userService.updateHanbotId(this.hanbotFormData).pipe(untilDestroyed(this)).subscribe(
-      _ => {
-        Swal.fire({
-          title: 'Success!',
-          html: 'Your account has been updated!',
-          timer: 2000,
-          timerProgressBar: true,
-          showConfirmButton: false,
-          icon: 'success'
-        }).then(() => {
-          this.closeModal();
-        });
-      },
-      _ => {
-        Swal.fire({
-          title: 'There was a problem!',
-          html: 'Please contact an admin!',
-          icon: 'error',
-          timer: 3000
-        });
-      }
-    );
+      this.userService.updateHanbotId(this.hanbotFormData).pipe(untilDestroyed(this)).subscribe(
+          _ => {
+            Swal.fire({
+              title: 'Success!',
+              html: 'Your account has been updated!',
+              timer: 2000,
+              timerProgressBar: true,
+              showConfirmButton: false,
+              icon: 'success'
+            }).then(() => {
+              this.closeModal();
+            });
+          },
+          _ => {
+            Swal.fire({
+              title: 'There was a problem!',
+              html: 'Please contact an admin!',
+              icon: 'error',
+              timer: 3000
+            });
+          }
+      );
+    } else {
+      this.idInputEmpty = true;
+    }
   }
 
   private getOwnDetails(): void {
