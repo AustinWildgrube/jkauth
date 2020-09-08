@@ -152,7 +152,7 @@
       <form class="row no-gutters" [formGroup]="settingsForm" (ngSubmit)="submitSettingsForm()">
         <div class="form-group col-12">
           <label class="form-control-label" for="hanbot-id">Hanbot User ID</label>
-          <input class="form-control" id="hanbot-id" formControlName="hanbotId" type="number" min="0">
+          <input class="form-control" id="hanbot-id" formControlName="hanbotId" type="text">
         </div>
 
         <button class="button button--outline button--block" type="submit">Save Settings</button>
