@@ -7,6 +7,7 @@ import { UserService } from '../../shared/services/user.service';
 import { Auths } from '../../shared/models/auths';
 import { AdminUser } from '../../shared/models/admin-user';
 import { UserPayments } from '../../shared/models/user-payments';
+import Swal from "sweetalert2";
 
 @UntilDestroy()
 @Component({
@@ -20,7 +21,6 @@ export class AccountComponent implements OnInit {
 
   currentDate: string;
   username: string;
-  keygenIsGenerating: boolean;
 
   setting = {
     element: {
@@ -32,7 +32,6 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this.currentDate = new Date().toISOString();
-    this.keygenIsGenerating = false;
 
     this.getSelfDetails();
     this.getSelfPurchases();
@@ -40,11 +39,23 @@ export class AccountComponent implements OnInit {
   }
 
   public getKeyFile(): void {
-    this.userService.getKeygenFile().pipe(untilDestroyed(this)).subscribe(response => {
-      this.dyanmicDownloadByHtmlTag({
-        fileName: 'JKAuth Key',
-        text: JSON.stringify(response.file)
-      });
+    this.userService.getKeygenFile().pipe(untilDestroyed(this)).subscribe(
+      response => {
+        this.dyanmicDownloadByHtmlTag({
+          fileName: 'jk_auth.key',
+          text: JSON.stringify(response)
+        }
+      );
+    },
+    error => {
+      if (error.status === 412) {
+        Swal.fire({
+          title: 'You must set your Hanbot ID first!',
+          html: 'You can do this by clicking the account button and then clicking the menu option \'Hanbot ID\'',
+          showConfirmButton: true,
+          icon: 'error'
+        });
+      }
     });
   }
 
