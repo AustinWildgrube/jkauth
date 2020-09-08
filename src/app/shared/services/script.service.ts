@@ -46,6 +46,11 @@ export class ScriptService {
     return this.http.get<Hwid[]>(`${environment.apiEndpoint}/developer/hwid/get_by_script.php?script_id=` + scriptId);
   }
 
+  public getAuthModule(scriptId: number, callback: string): Observable<string> {
+    return this.http.get(`${environment.apiEndpoint}/developer/lua/get_auth_module.php?sid=` + scriptId +
+        `&callback=` +  callback, {responseType: 'text'});
+  }
+
   set setCurrentScript(currentScript: number) {
     sessionStorage.setItem('selectedScript', String(currentScript));
   }

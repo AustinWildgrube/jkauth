@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -22,11 +22,13 @@ export class DevScriptsComponent implements OnInit {
   scriptData: ScriptData[];
   addScriptForm: FormGroup;
   editScriptForm: FormGroup;
+  authModuleForm: FormGroup;
   addScriptFormData: FormData;
   editScriptFormData: FormData;
   deleteScriptFormData: FormData;
 
   activeUsers: number;
+  authModuleId: number;
   addScriptBuffering: boolean;
   insufficentArgs: boolean;
   scriptAlreadyExists: boolean;
@@ -34,6 +36,15 @@ export class DevScriptsComponent implements OnInit {
   imageError: boolean;
   imageData: string | ArrayBuffer;
   editScriptName: string;
+  authModuleResponse: string;
+
+  setting = {
+    element: {
+      dynamicDownload: null as HTMLElement
+    }
+  };
+
+  @ViewChild('authModuleCodeModal') authModuleCodeTemplate: TemplateRef<any>;
 
   constructor(private router: Router, private formBuilder: FormBuilder, private modalService: NgbModal,
               private scriptService: ScriptService, private slugifyPipe: SlugifyPipe) { }
@@ -47,6 +58,10 @@ export class DevScriptsComponent implements OnInit {
     this.scriptAlreadyExists = false;
     this.imageTooLarge = false;
     this.imageError = false;
+
+    this.authModuleForm = this.formBuilder.group({
+      callback: [null, [Validators.required]],
+    });
 
     this.addScriptForm = this.formBuilder.group({
       name: [null, [Validators.required]],
@@ -79,6 +94,10 @@ export class DevScriptsComponent implements OnInit {
 
   public closeModal(): void {
     this.modalService.dismissAll();
+  }
+
+  public chooseModuleScript(scriptId: number): void {
+    this.authModuleId = scriptId;
   }
 
   public chooseEditScript(scriptName: string): void {
@@ -236,6 +255,38 @@ export class DevScriptsComponent implements OnInit {
         }
       };
     }
+  }
+
+  public getAuthModule(): void {
+    this.scriptService.getAuthModule(this.authModuleId, this.authModuleForm.get('callback').value)
+        .pipe(untilDestroyed(this)).subscribe(response => {
+      this.authModuleResponse = response;
+      this.closeModal();
+      this.openModal(this.authModuleCodeTemplate);
+    });
+  }
+
+  public copyInputMessage(inputElement) {
+    const copyText = document.getElementById(inputElement).textContent;
+    const textArea = document.createElement('textarea');
+    textArea.style.position = 'absolute';
+    textArea.style.left = '-10000px';
+    textArea.textContent = copyText;
+    document.body.append(textArea);
+    textArea.select();
+    document.execCommand('copy');
+
+    Swal.fire({
+      title: 'Copied!',
+      text: 'The code has been copied to your clipboard.',
+      timer: 2000,
+      timerProgressBar: true,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+      }
+    }).then(() => {
+      this.closeModal();
+    });
   }
 
   private getScripts(): void {
