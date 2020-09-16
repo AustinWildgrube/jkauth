@@ -21,6 +21,7 @@ export class IndexComponent implements OnInit {
   keyForm: FormGroup;
 
   hoveredIndex: number;
+  negative: boolean;
   isHovered: boolean;
   isAuthenticated: boolean;
 
@@ -29,6 +30,7 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     this.isHovered = false;
+    this.negative = false;
     this.isAuthenticated = this.authService.userValue !== undefined;
 
     this.keyForm = this.formBuilder.group({
@@ -55,8 +57,13 @@ export class IndexComponent implements OnInit {
   public addToCart(): void {
     this.scriptToAdd.amount = this.keyForm.get('keyAmount').value;
 
-    this.closeModal();
-    this.cartService.addCartItem(this.scriptToAdd);
+    if (this.scriptToAdd.amount > 0) {
+      this.closeModal();
+      this.cartService.addCartItem(this.scriptToAdd);
+    } else {
+      this.negative = true;
+      this.scriptToAdd.amount = 0;
+    }
   }
 
   public holdScriptToAdd(script: Script) {
