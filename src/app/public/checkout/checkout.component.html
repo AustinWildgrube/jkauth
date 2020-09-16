@@ -18,6 +18,9 @@
 
           <div class="checkout__cart-item-info-middle">
             <span class="checkout__cart-item-info-author">{{ cartItem.name }}</span>
+            <div class="checkout__cart-item-info-middle-actions">
+              <span class="checkout__cart-item-delete" (click)="deleteProduct(cartItem)">Delete Item</span>
+            </div>
           </div>
         </div>
       </li>

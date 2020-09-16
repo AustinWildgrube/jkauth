@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -12,6 +13,7 @@ import { CoinpaymentService } from '../../shared/services/coinpayment.service';
 import { UserService } from '../../shared/services/user.service';
 
 import { CartItem } from '../../shared/models/cart-item';
+import { Script } from '../../shared/models/script';
 
 import Swal from 'sweetalert2';
 
@@ -29,9 +31,9 @@ export class CheckoutComponent implements OnInit {
   cartTotal: number;
   isAmber: boolean;
 
-  constructor(private coinpaymentsService: CoinpaymentService, private paypalService: PaypalService,
-              private cartService: CartService, private scriptService: ScriptService,
-              private userService: UserService) { }
+  constructor(private router: Router, private coinpaymentsService: CoinpaymentService,
+              private paypalService: PaypalService, private cartService: CartService,
+              private scriptService: ScriptService, private userService: UserService) { }
 
   ngOnInit() {
     this.cartInventory = [];
@@ -52,6 +54,10 @@ export class CheckoutComponent implements OnInit {
       this.cartInventory = response.cart;
       this.cartTotal = response.total;
 
+      if (this.cartTotal === 0) {
+        this.router.navigate(['/']);
+      }
+
       this.cartInventory.forEach(responseTwo => {
         this.purchaseCartInventory.push({
           product: responseTwo.id,
@@ -64,6 +70,10 @@ export class CheckoutComponent implements OnInit {
         }
       });
     });
+  }
+
+  public deleteProduct(product: Script): void {
+    this.cartService.removeCartItem(product);
   }
 
   public choosePaymentOption(): void {

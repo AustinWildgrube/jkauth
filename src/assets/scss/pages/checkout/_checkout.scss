@@ -41,7 +41,7 @@
 .checkout__cart-item-info-top {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 .checkout__cart-item-info-name {
@@ -53,8 +53,25 @@
   font-size: .875rem;
 }
 
+.checkout__cart-item-info-middle {
+  @extend .checkout__cart-item-info-top;
+}
+
 .checkout__cart-item-info-author {
   font-size: .875rem;
+}
+
+.checkout__cart-item-info-middle-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.checkout__cart-item-delete {
+  cursor: pointer;
+  color: color(status, expired-text);
+  font-size: .75rem;
 }
 
 .checkout__totals {
