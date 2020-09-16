@@ -208,14 +208,16 @@
 }
 
 .header__mobile-menu-toggle {
-  display: none;
+  &.gg-menu-right-alt {
+    display: none;
 
-  @media #{$tablet} {
-    display: block;
-  }
+    @media #{$tablet} {
+      display: block;
+    }
 
-  @media #{$mobile-lg} {
-    display: block;
+    @media #{$mobile-lg} {
+      display: block;
+    }
   }
 }
 
