@@ -75,26 +75,14 @@ export class HeaderComponent implements OnInit {
   }
 
   public getCart(): void {
-    if (this.cartService.cart.value != null) {
-      this.cartService.cart.pipe(untilDestroyed(this)).subscribe(response => {
-        this.cartInventoryLength = Object.keys(response).length;
-        this.cartInventory = [];
-
-        Object.values(response).forEach((responseTwo, index) => {
-          this.scriptService.getScriptDetails(responseTwo['productId']).pipe(untilDestroyed(this)).subscribe(
-          responseThree => {
-            if (responseThree[0]) {
-              this.cartInventory.push(responseThree[0]);
-              this.cartTotal += responseThree[0].price_eur;
-            }
-          });
-        });
-      });
-    }
+    this.cartService.state$.subscribe(response => {
+      this.cartInventory = response.cart;
+      this.cartInventoryLength = response.cart.length;
+    });
   }
 
-  public deleteFomCart(scriptId: number): void {
-    this.cartService.deleteFromCart(scriptId);
+  public deleteFomCart(product: any): void {
+    this.cartService.removeCartItem(product);
   }
 
   public logout(): void {

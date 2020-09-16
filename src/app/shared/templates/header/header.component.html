@@ -62,7 +62,7 @@
                 <span class="dropdown__cart-list-item-name">{{ cartItem.sname }}</span>
                 <span class="dropdown__cart-list-item-price">{{ cartItem.price_eur | currency: 'EUR' }}</span>
               </div>
-              <i class="dropdown__cart-list-item-delete gg-close" (click)="deleteFomCart(cartItem.id)"></i>
+              <i class="dropdown__cart-list-item-delete gg-close" (click)="deleteFomCart(cartItem)"></i>
             </li>
           </ul>
 

@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { Script } from '../../shared/models/script';
 import { AdminUser } from '../../shared/models/admin-user';
 import { PurchaseProduct } from '../../shared/models/purchase-product';
 
 import { PaypalService } from '../../shared/services/paypal.service';
 import { CartService } from '../../shared/services/cart.service';
-import { AdminService } from '../../shared/services/admin.service';
 import { ScriptService } from '../../shared/services/script.service';
 import { CoinpaymentService } from '../../shared/services/coinpayment.service';
 import { UserService } from '../../shared/services/user.service';
+
+import { CartItem } from '../../shared/models/cart-item';
 
 import Swal from 'sweetalert2';
 
@@ -21,16 +21,17 @@ import Swal from 'sweetalert2';
   templateUrl: './checkout.component.html',
 })
 export class CheckoutComponent implements OnInit {
-  cartInventory: Script[];
+  cartInventory: CartItem[];
   cartInventoryTemp: Array<any>;
   purchaseCartInventory: PurchaseProduct[];
   userInfo: AdminUser;
 
   cartTotal: number;
-  cartIndex: number;
+  isAmber: boolean;
 
-  constructor(private coinpaymentsService: CoinpaymentService, private paypalService: PaypalService, private cartService: CartService,
-              private scriptService: ScriptService, private userService: UserService, private adminService: AdminService) { }
+  constructor(private coinpaymentsService: CoinpaymentService, private paypalService: PaypalService,
+              private cartService: CartService, private scriptService: ScriptService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.cartInventory = [];
@@ -41,40 +42,42 @@ export class CheckoutComponent implements OnInit {
 
     this.getCart();
     this.getUserInfo();
+
+    this.cartService.checkout();
   }
 
   public getCart(): void {
-    this.cartIndex = 0;
+    this.cartService.state$.subscribe(response => {
+      this.isAmber = false;
+      this.cartInventory = response.cart;
+      this.cartTotal = response.total;
 
-    if (this.cartService.cart.value != null) {
-      this.cartService.cart.subscribe(response => {
-        response.forEach((_, index) => {
-          this.scriptService.getScriptDetails(response[index].productId).subscribe(responseTwo => {
-            this.cartInventory.splice(this.cartIndex, 0, responseTwo[0]);
-            this.cartInventory[this.cartIndex].amount = response[0].amount;
-            this.cartTotal += responseTwo[0].price_eur * responseTwo[0].amount;
-
-            this.adminService.getUserDetails(responseTwo[0].author).pipe(untilDestroyed(this)).subscribe(responseThree => {
-              this.cartInventory[this.cartIndex].name = responseThree[0].name;
-              this.cartIndex++;
-            });
-          });
+      this.cartInventory.forEach(responseTwo => {
+        this.purchaseCartInventory.push({
+          product: responseTwo.id,
+          amount: responseTwo.amount
         });
+
+        // TODO: Change Aurorabot id to non-hard coded value
+        if (responseTwo.id === 38) {
+          this.isAmber = true;
+        }
       });
-    }
+    });
   }
 
   public choosePaymentOption(): void {
     Swal.fire({
       title: 'How would you like to pay?',
-      text: 'After choosing an option you will be taken to the respective payments website. After completion you will be returned here',
-      showCancelButton: true,
+      text: 'After choosing an option you will be taken to the respective payments website. After completion you will' +
+          ' be returned here',
+      showConfirmButton: true,
+      showCancelButton: !this.isAmber,
       confirmButtonText: 'Crypto',
       cancelButtonText: 'PayPal'
     }).then((result) => {
       if (result.value) {
         this.createCoinpaymentsOrder();
-        this.emptyCart();
 
         Swal.fire({
           title: 'Redirecting you to CoinPayments Website!',
@@ -87,7 +90,6 @@ export class CheckoutComponent implements OnInit {
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         this.createPaypalOrder();
-        this.emptyCart();
 
         Swal.fire({
           title: 'Redirecting you to PayPals Website!',
@@ -126,9 +128,5 @@ export class CheckoutComponent implements OnInit {
     this.userService.getSelf().subscribe(response => {
       this.userInfo = response;
     });
-  }
-
-  private emptyCart(): void {
-    this.cartService.emptyCart();
   }
 }

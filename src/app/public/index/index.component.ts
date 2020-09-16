@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Script } from '../../shared/models/script';
 
@@ -15,18 +17,34 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class IndexComponent implements OnInit {
   newScriptsList: Array<Script>;
+  scriptToAdd: Script;
+  keyForm: FormGroup;
 
   hoveredIndex: number;
   isHovered: boolean;
   isAuthenticated: boolean;
 
-  constructor(private scriptService: ScriptService, private cartService: CartService, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private modalService: NgbModal, private scriptService: ScriptService,
+              private cartService: CartService, private authService: AuthService) { }
 
   ngOnInit() {
     this.isHovered = false;
     this.isAuthenticated = this.authService.userValue !== undefined;
 
+    this.keyForm = this.formBuilder.group({
+      keyAmount: [null, [Validators.required, Validators.minLength(1)]],
+    });
+
     this.getNewScripts();
+  }
+
+  public openModal(content: TemplateRef<any>): void {
+    this.keyForm.reset();
+    this.modalService.open(content, { centered: true });
+  }
+
+  public closeModal(): void {
+    this.modalService.dismissAll();
   }
 
   public productHover(index: number, isHovered: boolean): void {
@@ -34,8 +52,15 @@ export class IndexComponent implements OnInit {
     this.isHovered = isHovered;
   }
 
-  public addToCart(productId: number): void {
-    this.cartService.addToCart(productId);
+  public addToCart(): void {
+    this.scriptToAdd.amount = this.keyForm.get('keyAmount').value;
+
+    this.closeModal();
+    this.cartService.addCartItem(this.scriptToAdd);
+  }
+
+  public holdScriptToAdd(script: Script) {
+    this.scriptToAdd = script;
   }
 
   private getNewScripts(): void {

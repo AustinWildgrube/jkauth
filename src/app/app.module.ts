@@ -16,6 +16,7 @@ import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PublicModule } from './public/public.module';
+import { CartService } from './shared/services/cart.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PublicModule } from './public/public.module';
       useClass: JwtInterceptor,
       multi: true
     },
+    CartService
   ],
   bootstrap: [AppComponent]
 })

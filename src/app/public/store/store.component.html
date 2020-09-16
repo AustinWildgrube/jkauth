@@ -20,10 +20,28 @@
         <span *ngIf="isAuthenticated && (!isHovered || isHovered && hoveredIndex !== i)" class="store__product-price">
           {{ script.price_eur | currency: 'EUR' }}
         </span>
-        <span *ngIf="isAuthenticated && (isHovered && hoveredIndex === i)" class="store__product-cart" (click)="addToCart(script.id)">
+        <span *ngIf="isAuthenticated && (isHovered && hoveredIndex === i)" class="store__product-cart"
+              (click)="holdScriptToAdd(script); openModal(keyAmount)">
           Add to cart
         </span>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #keyAmount>
+  <div class="modal modal-content">
+    <div class="modal__header">
+      <h3 class="modal__header-title">How many keys would you like to buy?</h3>
+    </div>
+    <div class="modal__body container-fluid">
+      <form class="row no-gutters" [formGroup]="keyForm" (ngSubmit)="addToCart()">
+        <div class="form-group col-12">
+          <label class="form-control-label" for="key-amount">Amount of Keys</label>
+          <input class="form-control" id="key-amount" formControlName="keyAmount" type="number">
+        </div>
+        <button class="button button--outline button--block" type="submit">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+</ng-template>

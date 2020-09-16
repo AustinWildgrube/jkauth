@@ -1,4 +1,6 @@
-export class Script {
+export interface CartItem {
+    uuid?: any;
+    remove?: boolean;
     author: number;
     id: number;
     image: string;
@@ -8,5 +10,4 @@ export class Script {
     trial_time: number;
     name?: string;
     amount?: number;
-    uuid?: string;
 }

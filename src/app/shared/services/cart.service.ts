@@ -1,51 +1,124 @@
 import { Injectable } from '@angular/core';
+import { Observable, of, merge, Subject, BehaviorSubject } from 'rxjs';
+import { scan, startWith, map, tap, combineLatest, switchMap, shareReplay, debounceTime, first } from 'rxjs/operators';
 
-import { BehaviorSubject } from 'rxjs';
+import { v4 as uuid } from 'uuid';
 
-@Injectable({
-  providedIn: 'root'
-})
+import { CartItem } from '../models/cart-item';
+import { StateTree } from '../models/state-tree';
+
+@Injectable()
 export class CartService {
-  cart: BehaviorSubject<Array<any>> = new BehaviorSubject<Array<any>>(JSON.parse(sessionStorage.getItem('cart')));
+  DATA_ITEMS = sessionStorage.getItem('cart') ? JSON.parse(sessionStorage.getItem('cart')) : [];
+  alreadyInCart: boolean;
 
-  tempCart: Array<any>;
-  isInCart: boolean;
-  cartIndex: number;
-  scriptIndex: number;
+  private stateTree = new BehaviorSubject<StateTree>(null);
+  private checkoutTrigger = new BehaviorSubject<boolean>(false);
+  private cartRemove = new Subject<CartItem>();
+  private cartAdd = new Subject<CartItem>();
 
-  constructor() {}
+  constructor() { }
 
-  public addToCart(id: number): void {
-    this.tempCart = sessionStorage.getItem('cart') ? JSON.parse(sessionStorage.getItem('cart')) : [];
+  public state$: Observable<StateTree> = this.stateTree.pipe(
+      switchMap(() => this.getItems().pipe(
+          combineLatest([this.cart, this.total, this.checkoutTrigger]),
+          debounceTime(0),
+      )),
+      map(([store, cart, total, checkout]: any) => ({ store, cart, total, checkout })),
+      tap(state => {
+        if (state.checkout) {
+          console.log('checkout', state);
+        }
+      }),
+      shareReplay(1)
+  );
 
-    this.isInCart = this.tempCart.some((productId) => productId.productId === id);
+  public addCartItem(item: CartItem) {
+    this.alreadyInCart = false;
+    delete item.author;
+    delete item.trial_time;
 
-    if (this.isInCart) {
-      this.cartIndex = this.tempCart.findIndex(x => x.productId === id);
-      this.tempCart[this.cartIndex].amount += 1;
-    } else {
-      this.tempCart.push({
-        productId: id,
-        amount: 1
+    this.state$.pipe(first()).subscribe(product => {
+      product.cart.forEach(test => {
+        if (test.id === item.id) {
+          item.amount += test.amount;
+
+          if (item.id === 38) {
+            if (item.amount >= 1 && item.amount <= 19) {
+              item.price_eur = 4.5;
+            } else if (item.amount >= 20 && item.amount <= 49) {
+              item.price_eur = 4;
+            } else if (item.amount >= 50 && item.amount <= 99) {
+              item.price_eur = 3.5;
+            } else if (item.amount >= 100 && item.amount <= 199) {
+              item.price_eur = 3;
+            } else if (item.amount >= 200) {
+              item.price_eur = 2.5;
+            }
+          }
+
+          this.alreadyInCart = true;
+          this.cartRemove.next({...test, remove: true});
+          this.cartAdd.next({...item, uuid: uuid()});
+        }
       });
-    }
 
-    sessionStorage.setItem('cart', JSON.stringify(this.tempCart));
-    this.cart.next(this.tempCart);
+      if (!this.alreadyInCart) {
+        if (item.id === 38) {
+          if (item.amount >= 1 && item.amount <= 19) {
+            item.price_eur = 4.5;
+          } else if (item.amount >= 20 && item.amount <= 49) {
+            item.price_eur = 4;
+          } else if (item.amount >= 50 && item.amount <= 99) {
+            item.price_eur = 3.5;
+          } else if (item.amount >= 100 && item.amount <= 199) {
+            item.price_eur = 3;
+          } else if (item.amount >= 200) {
+            item.price_eur = 2.5;
+          }
+        }
+
+        this.cartAdd.next({...item, uuid: uuid()});
+      }
+    });
   }
 
-  public deleteFromCart(scriptId: number): void {
-    this.tempCart = JSON.parse(sessionStorage.getItem('cart'));
-
-    this.scriptIndex = this.tempCart.findIndex(obj => obj.productId === scriptId);
-
-    this.tempCart.splice(this.scriptIndex, 1);
-
-    sessionStorage.setItem('cart', JSON.stringify(this.tempCart));
-    this.cart.next(this.tempCart);
+  public removeCartItem(item: CartItem): void {
+    this.cartRemove.next({ ...item, remove: true });
   }
 
-  public emptyCart(): void {
-    this.cart.next(null);
+  public checkout(): void {
+    this.checkoutTrigger.next(true);
+  }
+
+  private get cart(): Observable<CartItem[]> {
+    return merge(this.cartAdd, this.cartRemove, this.DATA_ITEMS).pipe(
+        startWith(this.DATA_ITEMS),
+        scan((acc: CartItem[], item: CartItem) => {
+          if (item) {
+            if (item.remove) {
+              return [...acc.filter(i => i.uuid !== item.uuid)];
+
+            }
+            return [...acc, item];
+          }
+        })
+    );
+  }
+
+  private get total(): Observable<number> {
+    return this.cart.pipe(
+        map(items => {
+          let total = 0;
+          for (const i of items) {
+            total += i.price_eur * i.amount;
+          }
+          return total;
+        })
+    );
+  }
+
+  private getItems() {
+    return of(this.DATA_ITEMS);
   }
 }
