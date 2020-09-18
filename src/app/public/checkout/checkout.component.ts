@@ -38,7 +38,6 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
     this.cartInventory = [];
     this.cartInventoryTemp = [];
-    this.purchaseCartInventory = [];
 
     this.cartTotal = 0;
 
@@ -58,6 +57,7 @@ export class CheckoutComponent implements OnInit {
         this.router.navigate(['/']);
       }
 
+      this.purchaseCartInventory = [];
       this.cartInventory.forEach(responseTwo => {
         this.purchaseCartInventory.push({
           product: responseTwo.id,
