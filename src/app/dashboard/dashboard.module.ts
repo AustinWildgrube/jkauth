@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { AdminDashboardRoutingModule } from './admin-dashboard-routing.module';
@@ -14,6 +14,7 @@ import { AdminScriptsComponent } from './admin-dashboard/admin-scripts/admin-scr
 import { AdminUsersComponent } from './admin-dashboard/admin-users/admin-users.component';
 import { AdminUsersDetailsComponent } from './admin-dashboard/admin-users/admin-users-details/admin-users-details.component';
 import { AdminScriptsDetailsComponent } from './admin-dashboard/admin-scripts/admin-scripts-details/admin-scripts-details.component';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,17 @@ import { AdminScriptsDetailsComponent } from './admin-dashboard/admin-scripts/ad
         AdminDashboardRoutingModule,
         ReactiveFormsModule,
         SharedModule,
+        FormsModule,
         BsDropdownModule.forRoot(),
+        QuillModule.forRoot({
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{list: 'ordered'}, {list: 'bullet'}],
+                    [{header: [1, 2, 3, 4, 5, 6, false]}],
+                ]
+            }
+        })
     ],
     providers: [
         BsDropdownModule

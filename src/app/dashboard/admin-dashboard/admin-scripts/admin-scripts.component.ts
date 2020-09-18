@@ -1,18 +1,18 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { ScriptService } from '../../../shared/services/script.service';
-
 import { Script } from '../../../shared/models/script';
+
 import { ScriptData } from '../../../shared/models/script-data';
 
 import { SlugifyPipe } from '../../../shared/pipes/slugify.pipe';
-
 import Swal from 'sweetalert2';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @UntilDestroy()
 @Component({
@@ -45,7 +45,8 @@ export class AdminScriptsComponent implements OnInit {
       editPrice: [null],
       editTrialTime: [null],
       editImage: [null],
-      editShard: [null]
+      editShard: [null],
+      editDescription: [null]
     });
 
     this.getAllScripts();
@@ -97,6 +98,10 @@ export class AdminScriptsComponent implements OnInit {
 
     if (this.editScriptForm.get('editTrialTime').value) {
       this.editScriptFormData.append('trial_time', this.editScriptForm.get('editTrialTime').value);
+    }
+
+    if (this.editScriptForm.get('editDescription').value != null) {
+      this.editScriptFormData.append('sinfo', this.editScriptForm.get('editDescription').value);
     }
 
     this.scriptService.updateScript(this.editScriptFormData).pipe(untilDestroyed(this)).subscribe(

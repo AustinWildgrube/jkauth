@@ -55,8 +55,12 @@ export class StoreComponent implements OnInit {
     this.isHovered = isHovered;
   }
 
-  public addToCart(): void {
-    this.scriptToAdd.amount = this.keyForm.get('keyAmount').value;
+  public addToCart(isBulk: boolean): void {
+    if (isBulk) {
+      this.scriptToAdd.amount = this.keyForm.get('keyAmount').value;
+    } else {
+      this.scriptToAdd.amount = 1;
+    }
 
     if (this.scriptToAdd.amount > 0) {
       this.closeModal();

@@ -42,6 +42,10 @@
   @extend .index__products;
 }
 
+.store__product {
+  @extend .index__product;
+}
+
 .store__product-image {
   @extend .index__product-image;
 }

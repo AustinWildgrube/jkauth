@@ -68,7 +68,8 @@ export class DevScriptsComponent implements OnInit {
       price: [null, [Validators.required]],
       shard: [null, [Validators.required]],
       trialTime: [null, [Validators.required]],
-      image: [null]
+      image: [null],
+      description: [null]
     });
 
     this.editScriptForm = this.formBuilder.group({
@@ -77,7 +78,8 @@ export class DevScriptsComponent implements OnInit {
       editPrice: [null],
       editTrialTime: [null],
       editImage: [null],
-      editShard: [null]
+      editShard: [null],
+      editDescription: [null]
     });
 
     this.getScripts();
@@ -112,8 +114,15 @@ export class DevScriptsComponent implements OnInit {
     this.addScriptFormData.append('sname', this.addScriptForm.get('name').value);
     this.addScriptFormData.append('price_eur', this.addScriptForm.get('price').value);
     this.addScriptFormData.append('lua', this.addScriptForm.get('shard').value);
-    this.addScriptFormData.append('trial_time', this.addScriptForm.get('trialTime').value);
     this.addScriptFormData.append('image', this.addScriptForm.get('image').value);
+
+    if (this.addScriptForm.get('trialTime').value) {
+      this.addScriptFormData.append('trial_time', this.addScriptForm.get('trialTime').value);
+    }
+
+    if (this.addScriptForm.get('description').value) {
+      this.addScriptFormData.append('sinfo', this.addScriptForm.get('description').value);
+    }
 
     this.scriptService.newScript(this.addScriptFormData).pipe(untilDestroyed(this)).subscribe(
         _ => {
@@ -164,6 +173,10 @@ export class DevScriptsComponent implements OnInit {
 
     if (this.editScriptForm.get('editTrialTime').value) {
       this.editScriptFormData.append('trial_time', this.editScriptForm.get('editTrialTime').value);
+    }
+
+    if (this.editScriptForm.get('editDescription').value) {
+      this.editScriptFormData.append('sinfo', this.editScriptForm.get('editDescription').value);
     }
 
     this.scriptService.updateScript(this.editScriptFormData).pipe(untilDestroyed(this)).subscribe(

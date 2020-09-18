@@ -6,6 +6,7 @@ export class Script {
     lua: string;
     price_eur: number;
     trial_time: number;
+    sinfo?: string;
     name?: string;
     amount?: number;
     uuid?: string;

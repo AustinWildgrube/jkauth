@@ -27,7 +27,7 @@ export class CartService {
       map(([store, cart, total, checkout]: any) => ({ store, cart, total, checkout })),
       tap(state => {
         if (state.checkout) {
-          console.log('checkout', state);
+          // console.log('checkout', state);
         }
       }),
       shareReplay(1)

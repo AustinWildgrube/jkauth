@@ -142,6 +142,12 @@
         </div>
 
         <div class="form-group col-12">
+          <label class="form-control-label" for="script-description">Script Description</label>
+          <quill-editor id="script-description" formControlName="description" [styles]="{height: '150px'}">
+          </quill-editor>
+        </div>
+
+        <div class="form-group col-12">
           <label class="form-control-label" for="script-image">Script Image <span class="form-control-label--required">*</span></label>
           <input class="form-control" id="script-image" (change)="onSelectImage($event, 'image',  'add')" type="file">
         </div>
@@ -184,6 +190,12 @@
         <div class="form-group col-6 pl-2">
           <label class="form-control-label" for="edit-trial-time">Trial Time (seconds)</label>
           <input class="form-control" id="edit-trial-time" formControlName="editTrialTime" type="text">
+        </div>
+
+        <div class="form-group col-12">
+          <label class="form-control-label" for="edit-script-description">Script Description</label>
+          <quill-editor id="edit-script-description" formControlName="editDescription" [styles]="{height: '150px'}">
+          </quill-editor>
         </div>
 
         <div class="form-group col-12">

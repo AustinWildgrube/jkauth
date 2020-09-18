@@ -8,6 +8,10 @@
   text-align: center;
 }
 
+.modal__header--align-left {
+  align-items: flex-start;
+}
+
 .modal__header-title {
   color: color(text, base);
   font-size: 1rem;
@@ -15,6 +19,13 @@
   letter-spacing: 2px;
   margin-bottom: 0;
   text-transform: uppercase;
+}
+
+.modal__header-price {
+  font-weight: 400;
+  margin-top: 8px;
+
+  @extend .modal__header-title;
 }
 
 .modal__header-error {
@@ -35,6 +46,15 @@
   padding: 0 24px 24px;
 }
 
+.modal__body-text {
+  color: color(text, muted);
+  font-size: .875rem;
+  margin-bottom: 0;
+  max-height: 150px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
 .modal__auth-code {
   background-color: color(monochrome, code);
   border-radius: 7px;
@@ -48,4 +68,23 @@
   pre {
     color: color(monochrome, white);
   }
+}
+.modal__footer {
+  padding: 0 24px 24px;
+}
+
+.modal__footer--actions {
+  display: flex;
+}
+
+.modal__footer-form {
+  align-items: center;
+  width: 100%;
+}
+
+.modal__footer-quantity {
+  display: inline-block;
+  flex: 1 1 auto;
+  margin-right: 4px;
+  width: initial;
 }
