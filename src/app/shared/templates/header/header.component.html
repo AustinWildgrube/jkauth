@@ -134,7 +134,7 @@
         Keys
       </a>
     </li>
-    <li class="mobile-menu__list-item">
+    <li *ngIf="isAuthenticated" class="mobile-menu__list-item">
       <span class="mobile-menu__list-item" (click)="logout(); toggleMobileMenu()">
         Logout
       </span>
