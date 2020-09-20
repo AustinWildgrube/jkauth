@@ -51,6 +51,11 @@ export class ScriptService {
         `&callback=` +  callback, {responseType: 'text'});
   }
 
+  public getDevLoader(scriptId: number): Observable<string> {
+    return this.http.get(`${environment.apiEndpoint}/developer/lua/get_loader.php?sid=` + scriptId,
+        {responseType: 'text'});
+  }
+
   set setCurrentScript(currentScript: number) {
     sessionStorage.setItem('selectedScript', String(currentScript));
   }

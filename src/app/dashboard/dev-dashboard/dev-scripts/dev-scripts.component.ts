@@ -37,6 +37,7 @@ export class DevScriptsComponent implements OnInit {
   imageData: string | ArrayBuffer;
   editScriptName: string;
   authModuleResponse: string;
+  devLoaderResponse: string;
 
   setting = {
     element: {
@@ -299,6 +300,12 @@ export class DevScriptsComponent implements OnInit {
       }
     }).then(() => {
       this.closeModal();
+    });
+  }
+
+  public getDevLoader(scriptId: number): void {
+    this.scriptService.getDevLoader(scriptId).subscribe(response => {
+      this.devLoaderResponse = response;
     });
   }
 
