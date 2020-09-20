@@ -11,10 +11,11 @@
 .form-control {
   font-size: .75rem;
   filter: none;
+  height: auto;
 
-  height: calc(
-    #{1.5 * 1em} + #{.375rem * 2} + #{2 * 2.5}
-  );
+  //height: calc(
+  //  #{1.5 * 1em} + #{.375rem * 2} + #{2em * 2.5}
+  //);
 
   &:focus {
     &::placeholder {
