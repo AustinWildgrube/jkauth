@@ -67,8 +67,8 @@ export class DevScriptsComponent implements OnInit {
     this.addScriptForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       price: [null, [Validators.required]],
-      shard: [null, [Validators.required]],
       trialTime: [null, [Validators.required]],
+      shard: [null],
       image: [null],
       description: [null]
     });
@@ -114,8 +114,11 @@ export class DevScriptsComponent implements OnInit {
     this.addScriptFormData = new FormData();
     this.addScriptFormData.append('sname', this.addScriptForm.get('name').value);
     this.addScriptFormData.append('price_eur', this.addScriptForm.get('price').value);
-    this.addScriptFormData.append('lua', this.addScriptForm.get('shard').value);
     this.addScriptFormData.append('image', this.addScriptForm.get('image').value);
+
+    if (this.addScriptForm.get('shard').value) {
+      this.addScriptFormData.append('lua', this.addScriptForm.get('shard').value);
+    }
 
     if (this.addScriptForm.get('trialTime').value) {
       this.addScriptFormData.append('trial_time', this.addScriptForm.get('trialTime').value);

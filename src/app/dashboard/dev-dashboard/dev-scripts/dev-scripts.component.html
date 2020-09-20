@@ -180,8 +180,9 @@
         </div>
 
         <div class="form-group col-12">
-          <label class="form-control-label" for="lua-shard">Hanbot Shard <span class="form-control-label--required">*</span></label>
-          <input class="form-control" id="lua-shard" (change)="onSelectImage($event, 'lua', 'add')" type="file">
+          <label class="form-control-label" for="lua-shard">Hanbot Shard</label>
+          <input class="form-control" id="lua-shard" (change)="onSelectImage($event, 'lua', 'add')"
+                 type="file">
         </div>
 
         <button class="button button--outline button--block" [disabled]="addScriptBuffering" type="submit">Add</button>
