@@ -25,7 +25,10 @@
 
           <div class="scripts__script-details-flex">
             <h2 class="scripts__script-details-name">{{ script.sname }}</h2>
-            <span class="scripts__script-details-price">{{ script.price_eur | currency: 'EUR' }}</span>
+            <span class="scripts__script-details-price">Script ID: {{ script.id }}</span>
+            <span class="scripts__script-details-price">
+              Selling Price: {{ script.price_eur | currency: 'EUR' }}
+            </span>
           </div>
         </div>
 
