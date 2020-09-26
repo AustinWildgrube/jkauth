@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -16,6 +17,7 @@ import { CartItem } from '../../shared/models/cart-item';
 import { Script } from '../../shared/models/script';
 
 import Swal from 'sweetalert2';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @UntilDestroy()
 @Component({
@@ -27,13 +29,15 @@ export class CheckoutComponent implements OnInit {
   cartInventoryTemp: Array<any>;
   purchaseCartInventory: PurchaseProduct[];
   userInfo: AdminUser;
+  amberNameForm: FormGroup;
 
   cartTotal: number;
   isAmber: boolean;
 
-  constructor(private router: Router, private coinpaymentsService: CoinpaymentService,
-              private paypalService: PaypalService, private cartService: CartService,
-              private scriptService: ScriptService, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal,
+              private coinpaymentsService: CoinpaymentService, private paypalService: PaypalService,
+              private cartService: CartService, private scriptService: ScriptService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.cartInventory = [];
@@ -41,10 +45,22 @@ export class CheckoutComponent implements OnInit {
 
     this.cartTotal = 0;
 
+    this.amberNameForm = this.formBuilder.group({
+      auroraName: [null, [Validators.required]],
+    });
+
     this.getCart();
     this.getUserInfo();
 
     this.cartService.checkout();
+  }
+
+  public openModal(content: TemplateRef<any>): void {
+    this.modalService.open(content, { centered: true });
+  }
+
+  public closeModal(): void {
+    this.modalService.dismissAll();
   }
 
   public getCart(): void {
@@ -87,7 +103,11 @@ export class CheckoutComponent implements OnInit {
       cancelButtonText: 'PayPal'
     }).then((result) => {
       if (result.value) {
-        this.createCoinpaymentsOrder();
+        if (this.isAmber) {
+          this.createCoinpaymentsOrder(true);
+        } else {
+          this.createCoinpaymentsOrder(false);
+        }
 
         Swal.fire({
           title: 'Redirecting you to CoinPayments Website!',
@@ -124,10 +144,14 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  public createCoinpaymentsOrder(): void {
+  public createCoinpaymentsOrder(isAmber: boolean): void {
     const formData = new FormData();
     formData.append('products', JSON.stringify(this.purchaseCartInventory));
     formData.append('email', this.userInfo.login_mail);
+
+    if (isAmber) {
+      formData.append('username', this.amberNameForm.get('auroraName').value);
+    }
 
     this.coinpaymentsService.createOrder(formData).pipe(untilDestroyed(this)).subscribe(response => {
       window.location.href = response['result']['checkout_url'];
