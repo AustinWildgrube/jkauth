@@ -10,10 +10,12 @@ import { SlugifyPipe } from './pipes/slugify.pipe';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { QuillModule } from 'ngx-quill';
+import { SafePipe } from './pipes/safe.pipe';
 
 @NgModule({
     declarations: [
-        SlugifyPipe
+        SlugifyPipe,
+        SafePipe
     ],
     imports: [
         RouterModule,
@@ -29,6 +31,7 @@ import { QuillModule } from 'ngx-quill';
         CommonModule,
         TemplatesModule,
         SlugifyPipe,
+        SafePipe,
     ],
     providers: [
         JwtHelperService,

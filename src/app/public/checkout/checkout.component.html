@@ -17,7 +17,14 @@
           </div>
 
           <div class="checkout__cart-item-info-middle">
-            <span class="checkout__cart-item-info-author">{{ cartItem.name }}</span>
+            <span class="checkout__cart-item-info-author">
+              <ng-container *ngIf="cartItem.name !== 'Dalenka'">
+                {{ cartItem.name }}
+              </ng-container>
+              <ng-container *ngIf="cartItem.name === 'Dalenka'">
+                MrImpressive
+              </ng-container>
+            </span>
             <div class="checkout__cart-item-info-middle-actions">
               <span class="checkout__cart-item-delete" (click)="deleteProduct(cartItem)">Delete Item</span>
             </div>

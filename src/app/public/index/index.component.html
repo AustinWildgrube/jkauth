@@ -16,7 +16,7 @@
     <div *ngFor="let script of newScriptsList; let i = index" class="index__product" (mouseover)="productHover(i, true)"
          (mouseout)="productHover(i, false)">
       <img *ngIf="script.image" class="index__product-image" (click)="holdScriptToAdd(script);
-           openModal(productInfo)" [src]="script.image"
+           openModal(productInfo)" [src]="script.image | safe: 'url'"
            [alt]="script.sname + ' Product Image'">
       <span *ngIf="!script.image" class="index__product-image" (click)="holdScriptToAdd(script);
             openModal(productInfo)"></span>
@@ -25,7 +25,14 @@
         <h3 class="index__product-name" (click)="holdScriptToAdd(script);
             openModal(productInfo)">{{ script.sname }}</h3>
         <span class="index__product-author" (click)="holdScriptToAdd(script);
-              openModal(productInfo)">{{ script.name }}</span>
+              openModal(productInfo)">
+          <ng-container *ngIf="script.name !== 'Dalenka'">
+            {{ script.name }}
+          </ng-container>
+          <ng-container *ngIf="script.name === 'Dalenka'">
+            MrImpressive
+          </ng-container>
+        </span>
 
         <span *ngIf="!isAuthenticated" class="index__product-price" (click)="holdScriptToAdd(script);
               openModal(productInfo)">

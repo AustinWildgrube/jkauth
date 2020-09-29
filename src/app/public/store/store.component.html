@@ -18,7 +18,14 @@
         <h3 class="store__product-name" (click)="holdScriptToAdd(script);
             openModal(productInfo)">{{ script.sname }}</h3>
         <span class="store__product-author" (click)="holdScriptToAdd(script);
-            openModal(productInfo)">{{ script.name }}</span>
+            openModal(productInfo)">
+          <ng-container *ngIf="script.name !== 'Dalenka'">
+            {{ script.name }}
+          </ng-container>
+          <ng-container *ngIf="script.name === 'Dalenka'">
+            MrImpressive
+          </ng-container>
+        </span>
 
         <span *ngIf="!isAuthenticated" class="store__product-price">{{ script.price_eur | currency: 'EUR' }}</span>
         <span *ngIf="isAuthenticated && (!isHovered || isHovered && hoveredIndex !== i)" class="store__product-price">
