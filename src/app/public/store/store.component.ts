@@ -43,6 +43,7 @@ export class StoreComponent implements OnInit {
 
   public openModal(content: TemplateRef<any>): void {
     this.keyForm.reset();
+    this.keyForm.get('keyAmount').setValue(1);
     this.modalService.open(content, { centered: true });
   }
 

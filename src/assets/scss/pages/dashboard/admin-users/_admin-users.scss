@@ -6,6 +6,10 @@
   @extend .scripts__header;
 }
 
+.users__header-info {
+  font-size: .875rem;
+}
+
 .users__header-page-title {
   @extend .scripts__header-page-title;
 }
@@ -23,6 +27,8 @@
 }
 
 .users__user-details {
+  max-width: 73%;
+
   @extend .scripts__script-details;
 }
 
@@ -33,12 +39,22 @@
 .users__user-details-info {
   display: flex;
   flex-direction: column;
+  max-width: 75%;
 }
 
 .users_username {
+  overflow: hidden;
   text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @extend .scripts__script-details-name;
+}
+
+.users_email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .users__options {

@@ -10,10 +10,11 @@
         <li class="breadcrumb breadcrumb--active" aria-current="page">All Users</li>
       </ol>
     </nav>
+    <span class="users__header-info">{{ totalUsers }} Total Users</span>
   </div>
 
   <ul class="users__grid">
-    <li *ngFor="let user of allUsers" class="card">
+    <li *ngFor="let user of allUsers | paginate: { itemsPerPage: 21, currentPage: page }" class="card">
       <div class="card__header users__grid-header">
         <div class="users__user-details">
           <span *ngIf="user.name" class="users__avatar">{{ user.name.charAt(0) }}</span>
@@ -42,4 +43,5 @@
       </div>
     </li>
   </ul>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
 </div>

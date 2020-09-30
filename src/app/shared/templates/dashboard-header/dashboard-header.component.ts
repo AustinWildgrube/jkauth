@@ -19,16 +19,24 @@ export class DashboardHeaderComponent implements OnInit {
   account: boolean;
   dashboard: boolean;
   mobileMenu: boolean;
+  isUser: boolean;
 
   constructor(private authService: AuthService, private userService: UserService) { }
 
   ngOnInit() {
     this.account = false;
     this.dashboard = false;
+    this.isUser = true;
 
     if (this.authService.userValue != null) {
       this.userDetails = this.authService.userValue;
       this.getOwnDetails();
+
+      for (const role of this.userDetails.role) {
+        if (role !== 'user') {
+          this.isUser = false;
+        }
+      }
     }
   }
 

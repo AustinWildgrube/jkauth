@@ -15,6 +15,7 @@ import { AdminUsersComponent } from './admin-dashboard/admin-users/admin-users.c
 import { AdminUsersDetailsComponent } from './admin-dashboard/admin-users/admin-users-details/admin-users-details.component';
 import { AdminScriptsDetailsComponent } from './admin-dashboard/admin-scripts/admin-scripts-details/admin-scripts-details.component';
 import { QuillModule } from 'ngx-quill';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { QuillModule } from 'ngx-quill';
         ReactiveFormsModule,
         SharedModule,
         FormsModule,
+        NgxPaginationModule,
         BsDropdownModule.forRoot(),
         QuillModule.forRoot({
             modules: {

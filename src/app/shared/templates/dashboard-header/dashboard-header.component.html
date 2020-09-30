@@ -3,30 +3,23 @@
   <nav class="header__nav">
     <ul class="header__nav-list">
       <ng-container *ngIf="userDetails">
-        <ng-container *ngFor="let role of userDetails.role">
-          <li *ngIf="role === 'admin'" class="header__nav-list-item">
-            <div class="col-auto header__nav-list-dropdown" dropdown>
-              <a class="header__nav-list-item" dropdownToggle>Admin Dashboard <i class="gg-chevron-down"></i></a>
-              <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
-                <ul class="dropdown__list">
-                  <li class="dropdown__list-item dropdown-item">
-                    <a class="dropdown__list-item" routerLink="/admin/scripts">All Scripts</a>
-                  </li>
-                  <li class="dropdown__list-item dropdown-item">
-                    <a class="dropdown__list-item" routerLink="/admin/users">All Users</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li *ngIf="role === 'developer'" class="header__nav-list-item">
+        <ng-container *ngIf="userDetails">
+          <li *ngIf="!isUser" class="header__nav-list-item">
             <div class="col-auto header__nav-list-dropdown" dropdown>
               <a class="header__nav-list-item" dropdownToggle>Dashboard <i class="gg-chevron-down"></i></a>
               <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
                 <ul class="dropdown__list">
-                  <li class="dropdown__list-item dropdown-item">
-                    <a class="dropdown__list-item" routerLink="/dashboard/scripts">Scripts</a>
-                  </li>
+                  <ng-container *ngFor="let role of userDetails.role">
+                    <li *ngIf="role === 'developer'" class="dropdown__list-item dropdown-item">
+                      <a class="dropdown__list-item" routerLink="/dashboard/scripts">Scripts</a>
+                    </li>
+                    <li *ngIf="role === 'admin'" class="dropdown__list-item dropdown-item">
+                      <a class="dropdown__list-item" routerLink="/admin/scripts">All Scripts</a>
+                    </li>
+                    <li *ngIf="role === 'admin'" class="dropdown__list-item dropdown-item">
+                      <a class="dropdown__list-item" routerLink="/admin/users">All Users</a>
+                    </li>
+                  </ng-container>
                 </ul>
               </div>
             </div>

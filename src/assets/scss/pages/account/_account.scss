@@ -12,12 +12,14 @@
   align-items: center;
   display: inline-flex;
   flex-direction: column;
+  max-width: 105px;
   text-align: center;
   vertical-align: top;
   width: max-content;
 
   @media #{$mobile-lg} {
     margin-bottom: 24px;
+    max-width: initial;
     width: 100%;
   }
 }

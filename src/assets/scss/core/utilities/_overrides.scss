@@ -46,3 +46,23 @@
     }
   }
 }
+
+// ngx pagination
+pagination-controls {
+  .ngx-pagination {
+    align-items: center;
+    display: flex;
+    font-size: .875rem;
+    justify-content: flex-end;
+    margin: 32px 0;
+
+    .current {
+      background: color(monochrome, black);
+      border-radius: 3px;
+    }
+
+    a:hover, button:hover {
+      border-radius: 3px;
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { UserService } from '../../../shared/services/user.service';
 import { AdminUser } from '../../../shared/models/admin-user';
 import { AdminService } from '../../../shared/services/admin.service';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 @UntilDestroy()
 @Component({
@@ -15,9 +15,15 @@ import Swal from "sweetalert2";
 export class AdminUsersComponent implements OnInit {
   allUsers: AdminUser[];
 
+  page: number;
+  totalUsers: number;
+
   constructor(private adminService: AdminService, private userService: UserService) { }
 
   ngOnInit() {
+    this.page = 1;
+    this.totalUsers = 0;
+
     this.getAllUsers();
   }
 
@@ -55,6 +61,7 @@ export class AdminUsersComponent implements OnInit {
   private getAllUsers(): void {
    this.userService.getAllUsers().pipe(untilDestroyed(this)).subscribe(response => {
      this.allUsers = response;
+     this.totalUsers = this.allUsers.length;
    });
   }
 }

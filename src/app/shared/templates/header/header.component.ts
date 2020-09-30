@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
   account: boolean;
   mobileMenu: boolean;
   idInputEmpty: boolean;
+  isUser: boolean;
 
   constructor(private formBuilder: FormBuilder, private modalService: NgbModal, private authService: AuthService,
               private cartService: CartService, private scriptService: ScriptService,
@@ -46,6 +47,7 @@ export class HeaderComponent implements OnInit {
     this.cart = false;
     this.account = false;
     this.mobileMenu = false;
+    this.isUser = true;
 
     this.settingsForm = this.formBuilder.group({
       hanbotId: [null, [Validators.required, Validators.minLength(1)]],
@@ -55,6 +57,12 @@ export class HeaderComponent implements OnInit {
       this.isAuthenticated = true;
       this.userDetails = this.authService.userValue;
       this.getOwnDetails();
+
+      for (const role of this.userDetails.role) {
+        if (role !== 'user') {
+          this.isUser = false;
+        }
+      }
     }
 
     this.getCart();
