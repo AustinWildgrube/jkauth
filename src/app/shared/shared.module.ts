@@ -11,7 +11,6 @@ import { SlugifyPipe } from './pipes/slugify.pipe';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { QuillModule } from 'ngx-quill';
 import { SafePipe } from './pipes/safe.pipe';
-import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
     declarations: [
@@ -25,7 +24,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
         CommonModule,
         TemplatesModule,
         SweetAlert2Module,
-        NgxPaginationModule,
         QuillModule.forRoot()
     ],
     exports: [

@@ -140,7 +140,7 @@ export class CheckoutComponent implements OnInit {
     formData.append('email', this.userInfo.login_mail);
 
     this.paypalService.createOrder(formData).pipe(untilDestroyed(this)).subscribe(response => {
-      window.location.href = response['links'][1]['href'];
+      window.location.href = response['result']['links'][1]['href'];
     });
   }
 

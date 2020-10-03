@@ -25,11 +25,13 @@ export class StoreComponent implements OnInit {
   negative: boolean;
   isHovered: boolean;
   isAuthenticated: boolean;
+  isLoaded: boolean;
 
   constructor(private formBuilder: FormBuilder, private modalService: NgbModal, private scriptService: ScriptService,
               private cartService: CartService, private authService: AuthService) { }
 
   ngOnInit() {
+    this.isLoaded = false;
     this.isHovered = false;
     this.negative = false;
     this.isAuthenticated = this.authService.userValue !== undefined;
@@ -80,6 +82,7 @@ export class StoreComponent implements OnInit {
     this.scriptService.getAllScripts().pipe(untilDestroyed(this)).subscribe(response => {
       response.sort((a, b) => b.id - a.id);
       this.newScriptsList = response;
+      this.isLoaded = true;
     });
   }
 }

@@ -15,16 +15,26 @@
   <div class="index__products">
     <div *ngFor="let script of newScriptsList; let i = index" class="index__product" (mouseover)="productHover(i, true)"
          (mouseout)="productHover(i, false)">
-      <img *ngIf="script.image" class="index__product-image" (click)="holdScriptToAdd(script);
+      <ngx-skeleton-loader *ngIf="!isLoaded" appearance="circle" [theme]="{width: '211.667px', height: '200px',
+                                                                  'border-radius': '3px', 'margin': '0'}">
+      </ngx-skeleton-loader>
+      <img *ngIf="script.image && isLoaded" class="index__product-image" (click)="holdScriptToAdd(script);
            openModal(productInfo)" [src]="script.image | safe: 'url'"
            [alt]="script.sname + ' Product Image'">
-      <span *ngIf="!script.image" class="index__product-image" (click)="holdScriptToAdd(script);
+      <span *ngIf="!script.image && isLoaded" class="index__product-image" (click)="holdScriptToAdd(script);
             openModal(productInfo)"></span>
 
       <div class="index__product-details">
-        <h3 class="index__product-name" (click)="holdScriptToAdd(script);
+        <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '187px', height: '18px', 'margin': '0'}">
+        </ngx-skeleton-loader>
+
+        <h3 *ngIf="isLoaded" class="index__product-name" (click)="holdScriptToAdd(script);
             openModal(productInfo)">{{ script.sname }}</h3>
-        <span class="index__product-author" (click)="holdScriptToAdd(script);
+
+        <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '100px', height: '18px', 'margin': '0'}">
+        </ngx-skeleton-loader>
+
+        <span *ngIf="isLoaded" class="index__product-author" (click)="holdScriptToAdd(script);
               openModal(productInfo)">
           <ng-container *ngIf="script.name !== 'Dalenka'">
             {{ script.name }}
@@ -34,17 +44,20 @@
           </ng-container>
         </span>
 
-        <span *ngIf="!isAuthenticated" class="index__product-price" (click)="holdScriptToAdd(script);
+        <span *ngIf="!isAuthenticated && isLoaded" class="index__product-price" (click)="holdScriptToAdd(script);
               openModal(productInfo)">
           {{ script.price_eur | currency: 'EUR' }}
         </span>
-        <span *ngIf="isAuthenticated && (!isHovered || isHovered && hoveredIndex !== i)" class="index__product-price">
+        <span *ngIf="isAuthenticated && isLoaded && (!isHovered || isHovered && hoveredIndex !== i)" class="index__product-price">
           {{ script.price_eur | currency: 'EUR' }}
         </span>
-        <span *ngIf="isAuthenticated && (isHovered && hoveredIndex === i)" class="index__product-cart"
+        <span *ngIf="isAuthenticated && isLoaded && (isHovered && hoveredIndex === i)" class="index__product-cart"
               (click)="holdScriptToAdd(script); addToCart(false)">
           Add to cart
         </span>
+
+        <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '75px', height: '18px', 'margin': '0'}">
+        </ngx-skeleton-loader>
       </div>
     </div>
   </div>

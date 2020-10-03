@@ -10,21 +10,23 @@ import { IndexComponent } from './index/index.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AccountComponent } from './account/account.component';
 import { FormsModule } from '@angular/forms';
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 
 @NgModule({
-  declarations: [
-    StoreComponent,
-    IndexComponent,
-    CheckoutComponent,
-    AccountComponent,
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    PublicRoutingModule,
-    Ng2SearchPipeModule,
-    FormsModule
-  ]
+    declarations: [
+        StoreComponent,
+        IndexComponent,
+        CheckoutComponent,
+        AccountComponent,
+    ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        PublicRoutingModule,
+        Ng2SearchPipeModule,
+        FormsModule,
+        NgxSkeletonLoaderModule
+    ]
 })
 export class PublicModule { }
