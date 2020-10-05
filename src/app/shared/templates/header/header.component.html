@@ -79,8 +79,16 @@
         <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
           <ul class="dropdown__list">
             <li class="dropdown__list-item dropdown-item">
+              <a class="dropdown__list-item" (click)="openModal(redeemKey)">Redeem Reseller Keys</a>
+            </li>
+            <li class="dropdown__list-item dropdown-item">
               <a class="dropdown__list-item" (click)="openModal(editAccountSettings)">Hanbot ID</a>
             </li>
+            <ng-container *ngFor="let role of userDetails.role">
+              <li *ngIf="role == 'reseller'" class="dropdown__list-item dropdown-item">
+                <a class="dropdown__list-item" routerLink="/reseller-keys">Reseller Keys</a>
+              </li>
+            </ng-container>
             <li class="dropdown__list-item dropdown-item">
               <a class="dropdown__list-item" routerLink="/account">Keys</a>
             </li>
@@ -147,6 +155,26 @@
         </div>
 
         <button class="button button--outline button--block" type="submit">Save Settings</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #redeemKey>
+  <div class="modal modal-content">
+    <div class="modal__header">
+      <h3 class="modal__header-title">Redeem your key</h3>
+      <p *ngIf="notFound" class="modal__header-error">This key has already been used or it is not found</p>
+      <p *ngIf="alreadyRedeemed" class="modal__header-error">You already own this script.</p>
+    </div>
+    <div class="modal__body container-fluid">
+      <form class="row no-gutters" [formGroup]="redeemKeysForm" (ngSubmit)="redeemResellerKey()">
+        <div class="form-group col-12">
+          <label class="form-control-label" for="key">Key</label>
+          <input class="form-control" id="key" formControlName="key" type="text">
+        </div>
+
+        <button class="button button--outline button--block" type="submit">Redeem Key</button>
       </form>
     </div>
   </div>

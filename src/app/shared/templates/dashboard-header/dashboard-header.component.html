@@ -53,6 +53,11 @@
       </div>
       <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
         <ul class="dropdown__list">
+          <ng-container *ngFor="let role of userDetails.role">
+            <li *ngIf="role == 'reseller'" class="dropdown__list-item dropdown-item">
+              <a class="dropdown__list-item" routerLink="/reseller-keys">Reseller Keys</a>
+            </li>
+          </ng-container>
           <li class="dropdown__list-item dropdown-item">
             <a class="dropdown__list-item" routerLink="/account">Keys</a>
           </li>

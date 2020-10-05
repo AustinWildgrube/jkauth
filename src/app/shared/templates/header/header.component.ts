@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -11,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { ScriptService } from '../../services/script.service';
 import { UserService } from '../../services/user.service';
+import { ResellerService } from '../../services/reseller.service';
 
 import Swal from 'sweetalert2';
 
@@ -24,6 +26,7 @@ export class HeaderComponent implements OnInit {
   cartInventory: Script[];
   settingsForm: FormGroup;
   hanbotFormData: FormData;
+  redeemKeysForm: FormGroup;
 
   username: string;
   cartTotal: number;
@@ -32,12 +35,14 @@ export class HeaderComponent implements OnInit {
   cart: boolean;
   account: boolean;
   mobileMenu: boolean;
+  notFound: boolean;
+  alreadyRedeemed: boolean;
   idInputEmpty: boolean;
   isUser: boolean;
 
-  constructor(private formBuilder: FormBuilder, private modalService: NgbModal, private authService: AuthService,
-              private cartService: CartService, private scriptService: ScriptService,
-              private userService: UserService) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private modalService: NgbModal,
+              private authService: AuthService, private cartService: CartService, private scriptService: ScriptService,
+              private userService: UserService, private resellerService: ResellerService) { }
 
   ngOnInit() {
     this.cartInventory = [];
@@ -47,10 +52,16 @@ export class HeaderComponent implements OnInit {
     this.cart = false;
     this.account = false;
     this.mobileMenu = false;
+    this.notFound = false;
+    this.alreadyRedeemed = false;
     this.isUser = true;
 
     this.settingsForm = this.formBuilder.group({
       hanbotId: [null, [Validators.required, Validators.minLength(1)]],
+    });
+
+    this.redeemKeysForm = this.formBuilder.group({
+      key: [null, [Validators.required, Validators.minLength(1)]],
     });
 
     if (this.authService.userValue != null) {
@@ -70,6 +81,9 @@ export class HeaderComponent implements OnInit {
 
   public openModal(content: TemplateRef<any>): void {
     this.idInputEmpty = false;
+    this.notFound = false;
+    this.alreadyRedeemed = false;
+    this.redeemKeysForm.reset();
 
     this.modalService.open(content, { centered: true });
   }
@@ -129,6 +143,30 @@ export class HeaderComponent implements OnInit {
     } else {
       this.idInputEmpty = true;
     }
+  }
+
+  public redeemResellerKey(): void {
+    this.resellerService.redeemResellerKey(this.redeemKeysForm.get('key').value).pipe(untilDestroyed(this)).subscribe(
+      () => {
+      Swal.fire({
+        title: 'Success!',
+        html: 'Your key has been activated!',
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        icon: 'success'
+      }).then(() => {
+        this.closeModal();
+        this.router.navigate(['/account']);
+      });
+    },
+    error => {
+      if (error.status === 404) {
+        this.notFound = true;
+      } else if (error.status === 409) {
+        this.alreadyRedeemed = true;
+      }
+    });
   }
 
   private getOwnDetails(): void {

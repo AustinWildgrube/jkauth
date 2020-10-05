@@ -10,4 +10,5 @@ export class Script {
     name?: string;
     amount?: number;
     uuid?: string;
+    is_amber?: boolean;
 }
