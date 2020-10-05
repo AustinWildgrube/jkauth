@@ -7,7 +7,8 @@ import { UserService } from '../../shared/services/user.service';
 import { Auths } from '../../shared/models/auths';
 import { AdminUser } from '../../shared/models/admin-user';
 import { UserPayments } from '../../shared/models/user-payments';
-import Swal from "sweetalert2";
+
+import Swal from 'sweetalert2';
 
 @UntilDestroy()
 @Component({
@@ -31,7 +32,8 @@ export class AccountComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.currentDate = new Date().toISOString();
+    this.currentDate = new Date().toISOString().replace('Z', '')
+        .replace('T', ' ');
 
     this.getSelfDetails();
     this.getSelfPurchases();

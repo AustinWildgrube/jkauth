@@ -44,10 +44,10 @@
               </td>
               <td class="table-data">
                 <span *ngIf="auth.expires_at < currentDate">
-                  <span class="badge badge--danger">Active</span>
+                  <span class="badge badge--danger">Expired</span>
                 </span>
                 <span *ngIf="auth.expires_at > currentDate">
-                  <span class="badge badge--danger">Expired</span>
+                  <span class="badge badge--active">Active</span>
                 </span>
               </td>
             </tr>
