@@ -7,54 +7,96 @@
   </div>
 
   <div class="store__products">
-    <div *ngFor="let script of newScriptsList | filter: searchTerm; let i = index" class="store__product"
-         (mouseover)="productHover(i, true)" (mouseout)="productHover(i, false)">
-
-      <ngx-skeleton-loader *ngIf="!isLoaded" appearance="circle" [theme]="{width: '211.667px', height: '200px',
-                                                                  'border-radius': '3px', 'margin': '0'}">
-      </ngx-skeleton-loader>
-
-      <img *ngIf="script.image && isLoaded" class="store__product-image" (click)="holdScriptToAdd(script);
-            openModal(productInfo)" [src]="script.image" [alt]="script.sname + ' Product Image'">
-      <span *ngIf="!script.image && isLoaded" class="store__product-image" (click)="holdScriptToAdd(script);
-            openModal(productInfo)"></span>
-
-      <div class="store__product-details">
-        <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '187px', height: '18px', 'margin': '0'}">
+    <ng-container *ngFor="let script of newScriptsList | filter: searchTerm; let i = index">
+      <div *ngIf="isAuthenticated" class="store__product" (mouseover)="productHover(i, true)"
+           (mouseout)="productHover(i, false)">
+        <ngx-skeleton-loader *ngIf="!isLoaded" appearance="circle" [theme]="{width: '211.667px', height: '200px',
+                                                                    'border-radius': '3px', 'margin': '0'}">
         </ngx-skeleton-loader>
 
-        <h3 *ngIf="isLoaded" class="store__product-name" (click)="holdScriptToAdd(script);
-            openModal(productInfo)">{{ script.sname }}</h3>
+        <img *ngIf="script.image && isLoaded" class="store__product-image" (click)="holdScriptToAdd(script);
+              openModal(productInfo)" [src]="script.image" [alt]="script.sname + ' Product Image'">
+        <span *ngIf="!script.image && isLoaded" class="store__product-image" (click)="holdScriptToAdd(script);
+              openModal(productInfo)"></span>
 
-        <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '100px', height: '18px', 'margin': '0'}">
-        </ngx-skeleton-loader>
+        <div class="store__product-details">
+          <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '187px', height: '18px', 'margin': '0'}">
+          </ngx-skeleton-loader>
 
-        <span *ngIf="isLoaded" class="store__product-author" (click)="holdScriptToAdd(script);
-            openModal(productInfo)">
-          <ng-container *ngIf="script.name !== 'Dalenka'">
-            {{ script.name }}
-          </ng-container>
-          <ng-container *ngIf="script.name === 'Dalenka'">
-            MrImpressive
-          </ng-container>
-        </span>
+          <h3 *ngIf="isLoaded" class="store__product-name" (click)="holdScriptToAdd(script);
+              openModal(productInfo)">{{ script.sname }}</h3>
 
-        <span *ngIf="!isAuthenticated && isLoaded" class="store__product-price">
-          {{ script.price_eur | currency: 'EUR' }}
-        </span>
-        <span *ngIf="isAuthenticated && isLoaded && (!isHovered || isHovered && hoveredIndex !== i)"
-              class="store__product-price">
-          {{ script.price_eur | currency: 'EUR' }}
-        </span>
-        <span *ngIf="isAuthenticated && isLoaded && (isHovered && hoveredIndex === i)" class="index__product-cart"
-              (click)="holdScriptToAdd(script); addToCart(false)">
-          Add to cart
-        </span>
+          <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '100px', height: '18px', 'margin': '0'}">
+          </ngx-skeleton-loader>
 
-        <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '75px', height: '18px', 'margin': '0'}">
-        </ngx-skeleton-loader>
+          <span *ngIf="isLoaded" class="store__product-author" (click)="holdScriptToAdd(script);
+              openModal(productInfo)">
+            <ng-container *ngIf="script.name !== 'Dalenka'">
+              {{ script.name }}
+            </ng-container>
+            <ng-container *ngIf="script.name === 'Dalenka'">
+              MrImpressive
+            </ng-container>
+          </span>
+
+          <span *ngIf="!isAuthenticated && isLoaded" class="store__product-price">
+            {{ script.price_eur | currency: 'EUR' }}
+          </span>
+          <span *ngIf="isAuthenticated && isLoaded && (!isHovered || isHovered && hoveredIndex !== i)"
+                class="store__product-price">
+            {{ script.price_eur | currency: 'EUR' }}
+          </span>
+          <span *ngIf="isAuthenticated && isLoaded && (isHovered && hoveredIndex === i)" class="index__product-cart"
+                (click)="holdScriptToAdd(script); addToCart(false)">
+            Add to cart
+          </span>
+
+          <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '75px', height: '18px', 'margin': '0'}">
+          </ngx-skeleton-loader>
+        </div>
       </div>
-    </div>
+
+      <div *ngIf="!isAuthenticated" class="store__product" (mouseover)="productHover(i, true)"
+           (mouseout)="productHover(i, false)">
+        <ngx-skeleton-loader *ngIf="!isLoaded" appearance="circle" [theme]="{width: '211.667px', height: '200px',
+                                                                    'border-radius': '3px', 'margin': '0'}">
+        </ngx-skeleton-loader>
+
+        <img *ngIf="script.image && isLoaded" class="store__product-image" (click)="loginPrompt()"
+             [src]="script.image" [alt]="script.sname + ' Product Image'">
+        <span *ngIf="!script.image && isLoaded" class="store__product-image" (click)="loginPrompt()"></span>
+
+        <div class="store__product-details">
+          <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '187px', height: '18px', 'margin': '0'}">
+          </ngx-skeleton-loader>
+
+          <h3 *ngIf="isLoaded" class="store__product-name" (click)="loginPrompt()">{{ script.sname }}</h3>
+
+          <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '100px', height: '18px', 'margin': '0'}">
+          </ngx-skeleton-loader>
+
+          <span *ngIf="isLoaded" class="store__product-author" (click)="loginPrompt()">
+            <ng-container *ngIf="script.name !== 'Dalenka'">
+              {{ script.name }}
+            </ng-container>
+            <ng-container *ngIf="script.name === 'Dalenka'">
+              MrImpressive
+            </ng-container>
+          </span>
+
+          <span *ngIf="!isAuthenticated && isLoaded" class="store__product-price">
+            {{ script.price_eur | currency: 'EUR' }}
+          </span>
+          <span *ngIf="isAuthenticated && isLoaded && (!isHovered || isHovered && hoveredIndex !== i)"
+                class="store__product-price">
+            {{ script.price_eur | currency: 'EUR' }}
+          </span>
+
+          <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '75px', height: '18px', 'margin': '0'}">
+          </ngx-skeleton-loader>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
 

@@ -1,14 +1,16 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Script } from '../../shared/models/script';
-
 import { ScriptService } from '../../shared/services/script.service';
 import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
+
+import Swal from 'sweetalert2';
 
 @UntilDestroy()
 @Component({
@@ -26,8 +28,9 @@ export class IndexComponent implements OnInit {
   isAuthenticated: boolean;
   isLoaded: boolean;
 
-  constructor(private formBuilder: FormBuilder, private modalService: NgbModal, private scriptService: ScriptService,
-              private cartService: CartService, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal,
+              private scriptService: ScriptService, private cartService: CartService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.isLoaded = false;
@@ -75,6 +78,19 @@ export class IndexComponent implements OnInit {
 
   public holdScriptToAdd(script: Script) {
     this.scriptToAdd = script;
+  }
+
+  public loginPrompt(): void {
+    Swal.fire({
+      title: 'Please Login First',
+      text: 'You must be logged in to purchase a product',
+      showCancelButton: true,
+      confirmButtonText: 'Login!'
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigate(['/authentication/login']);
+      }
+    });
   }
 
   private getNewScripts(): void {
