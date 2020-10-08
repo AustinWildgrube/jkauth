@@ -50,8 +50,32 @@
               <img *ngIf="cartItem.image" class="dropdown__cart-list-item-image" [src]="cartItem.image" alt="Product Image">
               <span *ngIf="!cartItem.image" class="dropdown__cart-list-item-image"></span>
               <div class="dropdown__cart-list-item-details">
-                <span class="dropdown__cart-list-item-name">{{ cartItem.sname }}</span>
-                <span class="dropdown__cart-list-item-price">{{ cartItem.price_eur | currency: 'EUR' }}</span>
+                <span class="dropdown__cart-list-item-name">{{ cartItem.sname }} |
+                  <ng-container *ngIf="cartItem.purchaseLength === 1">
+                    Day
+                  </ng-container>
+                  <ng-container *ngIf="cartItem.purchaseLength === 7">
+                    Week
+                  </ng-container>
+                  <ng-container *ngIf="cartItem.purchaseLength === 31">
+                    Month
+                  </ng-container>
+                  <ng-container *ngIf="cartItem.purchaseLength === -1">
+                    Lifetime
+                  </ng-container>
+                </span>
+                <ng-container *ngIf="cartItem.purchaseLength === 1">
+                  <span class="dropdown__cart-list-item-price">{{ cartItem.price_1_day | currency: 'EUR' }}</span>
+                </ng-container>
+                <ng-container *ngIf="cartItem.purchaseLength === 7">
+                  <span class="dropdown__cart-list-item-price">{{ cartItem.price_1_week | currency: 'EUR' }}</span>
+                </ng-container>
+                <ng-container *ngIf="cartItem.purchaseLength === 31">
+                  <span class="dropdown__cart-list-item-price">{{ cartItem.price_1_month | currency: 'EUR' }}</span>
+                </ng-container>
+                <ng-container *ngIf="cartItem.purchaseLength === -1">
+                  <span class="dropdown__cart-list-item-price">{{ cartItem.price_eur | currency: 'EUR' }}</span>
+                </ng-container>
               </div>
               <i class="dropdown__cart-list-item-delete gg-close" (click)="deleteFomCart(cartItem)"></i>
             </li>

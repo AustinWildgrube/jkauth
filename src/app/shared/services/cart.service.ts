@@ -111,7 +111,27 @@ export class CartService {
         map(items => {
           let total = 0;
           for (const i of items) {
-            total += i.price_eur * i.amount;
+            switch (i.purchaseLength) {
+              case 1: {
+                total += i.price_1_day * i.amount;
+                break;
+              }
+              case 7: {
+                total += i.price_1_week * i.amount;
+                break;
+              }
+              case 31: {
+                total += i.price_1_month * i.amount;
+                break;
+              }
+              case -1: {
+                total += i.price_eur * i.amount;
+                break;
+              }
+              default: {
+                break;
+              }
+            }
           }
           return total;
         })

@@ -66,17 +66,23 @@ export class DevScriptsComponent implements OnInit {
 
     this.addScriptForm = this.formBuilder.group({
       name: [null, [Validators.required]],
-      price: [null, [Validators.required]],
-      trialTime: [null, [Validators.required]],
+      priceDay: [null],
+      priceWeek: [null],
+      priceMonth: [null],
+      priceLife: [null],
+      trialTime: [null],
       shard: [null],
-      image: [null],
+      image: [null, [Validators.required]],
       description: [null]
     });
 
     this.editScriptForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       editName: [null],
-      editPrice: [null],
+      editPriceDay: [null],
+      editPriceWeek: [null],
+      editPriceMonth: [null],
+      editPriceLife: [null],
       editTrialTime: [null],
       editImage: [null],
       editShard: [null],
@@ -113,8 +119,26 @@ export class DevScriptsComponent implements OnInit {
 
     this.addScriptFormData = new FormData();
     this.addScriptFormData.append('sname', this.addScriptForm.get('name').value);
-    this.addScriptFormData.append('price_eur', this.addScriptForm.get('price').value);
     this.addScriptFormData.append('image', this.addScriptForm.get('image').value);
+
+    if (this.addScriptForm.get('priceDay').value) {
+      this.addScriptFormData.append('price_1_day', this.addScriptForm.get('priceDay').value);
+    }
+
+    if (this.addScriptForm.get('priceWeek').value) {
+      this.addScriptFormData.append('price_1_week', this.addScriptForm.get('priceWeek').value);
+    }
+
+    if (this.addScriptForm.get('priceMonth').value) {
+      this.addScriptFormData.append('price_1_month', this.addScriptForm.get('priceMonth').value);
+    }
+
+    if (this.addScriptForm.get('priceLife').value) {
+      this.addScriptFormData.append('price_eur', this.addScriptForm.get('priceLife').value);
+    } else if (this.addScriptForm.get('priceDay').value || this.addScriptForm.get('priceWeek').value ||
+               this.addScriptForm.get('priceMonth').value) {
+      this.addScriptFormData.append('price_eur', '9999999');
+    }
 
     if (this.addScriptForm.get('shard').value) {
       this.addScriptFormData.append('lua', this.addScriptForm.get('shard').value);
@@ -163,8 +187,20 @@ export class DevScriptsComponent implements OnInit {
       this.editScriptFormData.append('sname_new', this.editScriptForm.get('editName').value);
     }
 
-    if (this.editScriptForm.get('editPrice').value) {
-      this.editScriptFormData.append('price_eur', this.editScriptForm.get('editPrice').value);
+    if (this.editScriptForm.get('editPriceDay').value) {
+      this.editScriptFormData.append('price_1_day', this.editScriptForm.get('editPriceDay').value);
+    }
+
+    if (this.editScriptForm.get('editPriceWeek').value) {
+      this.editScriptFormData.append('price_1_week', this.editScriptForm.get('editPriceWeek').value);
+    }
+
+    if (this.editScriptForm.get('editPriceMonth').value) {
+      this.editScriptFormData.append('price_1_month', this.editScriptForm.get('editPriceMonth').value);
+    }
+
+    if (this.editScriptForm.get('editPriceLife').value) {
+      this.editScriptFormData.append('price_eur', this.editScriptForm.get('editPriceLife').value);
     }
 
     if (this.editScriptForm.get('editImage').value) {

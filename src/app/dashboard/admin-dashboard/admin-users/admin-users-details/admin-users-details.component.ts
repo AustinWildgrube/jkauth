@@ -35,6 +35,7 @@ export class AdminUsersDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.selectedUserId = this.adminService.getSelectedUserId;
+    this.userPaymentsListLength = 0;
 
     this.activatedRouter.queryParams.pipe(untilDestroyed(this)).subscribe(response => {
       this.userId = response['user_id'];
@@ -139,16 +140,19 @@ export class AdminUsersDetailsComponent implements OnInit {
   private getUserPayments(userId: number): void {
     this.adminService.getUserPurchases(userId).pipe(untilDestroyed(this)).subscribe(response => {
       this.userPaymentsList = response;
-      this.userPaymentsListLength = this.userPaymentsList.length;
+
+      for (const paymentLength of this.userPaymentsList) {
+        if (paymentLength.current_status === 'COMPLETED') {
+          this.userPaymentsListLength++;
+        }
+      }
 
       this.totalUsedSpent = 0;
-      this.userPaymentsList.forEach((payment, index) => {
-        this.scriptService.getScriptDetails(payment.script_id).pipe(untilDestroyed(this)).subscribe(responseTwo => {
-          payment.sname = responseTwo[index].sname;
-        });
-
-        this.totalUsedSpent += payment['funds_received_usd'];
-      });
+      for (const payment of this.userPaymentsList) {
+        if (payment.current_status === 'COMPLETED') {
+          this.totalUsedSpent += payment['euro'];
+        }
+      }
     });
   }
 

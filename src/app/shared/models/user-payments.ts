@@ -1,10 +1,14 @@
 export class UserPayments {
-    id: number;
-    user_id: number;
-    script_id: number;
-    funds_received_usd: number;
+    amount: number;
     current_status: string;
-    coinpayments_raw_status: number;
+    duration: number;
+    id: number;
+    euro: number;
     last_update: Date;
+    pp_id: string;
+    ref_id: string;
+    script_id: number;
+    user_id: number;
+    coinpayments_raw_status: number;
     sname?: string;
 }

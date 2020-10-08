@@ -93,7 +93,8 @@
   border-right: 1px solid color(theme, secondary);
   padding: 0 12px;
   text-align: center;
-  width: 33%;
+  //width: 33%;
+  width: 50%;
 
   @media #{$mobile-lg} {
     border-right: none;

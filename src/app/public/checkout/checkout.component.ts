@@ -1,8 +1,9 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AdminUser } from '../../shared/models/admin-user';
 import { PurchaseProduct } from '../../shared/models/purchase-product';
@@ -14,10 +15,8 @@ import { CoinpaymentService } from '../../shared/services/coinpayment.service';
 import { UserService } from '../../shared/services/user.service';
 
 import { CartItem } from '../../shared/models/cart-item';
-import { Script } from '../../shared/models/script';
 
 import Swal from 'sweetalert2';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @UntilDestroy()
 @Component({
@@ -77,7 +76,8 @@ export class CheckoutComponent implements OnInit {
       this.cartInventory.forEach(responseTwo => {
         this.purchaseCartInventory.push({
           product: responseTwo.id,
-          amount: responseTwo.amount
+          amount: responseTwo.amount,
+          duration: responseTwo.purchaseLength
         });
 
         // TODO: Change Aurorabot id to non-hard coded value
@@ -88,7 +88,7 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  public deleteProduct(product: Script): void {
+  public deleteProduct(product: CartItem): void {
     this.cartService.removeCartItem(product);
   }
 

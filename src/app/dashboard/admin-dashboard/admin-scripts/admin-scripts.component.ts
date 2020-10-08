@@ -1,9 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { ScriptService } from '../../../shared/services/script.service';
@@ -12,6 +11,7 @@ import { Script } from '../../../shared/models/script';
 import { ScriptData } from '../../../shared/models/script-data';
 
 import { SlugifyPipe } from '../../../shared/pipes/slugify.pipe';
+
 import Swal from 'sweetalert2';
 
 @UntilDestroy()
@@ -42,7 +42,10 @@ export class AdminScriptsComponent implements OnInit {
     this.editScriptForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       editName: [null],
-      editPrice: [null],
+      editPriceDay: [null],
+      editPriceWeek: [null],
+      editPriceMonth: [null],
+      editPriceLife: [null],
       editTrialTime: [null],
       editImage: [null],
       editShard: [null],
@@ -80,12 +83,27 @@ export class AdminScriptsComponent implements OnInit {
     this.editScriptFormData = new FormData();
     this.editScriptFormData.append('sname', this.editScriptName);
 
-    if (this.editScriptForm.get('editName').value) {
-      this.editScriptFormData.append('sname_new', this.editScriptForm.get('editName').value);
+    if (this.editScriptForm.get('editPriceDay').value) {
+      this.editScriptFormData.append('price_1_day', this.editScriptForm.get('editPriceDay').value);
     }
 
-    if (this.editScriptForm.get('editPrice').value) {
-      this.editScriptFormData.append('price_eur', this.editScriptForm.get('editPrice').value);
+    if (this.editScriptForm.get('editPriceWeek').value) {
+      this.editScriptFormData.append('price_1_week', this.editScriptForm.get('editPriceWeek').value);
+    }
+
+    if (this.editScriptForm.get('editPriceMonth').value) {
+      this.editScriptFormData.append('price_1_month', this.editScriptForm.get('editPriceMonth').value);
+    }
+
+    if (this.editScriptForm.get('editPriceLife').value) {
+      this.editScriptFormData.append('price_eur', this.editScriptForm.get('editPriceLife').value);
+    } else if (this.editScriptForm.get('editPriceDay').value || this.editScriptForm.get('editPriceWeek').value ||
+        this.editScriptForm.get('editPriceMonth').value) {
+      this.editScriptFormData.append('price_eur', '9999999');
+    }
+
+    if (this.editScriptForm.get('editName').value) {
+      this.editScriptFormData.append('sname_new', this.editScriptForm.get('editName').value);
     }
 
     if (this.editScriptForm.get('editImage').value) {
@@ -182,7 +200,6 @@ export class AdminScriptsComponent implements OnInit {
 
       this.allScripts.forEach((result, index) => {
         this.scriptService.getScriptUsers(result.id).pipe(untilDestroyed(this)).subscribe(responseTwo => {
-
           responseTwo.forEach(responseThree => {
             if (new Date(responseThree.expires_at) >= new Date()) {
               this.activeUsers += 1;

@@ -55,17 +55,22 @@
                 {{ userPayments.id }}
               </td>
               <td class="table-data">
-                {{ userPayments.sname }}
+                {{ userPayments.script_id }}
               </td>
               <td class="table-data">
-                {{ userPayments.funds_received_usd | currency: 'EUR' }}
+                <ng-container *ngIf="userPayments.current_status !== 'COMPLETED'">
+                  None
+                </ng-container>
+                <ng-container *ngIf="userPayments.current_status === 'COMPLETED'">
+                  {{ userPayments.euro | currency: 'EUR' }}
+                </ng-container>
               </td>
               <td class="table-data">
                 {{ userPayments.last_update | date: 'medium' }}
               </td>
               <td class="table-data">
-                <span *ngIf="userPayments.current_status !== 'Complete'" class="badge badge--danger">Incomplete</span>
-                <span *ngIf="userPayments.current_status === 'Complete'" class="badge badge--success">Complete</span>
+                <span *ngIf="userPayments.current_status === 'CREATED'" class="badge badge--danger">Incomplete</span>
+                <span *ngIf="userPayments.current_status === 'COMPLETED'" class="badge badge--success">Complete</span>
               </td>
             </tr>
           </ng-container>
@@ -120,7 +125,10 @@
             <tr class="table-row">
               <th class="table-head">Name</th>
               <th class="table-head">Trial Time</th>
-              <th class="table-head">Price</th>
+              <th class="table-head">Price Day</th>
+              <th class="table-head">Price Week</th>
+              <th class="table-head">Price Month</th>
+              <th class="table-head">Price Lifetime</th>
             </tr>
             </thead>
             <tbody class="table-body">
@@ -133,12 +141,21 @@
                   {{ script.trial_time }}
                 </td>
                 <td class="table-data">
+                  {{ script.price_1_day | currency: 'EUR' }}
+                </td>
+                <td class="table-data">
+                  {{ script.price_1_week | currency: 'EUR' }}
+                </td>
+                <td class="table-data">
+                  {{ script.price_1_month | currency: 'EUR' }}
+                </td>
+                <td class="table-data">
                   {{ script.price_eur | currency: 'EUR' }}
                 </td>
               </tr>
             </ng-container>
             <tr *ngIf="userScriptsList && userScriptsList.length === 0" class="table-row">
-              <td class="table-data table-data--text-center" colspan="3">No Scripts Developed</td>
+              <td class="table-data table-data--text-center" colspan="6">No Scripts Developed</td>
             </tr>
             </tbody>
           </table>

@@ -10,9 +10,38 @@
 
         <div class="checkout__cart-item-info">
           <div class="checkout__cart-item-info-top">
-            <span class="checkout__cart-item-info-name">{{ cartItem.sname }}</span>
+            <span class="checkout__cart-item-info-name">{{ cartItem.sname }} |
+              <ng-container *ngIf="cartItem.purchaseLength === 1">
+                Day
+              </ng-container>
+              <ng-container *ngIf="cartItem.purchaseLength === 7">
+                Week
+              </ng-container>
+              <ng-container *ngIf="cartItem.purchaseLength === 31">
+                Month
+              </ng-container>
+              <ng-container *ngIf="cartItem.purchaseLength === -1">
+                Lifetime
+              </ng-container>
+            </span>
             <span class="checkout__cart-item-info-price">
-              {{ cartItem.amount }} x {{ cartItem.price_eur | currency: 'EUR' }}
+              {{ cartItem.amount }} x
+
+              <ng-container *ngIf="cartItem.purchaseLength === 1">
+                {{ cartItem.price_1_day | currency: 'EUR' }}
+              </ng-container>
+
+              <ng-container *ngIf="cartItem.purchaseLength === 7">
+                {{ cartItem.price_1_week | currency: 'EUR' }}
+              </ng-container>
+
+              <ng-container *ngIf="cartItem.purchaseLength === 31">
+                {{ cartItem.price_1_month | currency: 'EUR' }}
+              </ng-container>
+
+              <ng-container *ngIf="cartItem.purchaseLength === -1">
+                {{ cartItem.price_eur | currency: 'EUR' }}
+              </ng-container>
             </span>
           </div>
 

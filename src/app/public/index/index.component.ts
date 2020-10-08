@@ -24,6 +24,7 @@ export class IndexComponent implements OnInit {
 
   hoveredIndex: number;
   negative: boolean;
+  noKeyLengthSelected: boolean;
   isHovered: boolean;
   isAuthenticated: boolean;
   isLoaded: boolean;
@@ -33,6 +34,7 @@ export class IndexComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit() {
+    this.noKeyLengthSelected = false;
     this.isLoaded = false;
     this.isHovered = false;
     this.negative = false;
@@ -40,6 +42,7 @@ export class IndexComponent implements OnInit {
 
     this.keyForm = this.formBuilder.group({
       keyAmount: [null, [Validators.required, Validators.minLength(1)]],
+      keyLength: [null, [Validators.required]]
     });
 
     this.getNewScripts();
@@ -63,13 +66,26 @@ export class IndexComponent implements OnInit {
   public addToCart(isBulk: boolean): void {
     if (isBulk) {
       this.scriptToAdd.amount = this.keyForm.get('keyAmount').value;
+      this.scriptToAdd.purchaseLength = +this.keyForm.get('keyLength').value;
     } else {
       this.scriptToAdd.amount = 1;
+
+      if (this.scriptToAdd.price_1_day !== -1) {
+        this.scriptToAdd.purchaseLength = 1;
+      } else if (this.scriptToAdd.price_1_week !== -1) {
+        this.scriptToAdd.purchaseLength = 7;
+      } else if (this.scriptToAdd.price_1_month !== -1) {
+        this.scriptToAdd.purchaseLength = 31;
+      } else if (this.scriptToAdd.price_eur !== 9999999) {
+        this.scriptToAdd.purchaseLength = -1;
+      }
     }
 
-    if (this.scriptToAdd.amount > 0) {
+    if (this.scriptToAdd.amount > 0 && this.scriptToAdd.purchaseLength !== 0) {
       this.closeModal();
       this.cartService.addCartItem(this.scriptToAdd);
+    } else if (this.scriptToAdd.purchaseLength === 0) {
+      this.noKeyLengthSelected = true;
     } else {
       this.negative = true;
       this.scriptToAdd.amount = 0;

@@ -14,8 +14,9 @@
   <h2 class="index__product-section-title">Newest Products</h2>
   <div class="index__products">
     <ng-container *ngFor="let script of newScriptsList; let i = index">
-      <div *ngIf="isAuthenticated" class="index__product" (mouseover)="productHover(i, true)"
-           (mouseout)="productHover(i, false)">
+      <div *ngIf="isAuthenticated" class="index__product"
+           (mouseover)="script.price_eur !== -1 && script.price_eur !== 0 ? productHover(i, true): ''"
+           (mouseout)="script.price_eur !== -1 && script.price_eur !== 0 ? productHover(i, false) : ''">
         <ngx-skeleton-loader *ngIf="!isLoaded" appearance="circle" [theme]="{width: '211.667px', height: '200px',
                                                                     'border-radius': '3px', 'margin': '0'}">
         </ngx-skeleton-loader>
@@ -45,14 +46,26 @@
             </ng-container>
           </span>
 
-          <span *ngIf="!isAuthenticated && isLoaded" class="index__product-price" (click)="holdScriptToAdd(script);
-                openModal(productInfo)">
-            {{ script.price_eur | currency: 'EUR' }}
+          <span *ngIf="isLoaded && (!isHovered || isHovered && hoveredIndex !== i)" class="index__product-price">
+            <ng-container *ngIf="script.price_1_day !== -1">
+              {{ script.price_1_day | currency: 'EUR' }} / Day
+            </ng-container>
+            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week !== -1">
+              {{ script.price_1_week | currency: 'EUR' }} / Week
+            </ng-container>
+            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week === -1 && script.price_1_month !== -1">
+              {{ script.price_1_month | currency: 'EUR' }} / Month
+            </ng-container>
+            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week === -1 && script.price_1_month === -1
+                                 && script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
+              {{ script.price_eur | currency: 'EUR' }} / Lifetime
+            </ng-container>
+            <ng-container *ngIf="script.price_eur === -1 || script.price_eur === 0">
+              Free
+            </ng-container>
           </span>
-          <span *ngIf="isAuthenticated && isLoaded && (!isHovered || isHovered && hoveredIndex !== i)" class="index__product-price">
-            {{ script.price_eur | currency: 'EUR' }}
-          </span>
-          <span *ngIf="isAuthenticated && isLoaded && (isHovered && hoveredIndex === i)" class="index__product-cart"
+
+          <span *ngIf="isLoaded && (isHovered && hoveredIndex === i)" class="index__product-cart"
                 (click)="holdScriptToAdd(script); addToCart(false)">
             Add to cart
           </span>
@@ -62,8 +75,7 @@
         </div>
       </div>
 
-      <div *ngIf="!isAuthenticated" class="index__product" (mouseover)="productHover(i, true)"
-           (mouseout)="productHover(i, false)">
+      <div *ngIf="!isAuthenticated" class="index__product">
         <ngx-skeleton-loader *ngIf="!isLoaded" appearance="circle" [theme]="{width: '211.667px', height: '200px',
                                                                     'border-radius': '3px', 'margin': '0'}">
         </ngx-skeleton-loader>
@@ -90,7 +102,22 @@
           </span>
 
           <span *ngIf="!isAuthenticated && isLoaded" class="index__product-price" (click)="loginPrompt()">
-            {{ script.price_eur | currency: 'EUR' }}
+            <ng-container *ngIf="script.price_1_day !== -1">
+              {{ script.price_1_day | currency: 'EUR' }} / Day
+            </ng-container>
+            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week !== -1">
+              {{ script.price_1_week | currency: 'EUR' }} / Week
+            </ng-container>
+            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week === -1 && script.price_1_month !== -1">
+              {{ script.price_1_month | currency: 'EUR' }} / Month
+            </ng-container>
+            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week === -1 && script.price_1_month === -1
+                                 && script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
+              {{ script.price_eur | currency: 'EUR' }} / Lifetime
+            </ng-container>
+            <ng-container *ngIf="script.price_eur === -1 || script.price_eur === 0">
+              Free
+            </ng-container>
           </span>
 
           <ngx-skeleton-loader *ngIf="!isLoaded" [theme]="{width: '75px', height: '18px', 'margin': '0'}">
@@ -105,16 +132,50 @@
   <div class="modal modal-content">
     <div class="modal__header modal__header--align-left">
       <h3 class="modal__header-title">{{ scriptToAdd.sname }}</h3>
-      <h3 class="modal__header-price">{{ scriptToAdd.price_eur | currency: 'EUR' }}</h3>
+      <span *ngIf="this.noKeyLengthSelected" class="modal__header-error">Please select key length</span>
+      <ng-container *ngIf="scriptToAdd.price_1_day != -1">
+        <h3 class="modal__header-price">{{ scriptToAdd.price_1_day | currency: 'EUR' }} Day</h3>
+      </ng-container>
+      <ng-container *ngIf="scriptToAdd.price_1_week != -1">
+        <h3 class="modal__header-price">{{ scriptToAdd.price_1_week | currency: 'EUR' }} Week</h3>
+      </ng-container>
+      <ng-container *ngIf="scriptToAdd.price_1_month != -1">
+        <h3 class="modal__header-price">{{ scriptToAdd.price_1_month | currency: 'EUR' }} Month</h3>
+      </ng-container>
+      <ng-container *ngIf="scriptToAdd.price_eur != 9999999 && scriptToAdd.price_eur != -1 &&
+                           scriptToAdd.price_eur != 0">
+        <h3 class="modal__header-price">{{ scriptToAdd.price_eur | currency: 'EUR' }} Lifetime</h3>
+      </ng-container>
+      <ng-container *ngIf="scriptToAdd.price_eur === -1 || scriptToAdd.price_eur === 0">
+        <h3 class="modal__header-price">This script is not paid</h3>
+      </ng-container>
     </div>
     <div class="modal__body container-fluid">
       <p class="modal__body-text" [innerHTML]="scriptToAdd.sinfo"></p>
     </div>
 
-    <footer class="modal__footer modal__footer--actions">
+    <footer *ngIf="scriptToAdd.price_eur !== -1 && scriptToAdd.price_eur !== 0" class="modal__footer modal__footer--actions">
       <form class="row no-gutters modal__footer-form" [formGroup]="keyForm" (ngSubmit)="addToCart(true)">
         <input class="modal__footer-quantity form-control" formControlName="keyAmount" type="number" placeholder="Number of Keys"
                min="1" aria-label="Quantity">
+
+        <select class="modal__footer-quantity form-control" formControlName="keyLength" aria-label="Key Length">
+          <option value>Select A Key Length</option>
+          <ng-container *ngIf="scriptToAdd.price_1_day != -1">
+            <option value="1">Day</option>
+          </ng-container>
+          <ng-container *ngIf="scriptToAdd.price_1_week != -1">
+            <option value="7">Week</option>
+          </ng-container>
+          <ng-container *ngIf="scriptToAdd.price_1_month != -1">
+            <option value="31">Month</option>
+          </ng-container>
+          <ng-container *ngIf="scriptToAdd.price_eur != 9999999 && scriptToAdd.price_eur != -1 &&
+                           scriptToAdd.price_eur != 0">
+            <option value="-1">Lifetime</option>
+          </ng-container>
+        </select>
+
         <button class="button" type="submit">Add to Cart</button>
       </form>
     </footer>

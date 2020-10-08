@@ -27,7 +27,7 @@
             <h2 class="scripts__script-details-name">{{ script.sname }}</h2>
             <span class="scripts__script-details-price">Script ID: {{ script.id }}</span>
             <span class="scripts__script-details-price">
-              Selling Price: {{ script.price_eur | currency: 'EUR' }}
+              Trial Time {{ script.trial_time }}
             </span>
           </div>
         </div>
@@ -68,10 +68,10 @@
       </div>
       <div class="card__body scripts__body">
         <div class="scripts__script-statistics">
-          <div class="scripts__script-statistic">
-            <span *ngIf="scriptData[i]">{{ scriptData[i].totalUsd | currency: 'EUR' }}</span>
-            <small class="d-block">Total Revenue</small>
-          </div>
+<!--          <div class="scripts__script-statistic">-->
+<!--            <span *ngIf="scriptData[i]">{{ scriptData[i].totalUsd | currency: 'EUR' }}</span>-->
+<!--            <small class="d-block">Total Revenue</small>-->
+<!--          </div>-->
           <div class="scripts__script-statistic">
             <span *ngIf="scriptData[i]">{{ scriptData[i].totalUsers }}</span>
             <small class="d-block">Total Users</small>
@@ -153,19 +153,34 @@
     </div>
     <div class="modal__body container-fluid">
       <form class="row no-gutters" [formGroup]="addScriptForm" (ngSubmit)="submitScript()">
-        <div class="form-group col-12">
+        <div class="form-group col-6 pr-2">
           <label class="form-control-label" for="script-name">Script Name <span class="form-control-label--required">*</span></label>
           <input class="form-control" id="script-name" formControlName="name" type="text">
-        </div>
-
-        <div class="form-group col-6 pr-2">
-          <label class="form-control-label" for="script-price">Price (EUR) <span class="form-control-label--required">*</span></label>
-          <input class="form-control" id="script-price" formControlName="price" type="number">
         </div>
 
         <div class="form-group col-6 pl-2">
           <label class="form-control-label" for="trial-time">Trial Time (seconds)</label>
           <input class="form-control" id="trial-time" formControlName="trialTime" type="text">
+        </div>
+
+        <div class="form-group col-6 pr-2">
+          <label class="form-control-label" for="script-price-day">Price 1 Day (EUR)</label>
+          <input class="form-control" id="script-price-day" formControlName="priceDay" type="number">
+        </div>
+
+        <div class="form-group col-6 pl-2">
+          <label class="form-control-label" for="script-price-week">Price 7 Days (EUR)</label>
+          <input class="form-control" id="script-price-week" formControlName="priceWeek" type="number">
+        </div>
+
+        <div class="form-group col-6 pr-2">
+          <label class="form-control-label" for="script-price-month">Price 1 Month (EUR)</label>
+          <input class="form-control" id="script-price-month" formControlName="priceMonth" type="number">
+        </div>
+
+        <div class="form-group col-6 pl-2">
+          <label class="form-control-label" for="script-price-life">Price Life Time (EUR)</label>
+          <input class="form-control" id="script-price-life" formControlName="priceLife" type="number">
         </div>
 
         <div class="form-group col-12">
@@ -210,14 +225,29 @@
           <input class="form-control" id="edit-script-name-new" formControlName="editName" type="text">
         </div>
 
+        <div class="form-group col-12">
+          <label class="form-control-label" for="edit-trial-time">Trial Time (seconds)</label>
+          <input class="form-control" id="edit-trial-time" formControlName="editTrialTime" type="text">
+        </div>
+
         <div class="form-group col-6 pr-2">
-          <label class="form-control-label" for="edit-script-price">Price (EUR)</label>
-          <input class="form-control" id="edit-script-price" formControlName="editPrice" type="number">
+          <label class="form-control-label" for="edit-script-price-day">Price 1 Day (EUR)</label>
+          <input class="form-control" id="edit-script-price-day" formControlName="editPriceDay" type="number">
         </div>
 
         <div class="form-group col-6 pl-2">
-          <label class="form-control-label" for="edit-trial-time">Trial Time (seconds)</label>
-          <input class="form-control" id="edit-trial-time" formControlName="editTrialTime" type="text">
+          <label class="form-control-label" for="edit-script-price-week">Price 7 Days (EUR)</label>
+          <input class="form-control" id="edit-script-price-week" formControlName="editPriceWeek" type="number">
+        </div>
+
+        <div class="form-group col-6 pr-2">
+          <label class="form-control-label" for="edit-script-price-month">Price 1 Month (EUR)</label>
+          <input class="form-control" id="edit-script-price-month" formControlName="editPriceMonth" type="number">
+        </div>
+
+        <div class="form-group col-6 pl-2">
+          <label class="form-control-label" for="edit-script-price-life">Price Life Time (EUR)</label>
+          <input class="form-control" id="edit-script-price-life" formControlName="editPriceLife" type="number">
         </div>
 
         <div class="form-group col-12">
