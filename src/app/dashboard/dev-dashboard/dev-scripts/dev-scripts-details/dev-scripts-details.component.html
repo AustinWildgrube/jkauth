@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody class="table-body">
-          <ng-container *ngFor="let scriptUser of scriptUsers">
+          <ng-container *ngFor="let scriptUser of scriptUsers | paginate: { itemsPerPage: 21, currentPage: usersPage, id: 'script-users' }">
             <tr class="table-row">
               <td class="table-data table-data--dark">
                 <b>{{ scriptUser.name }}</b>
@@ -83,5 +83,6 @@
         </tbody>
       </table>
     </div>
+    <pagination-controls id="script-users" (pageChange)="usersPage = $event" [autoHide]="true"></pagination-controls>
   </div>
 </div>

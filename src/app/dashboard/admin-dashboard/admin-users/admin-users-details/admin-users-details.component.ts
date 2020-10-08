@@ -28,6 +28,9 @@ export class AdminUsersDetailsComponent implements OnInit {
   userPaymentsListLength: number;
   totalUsedSpent: number;
   selectedUserId: number;
+  userPaymentsPage: number;
+  userHwidsPage: number;
+  userScriptsPage: number;
   userId: number;
 
   constructor(private activatedRouter: ActivatedRoute, private adminService: AdminService, private userService: UserService,
@@ -36,6 +39,9 @@ export class AdminUsersDetailsComponent implements OnInit {
   ngOnInit() {
     this.selectedUserId = this.adminService.getSelectedUserId;
     this.userPaymentsListLength = 0;
+    this.userPaymentsPage = 0;
+    this.userHwidsPage = 0;
+    this.userScriptsPage = 0;
 
     this.activatedRouter.queryParams.pipe(untilDestroyed(this)).subscribe(response => {
       this.userId = response['user_id'];

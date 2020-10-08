@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody class="table-body">
-        <ng-container *ngFor="let scriptUser of scriptUsers">
+        <ng-container *ngFor="let scriptUser of scriptUsers | paginate: { itemsPerPage: 21, currentPage: usersPage, id: 'script-users' }">
           <tr class="table-row">
             <td class="table-data table-data--dark">
               <a class="table-data table-data--dark" [routerLink]="'/admin/users/' + scriptUser.name"
@@ -58,23 +58,22 @@
                 </tr>
                 </thead>
                 <tbody class="table-body">
-                <tr *ngFor="let hwid of hwidList" class="table-body">
-                  <ng-container *ngIf="showUser === scriptUser.id && hwid.user_id === showUser">
-                    <td class="table-data table-data--dark">
-                      <b> {{ hwid.hwid }} </b>
-                    </td>
-                    <td class="table-data">
-                      {{ hwid.ts }}
-                    </td>
-                  </ng-container>
+                <tr *ngFor="let hwid of specificUserHwidList | paginate: { itemsPerPage: 10, currentPage: hwidPage, id: 'user-hwids' }" class="table-body">
+                  <td class="table-data table-data--dark">
+                    <b> {{ hwid.hwid }} </b>
+                  </td>
+                  <td class="table-data">
+                    {{ hwid.ts }}
+                  </td>
                 </tr>
-                <ng-container *ngIf="hwidList.length === 0">
+                <ng-container *ngIf="specificUserHwidList.length === 0">
                   <td class="table-data" colspan="2">
                     <span> No HWIDs </span>
                   </td>
                 </ng-container>
                 </tbody>
               </table>
+              <pagination-controls id="user-hwids" (pageChange)="hwidPage = $event" [autoHide]="true"></pagination-controls>
             </td>
           </tr>
         </ng-container>
@@ -86,5 +85,6 @@
         </tbody>
       </table>
     </div>
+    <pagination-controls id="script-users" (pageChange)="usersPage = $event" [autoHide]="true"></pagination-controls>
   </div>
 </div>

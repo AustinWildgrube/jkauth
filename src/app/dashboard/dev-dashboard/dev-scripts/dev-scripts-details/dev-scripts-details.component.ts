@@ -19,12 +19,14 @@ export class DevScriptsDetailsComponent implements OnInit {
 
   currentScript: number;
   showUser: number;
+  usersPage: number;
   showHwids: boolean;
 
   constructor(private modalService: NgbModal, private scriptService: ScriptService) { }
 
   ngOnInit() {
     this.currentScript = this.scriptService.getCurrentScript;
+    this.usersPage = 0;
     this.showHwids = false;
 
     this.getScriptUsers();

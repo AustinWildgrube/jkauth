@@ -49,7 +49,7 @@
           </tr>
           </thead>
           <tbody class="table-body">
-          <ng-container *ngFor="let userPayments of userPaymentsList">
+          <ng-container *ngFor="let userPayments of userPaymentsList | paginate: { itemsPerPage: 10, currentPage: userPaymentsPage, id: 'user-payments' }">
             <tr class="table-row">
               <td class="table-data">
                 {{ userPayments.id }}
@@ -80,6 +80,7 @@
           </tbody>
         </table>
       </div>
+      <pagination-controls id="user-payments" (pageChange)="userPaymentsPage = $event" [autoHide]="true"></pagination-controls>
 
       <h2 class="user-info__tables-title">HWIDs</h2>
       <div class="user-info__table">
@@ -93,7 +94,7 @@
           </tr>
           </thead>
           <tbody class="table-body">
-          <ng-container *ngFor="let userHwid of userHwidList">
+          <ng-container *ngFor="let userHwid of userHwidList | paginate: { itemsPerPage: 10, currentPage: userHwidsPage, id: 'user-hwids' }">
             <tr class="table-row">
               <td class="table-data">
                 <b>{{ userHwid.sname }}</b>
@@ -116,6 +117,7 @@
           </tbody>
         </table>
       </div>
+      <pagination-controls id="user-hwids" (pageChange)="userHwidsPage = $event" [autoHide]="true"></pagination-controls>
 
       <ng-container *ngIf="userInfo.is_developer || userInfo.is_admin">
         <h2 class="user-info__tables-title">Scripts Developed</h2>
@@ -132,7 +134,7 @@
             </tr>
             </thead>
             <tbody class="table-body">
-            <ng-container *ngFor="let script of userScriptsList">
+            <ng-container *ngFor="let script of userScriptsList | paginate: { itemsPerPage: 10, currentPage: userScriptsPage, id: 'user-scripts' }">
               <tr class="table-row">
                 <td class="table-data">
                   <b *ngIf="script.sname">{{ script.sname }}</b>
@@ -160,6 +162,7 @@
             </tbody>
           </table>
         </div>
+        <pagination-controls id="user-scripts" (pageChange)="userScriptsPage = $event" [autoHide]="true"></pagination-controls>
       </ng-container>
     </div>
 

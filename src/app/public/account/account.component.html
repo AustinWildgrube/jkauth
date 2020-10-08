@@ -34,7 +34,7 @@
           </tr>
         </thead>
         <tbody class="table-body">
-          <ng-container *ngFor="let auth of auths">
+          <ng-container *ngFor="let auth of auths | paginate: { itemsPerPage: 21, currentPage: keysPage, id: 'keys' }">
             <tr class="table-row">
               <td class="table-data table-data--dark">
                 <b>{{ auth.script[0].sname }}</b>
@@ -58,6 +58,7 @@
         </tbody>
       </table>
     </div>
+    <pagination-controls id="keys" (pageChange)="keysPage = $event" [autoHide]="true"></pagination-controls>
 
     <h2 class="account__tables-title">Purchases</h2>
     <div class="account__table">
@@ -70,7 +71,7 @@
           </tr>
         </thead>
         <tbody class="table-body">
-          <ng-container *ngFor="let purchase of purchases">
+          <ng-container *ngFor="let purchase of purchases | paginate: { itemsPerPage: 21, currentPage: purchasesPage, id: 'purchases' }">
             <tr class="table-row">
               <td class="table-data table-data--dark">
                 <b>{{ purchase.script_id }}</b>
@@ -94,5 +95,6 @@
         </tbody>
       </table>
     </div>
+    <pagination-controls id="purchases" (pageChange)="purchasesPage = $event" [autoHide]="true"></pagination-controls>
   </div>
 </div>

@@ -22,6 +22,8 @@ export class AccountComponent implements OnInit {
 
   currentDate: string;
   username: string;
+  keysPage: number;
+  purchasesPage: number;
 
   setting = {
     element: {
@@ -32,6 +34,9 @@ export class AccountComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.keysPage = 0;
+    this.purchasesPage = 0;
+
     this.currentDate = new Date().toISOString().replace('Z', '')
         .replace('T', ' ');
 

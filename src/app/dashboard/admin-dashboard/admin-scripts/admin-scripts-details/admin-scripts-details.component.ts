@@ -15,17 +15,22 @@ import { ScriptService } from '../../../../shared/services/script.service';
 })
 export class AdminScriptsDetailsComponent implements OnInit {
   hwidList: Hwid[];
+  specificUserHwidList: Hwid[];
   scriptUsers: ScriptUsers[];
 
   currentScript: number;
-  showHwids: boolean;
   showUser: number;
+  usersPage: number;
+  hwidPage: number;
+  showHwids: boolean;
 
   constructor(private modalService: NgbModal, private scriptService: ScriptService) { }
 
   ngOnInit() {
     this.currentScript = this.scriptService.getCurrentScript;
     this.showHwids = false;
+    this.usersPage = 0;
+    this.hwidPage = 0;
 
     this.getScriptUsers();
     this.getUsersHwid();
@@ -34,6 +39,13 @@ export class AdminScriptsDetailsComponent implements OnInit {
   public openSubTable(userId: number): void {
     this.showUser = userId;
     this.showHwids = !this.showHwids;
+
+    this.specificUserHwidList = [];
+    this.hwidList.forEach(hwidObject => {
+      if (hwidObject.user_id === this.showUser) {
+        this.specificUserHwidList.push(hwidObject);
+      }
+    });
   }
 
   private getScriptUsers(): void {

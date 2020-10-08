@@ -43,7 +43,7 @@
         </tr>
         </tbody>
       </table>
-      <pagination-controls *ngIf="soldKeyCount > 10" id="first" (pageChange)="page = $event"></pagination-controls>
+      <pagination-controls id="first" (pageChange)="page = $event" [autoHide]="true"></pagination-controls>
     </div>
 
     <div class="account__tables-header">
@@ -75,7 +75,7 @@
           </tr>
         </tbody>
       </table>
-      <pagination-controls *ngIf="unsoldKeyCount > 10" id="second" (pageChange)="pageTwo = $event"></pagination-controls>
+      <pagination-controls id="second" (pageChange)="pageTwo = $event" [autoHide]="true"></pagination-controls>
     </div>
   </div>
 </div>
