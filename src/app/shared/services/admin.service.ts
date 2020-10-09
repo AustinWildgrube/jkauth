@@ -50,4 +50,8 @@ export class AdminService {
     public promoteUser(userId: number, rank: string): Observable<any> {
         return this.http.get<any>(`${environment.apiEndpoint}/user/admin/promote.php?id=` + userId + `&rank=` + rank);
     }
+
+    public getDeveloperSales(scriptId: number): Observable<UserPayments[]> {
+        return this.http.get<UserPayments[]>(`${environment.apiEndpoint}/developer/get_sales.php?script_id=` + scriptId);
+    }
 }

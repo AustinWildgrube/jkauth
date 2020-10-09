@@ -9,6 +9,7 @@ import { AdminScriptsComponent } from './admin-dashboard/admin-scripts/admin-scr
 import { AdminUsersComponent } from './admin-dashboard/admin-users/admin-users.component';
 import { AdminUsersDetailsComponent } from './admin-dashboard/admin-users/admin-users-details/admin-users-details.component';
 import { AdminScriptsDetailsComponent } from './admin-dashboard/admin-scripts/admin-scripts-details/admin-scripts-details.component';
+import { AdminScriptsSalesComponent } from './admin-dashboard/admin-scripts/admin-scripts-sales/admin-scripts-sales.component';
 
 
 const routes: Routes = [
@@ -25,12 +26,16 @@ const routes: Routes = [
                 component: AdminDashboardComponent
             },
             {
-                path: 'scripts',
-                component: AdminScriptsComponent
+                path: 'scripts/:script_name/sales',
+                component: AdminScriptsSalesComponent
             },
             {
                 path: 'scripts/:script_name',
                 component: AdminScriptsDetailsComponent
+            },
+            {
+                path: 'scripts',
+                component: AdminScriptsComponent
             },
             {
                 path: 'users',

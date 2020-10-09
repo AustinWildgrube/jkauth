@@ -282,9 +282,13 @@ export class DevScriptsComponent implements OnInit {
     });
   }
 
-  public selectCurrentScript(id: number, scriptName: string): void {
+  public selectCurrentScript(id: number, scriptName: string, users: boolean): void {
     this.scriptService.setCurrentScript = id;
-    this.router.navigate(['dashboard/scripts/' + this.slugifyPipe.transform(scriptName)]);
+    if (users) {
+      this.router.navigate(['dashboard/scripts/' + this.slugifyPipe.transform(scriptName)]);
+    } else {
+      this.router.navigate(['dashboard/scripts/' + this.slugifyPipe.transform(scriptName) + '/sales']);
+    }
   }
 
   public onSelectImage(event: any, control: string, actionType: string): void {

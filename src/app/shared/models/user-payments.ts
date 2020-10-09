@@ -11,4 +11,5 @@ export class UserPayments {
     user_id: number;
     coinpayments_raw_status: number;
     sname?: string;
+    username?: string;
 }

@@ -1,0 +1,62 @@
+<!--Done-->
+<div class="script-users">
+  <div class="script-users__header">
+    <nav aria-label="breadcrumb">
+      <h6 class="script-users__header-page-title">Script Sales</h6>
+      <ol class="breadcrumbs">
+        <li class="breadcrumb">
+          <a class="breadcrumb__link" routerLink="/admin">Admin Dashboard</a>
+        </li>
+        <li class="breadcrumb">
+          <a class="breadcrumb__link" routerLink="/admin/scripts">Scripts</a>
+        </li>
+        <li class="breadcrumb breadcrumb--active" aria-current="page">Script Sales</li>
+      </ol>
+    </nav>
+    <input class="store__filter-input form-control" [(ngModel)]="searchTerm" placeholder="Search Orders" type="text"
+           aria-label="Search Orders">
+  </div>
+
+  <div class="script-users__table">
+    <div class="account__table">
+      <table class="table table--align-center table--flush">
+        <thead class="table-header table-header--light">
+        <tr class="table-row">
+          <th class="table-head">User</th>
+          <th class="table-head">EUR Recieved</th>
+          <th class="table-head">Last Updated</th>
+          <th class="table-head">Order Status</th>
+        </tr>
+        </thead>
+        <tbody class="table-body">
+        <ng-container *ngFor="let scriptPayment of scriptPayments | paginate: { itemsPerPage: 21, currentPage: scriptPaymentsPage } | filter: searchTerm">
+          <tr class="table-row">
+            <td class="table-data table-data--dark">
+              <a class="table-data table-data--dark" [routerLink]="'/admin/users/' + scriptPayment.username"
+                 [queryParams]="{user_id: scriptPayment.user_id}" queryParamsHandling="merge">
+                <b>{{ scriptPayment.username }}</b>
+              </a>
+            </td>
+            <td class="table-data">
+              {{ scriptPayment.euro | currency: 'EUR' }}
+            </td>
+            <td class="table-data">
+              {{ scriptPayment.last_update }}
+            </td>
+            <td class="table-data">
+              <span *ngIf="scriptPayment.current_status === 'CREATED'" class="badge badge--danger">Incomplete</span>
+              <span *ngIf="scriptPayment.current_status === 'COMPLETED'" class="badge badge--success">Complete</span>
+            </td>
+          </tr>
+        </ng-container>
+        <tr *ngIf="scriptPayments && scriptPayments.length === 0">
+          <td class="table-data" colspan="4">
+            <span> No Sales Yet </span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <pagination-controls (pageChange)="scriptPaymentsPage = $event" [autoHide]="true"></pagination-controls>
+  </div>
+</div>

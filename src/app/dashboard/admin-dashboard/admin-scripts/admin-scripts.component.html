@@ -33,8 +33,12 @@
           <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
             <ul class="dropdown__list">
               <li class="dropdown__list-item dropdown-item">
-                <a class="dropdown__list-item" (click)="selectCurrentScript(script.id, script.sname)" [routerLink]="script.sname | slugify"
-                   type="button">
+                <a class="dropdown__list-item" (click)="selectCurrentScript(script.id, script.sname, false)" type="button">
+                  View Sales
+                </a>
+              </li>
+              <li class="dropdown__list-item dropdown-item">
+                <a class="dropdown__list-item" (click)="selectCurrentScript(script.id, script.sname, true)" type="button">
                   View Users
                 </a>
               </li>

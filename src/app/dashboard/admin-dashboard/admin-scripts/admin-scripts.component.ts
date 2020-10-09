@@ -68,9 +68,13 @@ export class AdminScriptsComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  public selectCurrentScript(id: number, scriptName: string): void {
+  public selectCurrentScript(id: number, scriptName: string, users: boolean): void {
     this.scriptService.setCurrentScript = id;
-    this.router.navigate(['admin/scripts/' + this.slugifyPipe.transform(scriptName)]);
+    if (users) {
+      this.router.navigate(['admin/scripts/' + this.slugifyPipe.transform(scriptName)]);
+    } else {
+      this.router.navigate(['admin/scripts/' + this.slugifyPipe.transform(scriptName) + '/sales']);
+    }
   }
 
   public chooseEditScript(scriptName: string): void {
