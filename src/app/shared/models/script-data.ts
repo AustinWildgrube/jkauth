@@ -1,6 +1,6 @@
 export class ScriptData {
     id: number;
-    totalUsd: number;
+    totalEur: number;
     totalUsers: number;
     activeUsers: number;
 }

@@ -56,6 +56,10 @@ export class ScriptService {
         {responseType: 'text'});
   }
 
+  public getTotalRevenue(scriptId: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiEndpoint}/developer/get_revenue.php?script_id=` + scriptId);
+  }
+
   set setCurrentScript(currentScript: number) {
     sessionStorage.setItem('selectedScript', String(currentScript));
   }

@@ -1,13 +1,15 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { ScriptService } from '../../../shared/services/script.service';
-import { Script } from '../../../shared/models/script';
 
+import { Script } from '../../../shared/models/script';
 import { ScriptData } from '../../../shared/models/script-data';
 
 import { SlugifyPipe } from '../../../shared/pipes/slugify.pipe';
@@ -25,6 +27,7 @@ export class AdminScriptsComponent implements OnInit {
   deleteScriptFormData: FormData;
   editScriptForm: FormGroup;
   editScriptFormData: FormData;
+  totalRevenue: Array<number>;
 
   activeUsers: number;
   editScriptName: string;
@@ -37,6 +40,7 @@ export class AdminScriptsComponent implements OnInit {
               private scriptService: ScriptService, private slugifyPipe: SlugifyPipe) { }
 
   ngOnInit() {
+    this.totalRevenue = [];
     this.deleteScriptFormData = new FormData();
 
     this.editScriptForm = this.formBuilder.group({
@@ -66,6 +70,10 @@ export class AdminScriptsComponent implements OnInit {
 
   public closeModal(): void {
     this.modalService.dismissAll();
+  }
+
+  public getTotalRevenue(scriptId: number): Promise<object> {
+    return this.scriptService.getTotalRevenue(scriptId).pipe(untilDestroyed(this)).pipe(take(1)).toPromise();
   }
 
   public selectCurrentScript(id: number, scriptName: string, users: boolean): void {
@@ -210,11 +218,13 @@ export class AdminScriptsComponent implements OnInit {
             }
           });
 
+          this.getTotalRevenue(result.id).then(revenue => this.totalRevenue[index] = revenue['sum']);
+
           this.scriptData[index] = {
             id: result.id,
             totalUsers: responseTwo.length,
             activeUsers: this.activeUsers,
-            totalUsd: result.price_eur * responseTwo.length
+            totalEur: this.totalRevenue[index]
           };
 
           this.activeUsers = 0;

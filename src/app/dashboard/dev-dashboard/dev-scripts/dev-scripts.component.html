@@ -72,10 +72,10 @@
       </div>
       <div class="card__body scripts__body">
         <div class="scripts__script-statistics">
-<!--          <div class="scripts__script-statistic">-->
-<!--            <span *ngIf="scriptData[i]">{{ scriptData[i].totalUsd | currency: 'EUR' }}</span>-->
-<!--            <small class="d-block">Total Revenue</small>-->
-<!--          </div>-->
+          <div class="scripts__script-statistic">
+            <span *ngIf="scriptData[i]">{{ totalRevenue[i] | currency: 'EUR' }}</span>
+            <small class="d-block">Total Revenue</small>
+          </div>
           <div class="scripts__script-statistic">
             <span *ngIf="scriptData[i]">{{ scriptData[i].totalUsers }}</span>
             <small class="d-block">Total Users</small>

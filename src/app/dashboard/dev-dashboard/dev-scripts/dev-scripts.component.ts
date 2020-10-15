@@ -11,6 +11,7 @@ import { Script } from '../../../shared/models/script';
 import { ScriptData } from '../../../shared/models/script-data';
 
 import Swal from 'sweetalert2';
+import {take} from "rxjs/operators";
 
 @UntilDestroy()
 @Component({
@@ -26,6 +27,7 @@ export class DevScriptsComponent implements OnInit {
   addScriptFormData: FormData;
   editScriptFormData: FormData;
   deleteScriptFormData: FormData;
+  totalRevenue: Array<number>;
 
   activeUsers: number;
   authModuleId: number;
@@ -51,6 +53,7 @@ export class DevScriptsComponent implements OnInit {
               private scriptService: ScriptService, private slugifyPipe: SlugifyPipe) { }
 
   ngOnInit() {
+    this.totalRevenue = [];
     this.addScriptFormData = new FormData();
     this.editScriptFormData = new FormData();
 
@@ -103,6 +106,10 @@ export class DevScriptsComponent implements OnInit {
 
   public closeModal(): void {
     this.modalService.dismissAll();
+  }
+
+  public getTotalRevenue(scriptId: number): Promise<object> {
+    return this.scriptService.getTotalRevenue(scriptId).pipe(untilDestroyed(this)).pipe(take(1)).toPromise();
   }
 
   public chooseModuleScript(scriptId: number): void {
@@ -367,11 +374,13 @@ export class DevScriptsComponent implements OnInit {
             }
           });
 
+          this.getTotalRevenue(result.id).then(revenue => this.totalRevenue[index] = revenue['sum']);
+
           this.scriptData[index] = {
             id: result.id,
             totalUsers: responseTwo.length,
             activeUsers: this.activeUsers,
-            totalUsd: result.price_eur * responseTwo.length
+            totalEur: this.totalRevenue[index]
           };
 
           this.activeUsers = 0;
