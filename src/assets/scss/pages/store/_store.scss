@@ -66,6 +66,10 @@
   @extend .index__product-price;
 }
 
+.store__product-price--nowrap {
+  @extend .index__product-price--nowrap;
+}
+
 .store__product-cart {
   @extend .index__product-cart;
 }

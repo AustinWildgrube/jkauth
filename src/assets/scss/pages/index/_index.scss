@@ -153,6 +153,12 @@
   font-size: .75rem;
   font-family: Montserrat,sans-serif;
   letter-spacing: 1px;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.index__product-price--nowrap {
+  display: inline-block;
 }
 
 .index__product-cart {

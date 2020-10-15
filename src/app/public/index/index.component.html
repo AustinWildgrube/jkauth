@@ -48,20 +48,19 @@
 
           <span *ngIf="isLoaded && (!isHovered || isHovered && hoveredIndex !== i)" class="index__product-price">
             <ng-container *ngIf="script.price_1_day !== -1">
-              {{ script.price_1_day | currency: 'EUR' }} / Day
+              <span class="index__product-price--nowrap">{{ script.price_1_day | currency: 'EUR' }} Day </span>
             </ng-container>
-            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week !== -1">
-              {{ script.price_1_week | currency: 'EUR' }} / Week
+            <ng-container *ngIf="script.price_1_week !== -1">
+              <span class="index__product-price--nowrap">{{ script.price_1_week | currency: 'EUR' }} Week </span>
             </ng-container>
-            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week === -1 && script.price_1_month !== -1">
-              {{ script.price_1_month | currency: 'EUR' }} / Month
+            <ng-container *ngIf="script.price_1_month !== -1">
+              <span class="index__product-price--nowrap">{{ script.price_1_month | currency: 'EUR' }} Month </span>
             </ng-container>
-            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week === -1 && script.price_1_month === -1
-                                 && script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
-              {{ script.price_eur | currency: 'EUR' }} / Lifetime
+            <ng-container *ngIf="script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
+              <span class="index__product-price--nowrap">{{ script.price_eur | currency: 'EUR' }} Lifetime </span>
             </ng-container>
             <ng-container *ngIf="script.price_eur === -1 || script.price_eur === 0">
-              Free
+              <span class="index__product-price--nowrap">Free </span>
             </ng-container>
           </span>
 
@@ -103,20 +102,19 @@
 
           <span *ngIf="!isAuthenticated && isLoaded" class="index__product-price" (click)="loginPrompt()">
             <ng-container *ngIf="script.price_1_day !== -1">
-              {{ script.price_1_day | currency: 'EUR' }} / Day
+              <span class="index__product-price--nowrap">{{ script.price_1_day | currency: 'EUR' }} Day </span>
             </ng-container>
-            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week !== -1">
-              {{ script.price_1_week | currency: 'EUR' }} / Week
+            <ng-container *ngIf="script.price_1_week !== -1">
+              <span class="index__product-price--nowrap">{{ script.price_1_week | currency: 'EUR' }} Week </span>
             </ng-container>
-            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week === -1 && script.price_1_month !== -1">
-              {{ script.price_1_month | currency: 'EUR' }} / Month
+            <ng-container *ngIf="script.price_1_month !== -1">
+              <span class="index__product-price--nowrap">{{ script.price_1_month | currency: 'EUR' }} Month </span>
             </ng-container>
-            <ng-container *ngIf="script.price_1_day === -1 && script.price_1_week === -1 && script.price_1_month === -1
-                                 && script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
-              {{ script.price_eur | currency: 'EUR' }} / Lifetime
+            <ng-container *ngIf="script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
+              <span class="index__product-price--nowrap">{{ script.price_eur | currency: 'EUR' }} Lifetime </span>
             </ng-container>
             <ng-container *ngIf="script.price_eur === -1 || script.price_eur === 0">
-              Free
+              <span class="index__product-price--nowrap">Free </span>
             </ng-container>
           </span>
 
