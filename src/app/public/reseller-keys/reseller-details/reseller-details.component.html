@@ -55,6 +55,7 @@
         <thead class="table-header table-header--light">
         <tr class="table-row">
           <th class="table-head">Key</th>
+          <th class="table-head">Length</th>
           <th class="table-head">Creation Date</th>
         </tr>
         </thead>
@@ -64,6 +65,9 @@
           <tr class="table-row">
             <td class="table-data table-data--dark">
               <b>{{ unsoldKeys.key }}</b>
+            </td>
+            <td class="table-data">
+              {{ unsoldKeys.key_duration }}
             </td>
             <td class="table-data">
               {{ unsoldKeys.creation_timestamp }}

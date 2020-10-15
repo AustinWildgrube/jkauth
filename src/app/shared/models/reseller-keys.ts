@@ -4,6 +4,7 @@ export interface ResellerKeys {
     redeemed_by: number;
     seller_id: number;
     script_id: number;
+    key_duration: number;
     creation_timestamp: Date;
     use_timestamp: Date;
     redeemed_by_name?: string;
