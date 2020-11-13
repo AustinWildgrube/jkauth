@@ -47,20 +47,26 @@
           </span>
 
           <span *ngIf="isLoaded && (!isHovered || isHovered && hoveredIndex !== i)" class="index__product-price">
-            <ng-container *ngIf="script.price_1_day !== -1">
-              <span class="index__product-price--nowrap">{{ script.price_1_day | currency: 'EUR' }} Day </span>
+            <ng-container *ngIf="script.sname !== 'Aurorabot License'">
+              <ng-container *ngIf="script.price_1_day !== -1">
+                <span class="index__product-price--nowrap">{{ script.price_1_day | currency: 'EUR' }} Day </span>
+              </ng-container>
+              <ng-container *ngIf="script.price_1_week !== -1">
+                <span class="index__product-price--nowrap">{{ script.price_1_week | currency: 'EUR' }} Week </span>
+              </ng-container>
+              <ng-container *ngIf="script.price_1_month !== -1">
+                <span class="index__product-price--nowrap">{{ script.price_1_month | currency: 'EUR' }} Month </span>
+              </ng-container>
+              <ng-container *ngIf="script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
+                <span class="index__product-price--nowrap">{{ script.price_eur | currency: 'EUR' }} Lifetime </span>
+              </ng-container>
+              <ng-container *ngIf="script.price_eur === -1 || script.price_eur === 0">
+                <span class="index__product-price--nowrap">Free </span>
+              </ng-container>
             </ng-container>
-            <ng-container *ngIf="script.price_1_week !== -1">
-              <span class="index__product-price--nowrap">{{ script.price_1_week | currency: 'EUR' }} Week </span>
-            </ng-container>
-            <ng-container *ngIf="script.price_1_month !== -1">
-              <span class="index__product-price--nowrap">{{ script.price_1_month | currency: 'EUR' }} Month </span>
-            </ng-container>
-            <ng-container *ngIf="script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
-              <span class="index__product-price--nowrap">{{ script.price_eur | currency: 'EUR' }} Lifetime </span>
-            </ng-container>
-            <ng-container *ngIf="script.price_eur === -1 || script.price_eur === 0">
-              <span class="index__product-price--nowrap">Free </span>
+
+            <ng-container *ngIf="script.sname === 'Aurorabot License'">
+              <span class="index__product-price--nowrap">€4.5 - 2.5 Month</span>
             </ng-container>
           </span>
 
@@ -101,20 +107,26 @@
           </span>
 
           <span *ngIf="!isAuthenticated && isLoaded" class="index__product-price" (click)="loginPrompt()">
-            <ng-container *ngIf="script.price_1_day !== -1">
-              <span class="index__product-price--nowrap">{{ script.price_1_day | currency: 'EUR' }} Day </span>
+            <ng-container *ngIf="script.sname !== 'Aurorabot License'">
+              <ng-container *ngIf="script.price_1_day !== -1">
+                <span class="index__product-price--nowrap">{{ script.price_1_day | currency: 'EUR' }} Day </span>
+              </ng-container>
+              <ng-container *ngIf="script.price_1_week !== -1">
+                <span class="index__product-price--nowrap">{{ script.price_1_week | currency: 'EUR' }} Week </span>
+              </ng-container>
+              <ng-container *ngIf="script.price_1_month !== -1">
+                <span class="index__product-price--nowrap">{{ script.price_1_month | currency: 'EUR' }} Month </span>
+              </ng-container>
+              <ng-container *ngIf="script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
+                <span class="index__product-price--nowrap">{{ script.price_eur | currency: 'EUR' }} Lifetime </span>
+              </ng-container>
+              <ng-container *ngIf="script.price_eur === -1 || script.price_eur === 0">
+                <span class="index__product-price--nowrap">Free </span>
+              </ng-container>
             </ng-container>
-            <ng-container *ngIf="script.price_1_week !== -1">
-              <span class="index__product-price--nowrap">{{ script.price_1_week | currency: 'EUR' }} Week </span>
-            </ng-container>
-            <ng-container *ngIf="script.price_1_month !== -1">
-              <span class="index__product-price--nowrap">{{ script.price_1_month | currency: 'EUR' }} Month </span>
-            </ng-container>
-            <ng-container *ngIf="script.price_eur !== 9999999 && script.price_eur !== -1 && script.price_eur !== 0">
-              <span class="index__product-price--nowrap">{{ script.price_eur | currency: 'EUR' }} Lifetime </span>
-            </ng-container>
-            <ng-container *ngIf="script.price_eur === -1 || script.price_eur === 0">
-              <span class="index__product-price--nowrap">Free </span>
+
+            <ng-container *ngIf="script.sname === 'Aurorabot License'">
+              <span class="index__product-price--nowrap">€4.5 - 2.5 Month</span>
             </ng-container>
           </span>
 

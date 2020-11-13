@@ -5,13 +5,15 @@ $theme-colors-custom: (
   ),
   monochrome: (
     white: #fff,
+    off-white: #f8f8ff,
     black: #000,
     gray: #aaa,
     code: #2c2f33
   ),
   text: (
     base: #080808,
-    muted: #718096
+    muted: #718096,
+    link: #3699ff
   ),
   status: (
     success-text: #1bc56d,

@@ -98,7 +98,7 @@ export class CheckoutComponent implements OnInit {
       text: 'After choosing an option you will be taken to the respective payments website. After completion you will' +
           ' be returned here',
       showConfirmButton: true,
-      showCancelButton: !this.isAmber,
+      showCancelButton: true,
       confirmButtonText: 'Crypto',
       cancelButtonText: 'PayPal'
     }).then((result) => {
@@ -119,7 +119,11 @@ export class CheckoutComponent implements OnInit {
           },
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        this.createPaypalOrder();
+        if (this.isAmber) {
+          this.createPaypalOrder(true);
+        } else {
+          this.createPaypalOrder(true);
+        }
 
         Swal.fire({
           title: 'Redirecting you to PayPals Website!',
@@ -134,10 +138,14 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  public createPaypalOrder(): void {
+  public createPaypalOrder(isAmber: boolean): void {
     const formData = new FormData();
     formData.append('products', JSON.stringify(this.purchaseCartInventory));
     formData.append('email', this.userInfo.login_mail);
+
+    if (isAmber) {
+      formData.append('username', this.amberNameForm.get('auroraName').value);
+    }
 
     this.paypalService.createOrder(formData).pipe(untilDestroyed(this)).subscribe(response => {
       window.location.href = response['result']['links'][1]['href'];

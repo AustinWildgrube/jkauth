@@ -40,20 +40,20 @@ export class CartService {
 
     this.state$.pipe(first()).subscribe(product => {
       product.cart.forEach(test => {
-        if (test.id === item.id) {
-          item.amount += test.amount;
+        item.amount += test.amount;
 
+        if (test.id === item.id) {
           if (item.id === 38) {
             if (item.amount >= 1 && item.amount <= 19) {
-              item.price_eur = 4.5;
+              item.price_1_month = 4.5;
             } else if (item.amount >= 20 && item.amount <= 49) {
-              item.price_eur = 4;
+              item.price_1_month = 4;
             } else if (item.amount >= 50 && item.amount <= 99) {
-              item.price_eur = 3.5;
+              item.price_1_month = 3.5;
             } else if (item.amount >= 100 && item.amount <= 199) {
-              item.price_eur = 3;
+              item.price_1_month = 3;
             } else if (item.amount >= 200) {
-              item.price_eur = 2.5;
+              item.price_1_month = 2.5;
             }
           }
 
@@ -62,25 +62,25 @@ export class CartService {
           this.cartAdd.next({...item, uuid: uuid()});
         }
       });
-
-      if (!this.alreadyInCart) {
-        if (item.id === 38) {
-          if (item.amount >= 1 && item.amount <= 19) {
-            item.price_eur = 4.5;
-          } else if (item.amount >= 20 && item.amount <= 49) {
-            item.price_eur = 4;
-          } else if (item.amount >= 50 && item.amount <= 99) {
-            item.price_eur = 3.5;
-          } else if (item.amount >= 100 && item.amount <= 199) {
-            item.price_eur = 3;
-          } else if (item.amount >= 200) {
-            item.price_eur = 2.5;
-          }
-        }
-
-        this.cartAdd.next({...item, uuid: uuid()});
-      }
     });
+
+    if (!this.alreadyInCart) {
+      if (item.id === 38) {
+        if (item.amount >= 1 && item.amount <= 19) {
+          item.price_1_month = 4.5;
+        } else if (item.amount >= 20 && item.amount <= 49) {
+          item.price_1_month = 4;
+        } else if (item.amount >= 50 && item.amount <= 99) {
+          item.price_1_month = 3.5;
+        } else if (item.amount >= 100 && item.amount <= 199) {
+          item.price_1_month = 3;
+        } else if (item.amount >= 200) {
+          item.price_1_month = 2.5;
+        }
+      }
+
+      this.cartAdd.next({...item, uuid: uuid()});
+    }
   }
 
   public removeCartItem(item: CartItem): void {
