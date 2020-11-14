@@ -75,7 +75,19 @@
   }
 }
 
+.account__tables-export {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.account__tables-export-button {
+  width: max-content;
+}
+
 .account__tables-header {
+  align-items: baseline;
   display: flex;
   height: 30px;
   justify-content: space-between;

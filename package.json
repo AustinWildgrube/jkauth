@@ -30,6 +30,7 @@
     "ng2-search-filter": "^0.5.1",
     "ngx-bootstrap": "^5.6.1",
     "ngx-cookie-service": "^3.0.4",
+    "ngx-csv": "^0.3.2",
     "ngx-pagination": "^5.0.0",
     "ngx-quill": "^12.0.1",
     "ngx-skeleton-loader": "^2.4.4",

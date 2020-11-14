@@ -21,6 +21,7 @@ export class DevScriptsDetailsComponent implements OnInit {
   showUser: number;
   usersPage: number;
   showHwids: boolean;
+  searchTerm: string;
 
   constructor(private modalService: NgbModal, private scriptService: ScriptService) { }
 

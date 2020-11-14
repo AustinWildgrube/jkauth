@@ -13,6 +13,8 @@
         <li class="breadcrumb breadcrumb--active" aria-current="page">Script Users</li>
       </ol>
     </nav>
+    <input class="store__filter-input form-control" [(ngModel)]="searchTerm" placeholder="Search Users" type="text"
+           aria-label="Search Users">
   </div>
 
   <div class="script-users__table">
@@ -27,7 +29,7 @@
         </tr>
         </thead>
         <tbody class="table-body">
-        <ng-container *ngFor="let scriptUser of scriptUsers | paginate: { itemsPerPage: 21, currentPage: usersPage, id: 'script-users' }">
+        <ng-container *ngFor="let scriptUser of scriptUsers | paginate: { itemsPerPage: 21, currentPage: usersPage, id: 'script-users' } | filter: searchTerm">
           <tr class="table-row">
             <td class="table-data table-data--dark">
               <a class="table-data table-data--dark" [routerLink]="'/admin/users/' + scriptUser.name"

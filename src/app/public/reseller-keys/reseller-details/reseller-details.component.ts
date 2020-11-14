@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ngxCsv } from 'ngx-csv';
 
 import { UserService } from '../../../shared/services/user.service';
 import { ResellerService } from '../../../shared/services/reseller.service';
@@ -19,6 +20,7 @@ import { ResellerKeys } from '../../../shared/models/reseller-keys';
 export class ResellerDetailsComponent implements OnInit {
   filteredSoldResellerKeys: ResellerKeys[];
   filteredUnsoldResellerKeys: ResellerKeys[];
+  filteredExportResellerKeys: ResellerKeys[];
   resellerKeys: ResellerKeys[];
   scriptDetails: Script;
 
@@ -28,6 +30,7 @@ export class ResellerDetailsComponent implements OnInit {
   unsoldKeyCount: number;
   soldKeyCount: number;
   selectedScriptId: number;
+  csvOptions: object;
 
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService,
               private resellerService: ResellerService, private adminService: AdminService,
@@ -36,9 +39,20 @@ export class ResellerDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.filteredUnsoldResellerKeys = [];
     this.filteredSoldResellerKeys = [];
+    this.filteredExportResellerKeys = [];
 
     this.unsoldKeyCount = 0;
     this.soldKeyCount = 0;
+
+    this.csvOptions = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Exported Unsold Keys',
+      headers: ['Key', 'Creation Timestamp', 'Redeemed By', 'Key Duration']
+    };
 
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
       this.selectedScriptId = +params['script-id'];
@@ -46,6 +60,19 @@ export class ResellerDetailsComponent implements OnInit {
 
     this.getScriptDetails(this.selectedScriptId);
     this.getResellerKeys();
+  }
+
+  public downloadResellerKeys() {
+    this.filteredExportResellerKeys = Object.assign([], this.filteredUnsoldResellerKeys);
+
+    for (const [ , key] of Object.entries(this.filteredExportResellerKeys)) {
+      delete key['id'];
+      delete key['reseller_id'];
+      delete key['script_id'];
+      delete key['use_timestamp'];
+    }
+
+    return new ngxCsv(this.filteredExportResellerKeys, 'JKAuth Key Export', this.csvOptions);
   }
 
   private getScriptDetails(scriptId: number): void {

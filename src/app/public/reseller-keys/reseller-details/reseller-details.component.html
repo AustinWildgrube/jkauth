@@ -10,6 +10,48 @@
   </div>
 
   <div class="account__tables">
+    <div class="account__tables-export">
+      <button class="button button--small button--outline button--mobile-no account__tables-export-button" (click)="downloadResellerKeys()">
+        Export Unsold Keys
+      </button>
+    </div>
+
+    <div class="account__tables-header">
+      <h2 class="account__tables-title account__tables-title--no-margin">Unsold Keys</h2>
+      <h2 class="users__header-info">{{ unsoldKeyCount }} Unsold</h2>
+    </div>
+    <div class="account__table">
+      <table class="table table--align-center table--flush">
+        <thead class="table-header table-header--light">
+        <tr class="table-row">
+          <th class="table-head">Key</th>
+          <th class="table-head">Length (Seconds)</th>
+          <th class="table-head">Creation Date</th>
+        </tr>
+        </thead>
+        <tbody class="table-body">
+        <ng-container *ngFor="let unsoldKeys of filteredUnsoldResellerKeys | paginate: { itemsPerPage: 10,
+        currentPage: pageTwo, id: 'second'}">
+          <tr class="table-row">
+            <td class="table-data table-data--dark">
+              <b>{{ unsoldKeys.key }}</b>
+            </td>
+            <td class="table-data">
+              {{ unsoldKeys.key_duration }}
+            </td>
+            <td class="table-data">
+              {{ unsoldKeys.creation_timestamp }}
+            </td>
+          </tr>
+        </ng-container>
+          <tr *ngIf="unsoldKeyCount === 0" class="table-row">
+            <td class="table-data table-data--center table-data--text-center" colspan="2">No Keys Purchased</td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls id="second" (pageChange)="pageTwo = $event" [autoHide]="true"></pagination-controls>
+    </div>
+
     <div class="account__tables-header">
       <h2 class="account__tables-title account__tables-title--no-margin">Sold Keys</h2>
       <span class="users__header-info">{{ soldKeyCount }} Sold</span>
@@ -44,42 +86,6 @@
         </tbody>
       </table>
       <pagination-controls id="first" (pageChange)="page = $event" [autoHide]="true"></pagination-controls>
-    </div>
-
-    <div class="account__tables-header">
-      <h2 class="account__tables-title account__tables-title--no-margin">Unsold Keys</h2>
-      <h2 class="users__header-info">{{ unsoldKeyCount }} Unsold</h2>
-    </div>
-    <div class="account__table">
-      <table class="table table--align-center table--flush">
-        <thead class="table-header table-header--light">
-        <tr class="table-row">
-          <th class="table-head">Key</th>
-          <th class="table-head">Length</th>
-          <th class="table-head">Creation Date</th>
-        </tr>
-        </thead>
-        <tbody class="table-body">
-        <ng-container *ngFor="let unsoldKeys of filteredUnsoldResellerKeys | paginate: { itemsPerPage: 10,
-        currentPage: pageTwo, id: 'second'}">
-          <tr class="table-row">
-            <td class="table-data table-data--dark">
-              <b>{{ unsoldKeys.key }}</b>
-            </td>
-            <td class="table-data">
-              {{ unsoldKeys.key_duration }}
-            </td>
-            <td class="table-data">
-              {{ unsoldKeys.creation_timestamp }}
-            </td>
-          </tr>
-        </ng-container>
-          <tr *ngIf="unsoldKeyCount === 0" class="table-row">
-            <td class="table-data table-data--center table-data--text-center" colspan="2">No Keys Purchased</td>
-          </tr>
-        </tbody>
-      </table>
-      <pagination-controls id="second" (pageChange)="pageTwo = $event" [autoHide]="true"></pagination-controls>
     </div>
   </div>
 </div>

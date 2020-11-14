@@ -23,6 +23,7 @@ export class AdminScriptsDetailsComponent implements OnInit {
   usersPage: number;
   hwidPage: number;
   showHwids: boolean;
+  searchTerm: string;
 
   constructor(private modalService: NgbModal, private scriptService: ScriptService) { }
 
