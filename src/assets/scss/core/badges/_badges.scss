@@ -25,3 +25,8 @@
   background-color: color(status, expired-background);
   color: color(status, expired-text);
 }
+
+.badge--pending {
+  background-color: color(status, unused-background);
+  color: color(status, unused-text);
+}

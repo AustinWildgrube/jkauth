@@ -18,6 +18,7 @@
   display: grid;
   gap: 1rem;
   grid-template: auto / repeat(auto-fill, minmax(21rem, 1fr));
+  padding-left: 0;
 }
 
 .users__grid-header {

@@ -80,10 +80,13 @@
                 <span>{{ purchase.last_update }}</span>
               </td>
               <td class="table-data">
-                <span *ngIf="purchase.current_status !== 'Complete'">
+                <span *ngIf="purchase.current_status === 'DENIED' || purchase.current_status === 'CREATED'">
                   <span class="badge badge--danger">Incomplete</span>
                 </span>
-                <span *ngIf="purchase.current_status === 'Complete'">
+                <span *ngIf="purchase.current_status === 'PENDING'">
+                  <span class="badge badge--pending">Pending</span>
+                </span>
+                <span *ngIf="purchase.current_status === 'COMPLETED'">
                   <span class="badge badge--success">Complete</span>
                 </span>
               </td>
