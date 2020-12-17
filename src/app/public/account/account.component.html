@@ -74,7 +74,8 @@
           <ng-container *ngFor="let purchase of purchases | paginate: { itemsPerPage: 21, currentPage: purchasesPage, id: 'purchases' }">
             <tr class="table-row">
               <td class="table-data table-data--dark">
-                <b>{{ purchase.script_id }}</b>
+                <b *ngIf="purchase.sname">{{ purchase.sname }}</b>
+                <b *ngIf="!purchase.sname">Deleted Script</b>
               </td>
               <td class="table-data">
                 <span>{{ purchase.last_update }}</span>

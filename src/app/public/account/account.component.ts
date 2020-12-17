@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map, mergeMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 import { UserService } from '../../shared/services/user.service';
+import { ScriptService } from '../../shared/services/script.service';
 
 import { Auths } from '../../shared/models/auths';
 import { AdminUser } from '../../shared/models/admin-user';
@@ -31,7 +34,7 @@ export class AccountComponent implements OnInit {
     }
   };
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private scriptService: ScriptService) { }
 
   ngOnInit() {
     this.keysPage = 0;
@@ -74,9 +77,19 @@ export class AccountComponent implements OnInit {
   }
 
   private getSelfPurchases(): void {
-    this.userService.getSelfPurchases().pipe(untilDestroyed(this)).subscribe(response => {
-      this.purchases = response;
-    });
+    this.userService.getSelfPurchases().pipe(untilDestroyed(this)).pipe(
+      mergeMap(purchases => forkJoin(
+        purchases.map(purchase =>
+          this.scriptService.getScriptDetails(purchase.script_id).pipe(
+            map(responseTwo =>
+              ({...purchase, sname: responseTwo[0] ? responseTwo[0].sname : ''})
+            )
+          )
+        )
+      ))
+    ).subscribe(
+      (purchasesWithName: UserPayments[]) => this.purchases = purchasesWithName
+    );
   }
 
   private getSelfAuths(): void {

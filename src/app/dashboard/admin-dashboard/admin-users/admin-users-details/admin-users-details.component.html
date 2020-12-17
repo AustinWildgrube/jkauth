@@ -55,7 +55,7 @@
                 {{ userPayments.id }}
               </td>
               <td class="table-data">
-                {{ userPayments.script_id }}
+                {{ userPayments.sname }}
               </td>
               <td class="table-data">
                 <ng-container *ngIf="userPayments.current_status !== 'COMPLETED'">
@@ -97,7 +97,7 @@
           <ng-container *ngFor="let userHwid of userHwidList | paginate: { itemsPerPage: 10, currentPage: userHwidsPage, id: 'user-hwids' }">
             <tr class="table-row">
               <td class="table-data">
-                <b>{{ userHwid.sname }}</b>
+                {{ userHwid.sname }}
               </td>
               <td class="table-data">
                 {{ userHwid.hwid }}

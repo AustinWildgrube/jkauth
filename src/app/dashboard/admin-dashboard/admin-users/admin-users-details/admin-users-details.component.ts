@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map, mergeMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 import { AdminService } from '../../../../shared/services/admin.service';
 import { UserService } from '../../../../shared/services/user.service';
@@ -144,18 +146,23 @@ export class AdminUsersDetailsComponent implements OnInit {
   }
 
   private getUserPayments(userId: number): void {
-    this.adminService.getUserPurchases(userId).pipe(untilDestroyed(this)).subscribe(response => {
-      this.userPaymentsList = response;
-
-      for (const paymentLength of this.userPaymentsList) {
-        if (paymentLength.current_status === 'COMPLETED') {
-          this.userPaymentsListLength++;
-        }
-      }
+    this.adminService.getUserPurchases(userId).pipe(untilDestroyed(this)).pipe(
+        mergeMap(purchases => forkJoin(
+            purchases.map(purchase =>
+                this.scriptService.getScriptDetails(purchase.script_id).pipe(
+                    map(responseTwo =>
+                        ({...purchase, sname: responseTwo[0] ? responseTwo[0].sname : ''})
+                    )
+                )
+            )
+        ))
+    ).subscribe((purchasesWithName: UserPayments[]) => {
+      this.userPaymentsList = purchasesWithName;
 
       this.totalUsedSpent = 0;
       for (const payment of this.userPaymentsList) {
         if (payment.current_status === 'COMPLETED') {
+          this.userPaymentsListLength++;
           this.totalUsedSpent += payment['euro'];
         }
       }
