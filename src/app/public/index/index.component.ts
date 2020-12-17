@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,10 +28,15 @@ export class IndexComponent implements OnInit {
   isHovered: boolean;
   isAuthenticated: boolean;
   isLoaded: boolean;
+  isAmber: boolean;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal,
-              private scriptService: ScriptService, private cartService: CartService,
-              private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
+              private modalService: NgbModal, private scriptService: ScriptService, private cartService: CartService,
+              private authService: AuthService) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.isAmber = (params['aurora'] === 'true');
+    });
+  }
 
   ngOnInit() {
     this.noKeyLengthSelected = false;
@@ -104,13 +109,13 @@ export class IndexComponent implements OnInit {
       confirmButtonText: 'Login!'
     }).then((result) => {
       if (result.value) {
-        this.router.navigate(['/authentication/login']);
+        this.router.navigate(['/authentication/login'], { queryParamsHandling: 'preserve'});
       }
     });
   }
 
   private getNewScripts(): void {
-    this.scriptService.getAllScripts().pipe(untilDestroyed(this)).subscribe(response => {
+    this.scriptService.getAllScripts(this.isAmber).pipe(untilDestroyed(this)).subscribe(response => {
       response.sort((a, b) => b.id - a.id);
       this.newScriptsList = response;
       this.isLoaded = true;

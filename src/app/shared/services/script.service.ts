@@ -34,8 +34,12 @@ export class ScriptService {
     return this.http.get<Script>(`${environment.apiEndpoint}/script/get.php?scriptid=` + scriptId);
   }
 
-  public getAllScripts(): Observable<Script[]> {
-    return this.http.get<Script[]>(`${environment.apiEndpoint}/script/all.php`);
+  public getAllScripts(isAmber: boolean): Observable<Script[]> {
+    if (isAmber) {
+      return this.http.get<Script[]>(`${environment.apiEndpoint}/script/all.php?aurora=true`);
+    } else {
+      return this.http.get<Script[]>(`${environment.apiEndpoint}/script/all.php`);
+    }
   }
 
   public getScriptUsers(scriptId: number): Observable<ScriptUsers[]> {

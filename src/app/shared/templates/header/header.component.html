@@ -124,7 +124,10 @@
       </div>
     </ng-container>
 
-    <a *ngIf="!isAuthenticated" class="header__user-actions-login" routerLink="/authentication/login">Login</a>
+    <a *ngIf="!isAuthenticated" class="header__user-actions-login" routerLink="/authentication/login"
+       queryParamsHandling="preserve">
+      Login
+    </a>
 
     <i class="header__mobile-menu-toggle gg-menu-right-alt" (click)="toggleMobileMenu()"></i>
   </div>

@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
             Swal.showLoading();
           },
         }).then(() => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login'],  { queryParamsHandling: 'preserve'});
         });
       },
       error => {

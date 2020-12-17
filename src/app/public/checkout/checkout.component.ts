@@ -81,7 +81,7 @@ export class CheckoutComponent implements OnInit {
         });
 
         // TODO: Change Aurorabot id to non-hard coded value
-        if (responseTwo.id === 38) {
+        if (responseTwo.id === 49) {
           this.isAmber = true;
         }
       });

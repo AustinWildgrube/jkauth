@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.loginFormData).pipe(untilDestroyed(this)).subscribe(
       _ => {
-        this.router.navigate([this.returnUrl]);
+        this.router.navigate([this.returnUrl], { queryParamsHandling: 'preserve'});
       },
       error => {
         if (error.status === 401 || error.status === 403) {

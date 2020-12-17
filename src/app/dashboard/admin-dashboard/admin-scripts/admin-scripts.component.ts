@@ -204,7 +204,7 @@ export class AdminScriptsComponent implements OnInit {
   }
 
   private getAllScripts(): void {
-    this.scriptService.getAllScripts().pipe(untilDestroyed(this)).subscribe(response => {
+    this.scriptService.getAllScripts(false).pipe(untilDestroyed(this)).subscribe(response => {
       this.allScripts = response;
 
       this.scriptData = [];
