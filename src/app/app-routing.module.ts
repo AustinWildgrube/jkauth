@@ -25,6 +25,10 @@ const routes: Routes = [
     path: 'admin',
     component: DashboardLayoutComponent,
     loadChildren: () => import('./dashboard/admin-dashboard-routing.module').then(m => m.AdminDashboardRoutingModule)
+  },
+  {
+    path: '**',
+    redirectTo: '/'
   }
 ];
 
