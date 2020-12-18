@@ -103,11 +103,7 @@ export class CheckoutComponent implements OnInit {
       cancelButtonText: 'PayPal'
     }).then((result) => {
       if (result.value) {
-        if (this.isAmber) {
-          this.createCoinpaymentsOrder(true);
-        } else {
-          this.createCoinpaymentsOrder(false);
-        }
+        this.createCoinpaymentsOrder(this.isAmber);
 
         Swal.fire({
           title: 'Redirecting you to CoinPayments Website!',
@@ -119,11 +115,7 @@ export class CheckoutComponent implements OnInit {
           },
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        if (this.isAmber) {
-          this.createPaypalOrder(true);
-        } else {
-          this.createPaypalOrder(true);
-        }
+        this.createPaypalOrder(this.isAmber);
 
         Swal.fire({
           title: 'Redirecting you to PayPals Website!',
