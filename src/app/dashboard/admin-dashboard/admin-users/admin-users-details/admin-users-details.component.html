@@ -43,6 +43,7 @@
           <tr class="table-row">
             <th class="table-head">Id</th>
             <th class="table-head">Script</th>
+            <th class="table-head">Payment Type</th>
             <th class="table-head">EUR Recieved</th>
             <th class="table-head">Last Update</th>
             <th class="table-head">Order Status</th>
@@ -58,10 +59,20 @@
                 {{ userPayments.sname }}
               </td>
               <td class="table-data">
-                <ng-container *ngIf="userPayments.current_status !== 'COMPLETED'">
+                <ng-container *ngIf="userPayments.pp_id">
+                  PayPal
+                </ng-container>
+                <ng-container *ngIf="!userPayments.pp_id">
+                  Crypto
+                </ng-container>
+              </td>
+              <td class="table-data">
+                <ng-container *ngIf="userPayments.current_status !== 'COMPLETED' ||
+                                     userPayments.coinpayments_raw_status < 1">
                   None
                 </ng-container>
-                <ng-container *ngIf="userPayments.current_status === 'COMPLETED'">
+                <ng-container *ngIf="userPayments.current_status === 'COMPLETED' ||
+                                     userPayments.coinpayments_raw_status > 0">
                   {{ userPayments.euro | currency: 'EUR' }}
                 </ng-container>
               </td>
@@ -69,8 +80,29 @@
                 {{ userPayments.last_update | date: 'medium' }}
               </td>
               <td class="table-data">
-                <span *ngIf="userPayments.current_status === 'CREATED'" class="badge badge--danger">Incomplete</span>
-                <span *ngIf="userPayments.current_status === 'COMPLETED'" class="badge badge--success">Complete</span>
+                <ng-container *ngIf="userPayments.current_status">
+                <span *ngIf="userPayments.current_status === 'CREATED' || userPayments.current_status === 'INIT'"
+                      class="badge badge--danger">
+                  Incomplete
+                </span>
+                  <span *ngIf="userPayments.current_status === 'COMPLETED'" class="badge badge--success">
+                  Complete
+                </span>
+                </ng-container>
+                <ng-container *ngIf="userPayments.coinpayments_raw_status">
+                <span *ngIf="userPayments.coinpayments_raw_status === -2" class="badge badge--danger">
+                 Refunded
+                </span>
+                  <span *ngIf="userPayments.coinpayments_raw_status === -1" class="badge badge--danger">
+                 Timed Out
+                </span>
+                  <span *ngIf="userPayments.coinpayments_raw_status === 1" class="badge badge--pending">
+                 Recieved
+                </span>
+                  <span *ngIf="userPayments.coinpayments_raw_status === 100" class="badge badge--success">
+                  Complete
+                </span>
+                </ng-container>
               </td>
             </tr>
           </ng-container>

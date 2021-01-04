@@ -23,13 +23,15 @@
         <thead class="table-header table-header--light">
         <tr class="table-row">
           <th class="table-head">User</th>
+          <th class="table-head">Payment Type</th>
           <th class="table-head">EUR Recieved</th>
           <th class="table-head">Last Updated</th>
           <th class="table-head">Order Status</th>
         </tr>
         </thead>
         <tbody class="table-body">
-        <ng-container *ngFor="let scriptPayment of scriptPayments | paginate: { itemsPerPage: 21, currentPage: scriptPaymentsPage } | filter: searchTerm">
+        <ng-container *ngFor="let scriptPayment of scriptPayments |
+        paginate: { itemsPerPage: 21, currentPage: scriptPaymentsPage } | filter: searchTerm">
           <tr class="table-row">
             <td class="table-data table-data--dark">
               <a class="table-data table-data--dark" [routerLink]="'/admin/users/' + scriptPayment.username"
@@ -38,20 +40,58 @@
               </a>
             </td>
             <td class="table-data">
+              <ng-container *ngIf="scriptPayment.pp_id">
+                PayPal
+              </ng-container>
+              <ng-container *ngIf="!scriptPayment.pp_id">
+                Crypto
+              </ng-container>
+            </td>
+            <td class="table-data">
               {{ scriptPayment.euro | currency: 'EUR' }}
             </td>
             <td class="table-data">
               {{ scriptPayment.last_update }}
             </td>
             <td class="table-data">
-              <span *ngIf="scriptPayment.current_status === 'CREATED'" class="badge badge--danger">Incomplete</span>
-              <span *ngIf="scriptPayment.current_status === 'COMPLETED'" class="badge badge--success">Complete</span>
+              <ng-container *ngIf="scriptPayment.current_status">
+                <span *ngIf="scriptPayment.current_status === 'CREATED' || scriptPayment.current_status === 'INIT'"
+                      class="badge badge--danger">
+                  Incomplete
+                </span>
+                <span *ngIf="scriptPayment.current_status === 'COMPLETED'" class="badge badge--success">
+                  Complete
+                </span>
+              </ng-container>
+              <ng-container *ngIf="scriptPayment.coinpayments_raw_status">
+                <span *ngIf="scriptPayment.coinpayments_raw_status === -2" class="badge badge--danger">
+                 Refunded
+                </span>
+                <span *ngIf="scriptPayment.coinpayments_raw_status === -1" class="badge badge--danger">
+                 Timed Out
+                </span>
+                <span *ngIf="scriptPayment.coinpayments_raw_status === 1" class="badge badge--pending">
+                 Recieved
+                </span>
+                <span *ngIf="scriptPayment.coinpayments_raw_status === 100" class="badge badge--success">
+                  Complete
+                </span>
+              </ng-container>
             </td>
           </tr>
         </ng-container>
-        <tr *ngIf="scriptPayments && scriptPayments.length === 0">
-          <td class="table-data" colspan="4">
-            <span> No Sales Yet </span>
+
+        <ng-container *ngIf="!isLoaded">
+          <tr *ngFor="let dummy of ' '.repeat(7).split('')" class="table-row">
+            <td *ngFor="let dummy of ' '.repeat(5).split('')" class="table-data">
+              <ngx-skeleton-loader [theme]="{height: '24px', 'margin': '0'}"></ngx-skeleton-loader>
+            </td>
+          </tr>
+        </ng-container>
+
+        <tr *ngIf="scriptPayments && scriptPayments.length === 0 && isLoaded === true">
+          <td class="table-data" colspan="5">
+            <span>No Sales Yet</span>
           </td>
         </tr>
         </tbody>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map, mergeMap, tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 import { UserPayments } from '../../../../shared/models/user-payments';
 import { AdminService } from '../../../../shared/services/admin.service';
@@ -18,6 +20,7 @@ export class DevScriptsSalesComponent implements OnInit {
   currentScript: number;
   username: string;
   searchTerm: string;
+  isLoaded: boolean;
 
   constructor(private adminService: AdminService, private scriptService: ScriptService) { }
 
@@ -25,19 +28,33 @@ export class DevScriptsSalesComponent implements OnInit {
     this.currentScript = this.scriptService.getCurrentScript;
     this.scriptPayments = [];
     this.scriptPaymentsPage = 0;
+    this.isLoaded = false;
 
     this.getSales();
   }
 
   private getSales(): void {
-    this.adminService.getDeveloperSales(this.currentScript).pipe(untilDestroyed(this)).subscribe(response => {
-      this.scriptPayments = response[1]['payments'];
+    let salesList = [];
 
-      this.scriptPayments.forEach((responsetwo, index) => {
-        this.adminService.getUserDetails(responsetwo.user_id).pipe(untilDestroyed(this)).subscribe(responseThree => {
-          this.scriptPayments[index].username = responseThree[0].name;
-        });
-      });
+    this.adminService.getDeveloperSales(this.currentScript).pipe(untilDestroyed(this)).pipe(
+        tap(sales => {
+          salesList = [...sales[1]['payments'], ...sales[0]['payments']];
+          salesList.sort((a, b) => {
+            return Date.parse(b.last_update) - Date.parse(a.last_update);
+          });
+        }),
+        mergeMap(() => forkJoin(
+            salesList.map(sale =>
+                this.adminService.getUserDetails(sale.user_id).pipe(
+                    map(response =>
+                        ({...sale, username: response[0] ? response[0].name : ''})
+                    )
+                )
+            )
+        ))
+    ).subscribe(response => {
+      this.scriptPayments = response;
+      this.isLoaded = true;
     });
   }
 }

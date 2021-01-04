@@ -161,7 +161,7 @@ export class AdminUsersDetailsComponent implements OnInit {
 
       this.totalUsedSpent = 0;
       for (const payment of this.userPaymentsList) {
-        if (payment.current_status === 'COMPLETED') {
+        if (payment.current_status === 'COMPLETED' || payment.coinpayments_raw_status === 100) {
           this.userPaymentsListLength++;
           this.totalUsedSpent += payment['euro'];
         }

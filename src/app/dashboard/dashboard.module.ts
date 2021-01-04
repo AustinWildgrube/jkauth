@@ -21,6 +21,7 @@ import { QuillModule } from 'ngx-quill';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
     declarations: [
@@ -44,6 +45,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
         FormsModule,
         NgxPaginationModule,
         Ng2SearchPipeModule,
+        NgxSkeletonLoaderModule,
         BsDropdownModule.forRoot(),
         QuillModule.forRoot({
             modules: {
@@ -53,7 +55,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
                     [{header: [1, 2, 3, 4, 5, 6, false]}],
                 ]
             }
-        }),
+        })
     ],
     providers: [
         BsDropdownModule

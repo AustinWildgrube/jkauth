@@ -6,6 +6,7 @@
   display: grid;
   gap: 1rem;
   grid-template: auto / repeat(auto-fill, minmax(24rem, 1fr));
+  padding-left: 0;
 
   @media #{$mobile-lg} {
     grid-template: auto / repeat(auto-fill, minmax(18rem, 1fr));
