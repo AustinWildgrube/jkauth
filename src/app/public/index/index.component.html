@@ -125,7 +125,10 @@
 <ng-template #productInfo>
   <div class="modal modal-content">
     <div class="modal__header modal__header--align-left">
-      <h3 class="modal__header-title">{{ scriptToAdd.sname }}</h3>
+      <div class="modal__header-actions">
+        <h3 class="modal__header-title">{{ scriptToAdd.sname }}</h3>
+        <i class="modal__header-close gg-close" (click)="closeModal()"></i>
+      </div>
       <span *ngIf="this.noKeyLengthSelected" class="modal__header-error">Please select key length</span>
       <ng-container *ngIf="scriptToAdd.price_1_day != -1">
         <h3 class="modal__header-price">{{ scriptToAdd.price_1_day | currency: 'EUR' }} Day</h3>
@@ -167,7 +170,7 @@
           </ng-container>
         </select>
 
-        <button class="button" type="submit">Add to Cart</button>
+        <button class="modal__footer-checkout button" type="submit">Add to Cart</button>
       </form>
     </footer>
   </div>

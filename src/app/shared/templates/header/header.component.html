@@ -138,10 +138,15 @@
     <ng-container *ngIf="userDetails">
       <ng-container *ngFor="let role of userDetails.role">
         <li *ngIf="role === 'admin'" class="mobile-menu__list-item">
-          <a class="mobile-menu__list-item" (click)="toggleMobileMenu()" routerLink="/admin">Admin Dashboard</a>
+          <a class="mobile-menu__list-item" (click)="toggleMobileMenu()" routerLink="/admin/scripts">Admin Scripts</a>
         </li>
         <li *ngIf="role === 'developer'" class="mobile-menu__list-item">
-          <a class="mobile-menu__list-item" routerLink="/dashboard/scripts">Dashboard Scripts</a>
+          <a class="mobile-menu__list-item" (click)="toggleMobileMenu()" routerLink="/dashboard/scripts">
+            Dashboard Scripts
+          </a>
+        </li>
+        <li *ngIf="role == 'reseller'" class="mobile-menu__list-item">
+          <a class="dropdown__list-item" (click)="toggleMobileMenu()" routerLink="/reseller-keys">Reseller Keys</a>
         </li>
       </ng-container>
       <li class="mobile-menu__list-item">

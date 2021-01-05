@@ -4,3 +4,7 @@ body {
   min-height: calc(100vh - 96px - 85px) !important;
   overflow-x: hidden;
 }
+
+[type=button], [type=reset], [type=submit], button {
+  appearance: none;
+}

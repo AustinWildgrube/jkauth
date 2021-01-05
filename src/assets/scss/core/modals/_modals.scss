@@ -12,6 +12,13 @@
   align-items: flex-start;
 }
 
+.modal__header-actions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .modal__header-title {
   color: color(text, base);
   font-size: 1rem;
@@ -19,6 +26,10 @@
   letter-spacing: 2px;
   margin-bottom: 0;
   text-transform: uppercase;
+}
+
+.modal__header-close {
+  cursor: pointer;
 }
 
 .modal__header-price {
@@ -88,4 +99,11 @@
   flex: 1 1 auto;
   margin-right: 4px;
   width: 33%;
+}
+
+.modal__footer-checkout {
+  @media #{$mobile-lg} {
+    margin-top: 12px;
+    width: 100%;
+  }
 }

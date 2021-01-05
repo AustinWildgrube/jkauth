@@ -96,7 +96,7 @@ export class CheckoutComponent implements OnInit {
     Swal.fire({
       title: 'How would you like to pay?',
       text: 'After choosing an option you will be taken to the respective payments website. After completion you will' +
-          ' be returned here',
+          ' be returned here.',
       showConfirmButton: true,
       showCancelButton: true,
       confirmButtonText: 'Crypto',
@@ -118,7 +118,7 @@ export class CheckoutComponent implements OnInit {
         this.createPaypalOrder(this.isAmber);
 
         Swal.fire({
-          title: 'Redirecting you to PayPals Website!',
+          title: 'Redirecting you to PayPal\'s Website!',
           html: 'One moment!',
           timer: 10000,
           timerProgressBar: true,

@@ -134,6 +134,14 @@
 
 .header__cart {
   width: max-content !important;
+
+  @media #{$tablet} {
+    left: -175px !important;
+  }
+
+  @media #{$mobile-lg} {
+    left: -150px !important;
+  }
 }
 
 .header__cart-amount {
@@ -247,6 +255,7 @@
 
 .mobile-menu--open {
   padding: 8px 40px 40px;
+  position: fixed;
   top: 96px;
 
   @media #{$tablet} {
@@ -264,6 +273,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  padding-left: 0;
 }
 
 .mobile-menu__list-item {
