@@ -55,9 +55,9 @@ export class ScriptService {
         `&callback=` +  callback, {responseType: 'text'});
   }
 
-  public getDevLoader(scriptId: number): Observable<string> {
+  public getDevLoader(scriptId: number): Observable<ArrayBuffer> {
     return this.http.get(`${environment.apiEndpoint}/developer/lua/get_loader.php?sid=` + scriptId,
-        {responseType: 'text'});
+        {responseType: 'arraybuffer'});
   }
 
   public getTotalRevenue(scriptId: number): Observable<any> {

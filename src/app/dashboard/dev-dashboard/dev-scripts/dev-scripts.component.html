@@ -43,7 +43,7 @@
                 </a>
               </li>
               <li class="dropdown__list-item dropdown-item">
-                <a class="dropdown__list-item" (click)="getDevLoader(script.id); openModal(devLoaderCode)"
+                <a class="dropdown__list-item" (click)="getDevLoader(script.id);"
                    type="button">
                   Get Dev Loader
                 </a>
@@ -108,42 +108,6 @@
           Generate Code
         </button>
       </form>
-    </div>
-  </div>
-</ng-template>
-
-<ng-template #authModuleCodeModal>
-  <div class="modal modal-content">
-    <div class="modal__header">
-      <h3 class="modal__header-title">Auth Module Code</h3>
-      <p class="modal__header-info">Copy this to your script.</p>
-    </div>
-    <div class="modal__body container-fluid">
-      <code *ngIf="authModuleResponse" class="modal__auth-code" id="authModuleCode"
-            (click)="copyInputMessage('authModuleCode')" [innerHTML]="authModuleResponse">
-      </code>
-      <button class="button button--outline button--block" (click)="copyInputMessage('authModuleCode')"
-              type="button">
-        Click to Copy
-      </button>
-    </div>
-  </div>
-</ng-template>
-
-<ng-template #devLoaderCode>
-  <div class="modal modal-content">
-    <div class="modal__header">
-      <h3 class="modal__header-title">Dev Loader Code</h3>
-      <p class="modal__header-info">Copy this to your script.</p>
-    </div>
-    <div class="modal__body container-fluid">
-      <code *ngIf="devLoaderResponse" class="modal__auth-code" id="devLoaderCode"
-            (click)="copyInputMessage('devLoaderCode')" [innerHTML]="devLoaderResponse">
-      </code>
-      <button class="button button--outline button--block" (click)="copyInputMessage('devLoaderCode')"
-              type="button">
-        Click to Copy
-      </button>
     </div>
   </div>
 </ng-template>

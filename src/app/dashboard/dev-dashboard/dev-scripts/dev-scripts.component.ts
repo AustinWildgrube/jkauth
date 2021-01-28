@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -11,7 +12,6 @@ import { Script } from '../../../shared/models/script';
 import { ScriptData } from '../../../shared/models/script-data';
 
 import Swal from 'sweetalert2';
-import {take} from "rxjs/operators";
 
 @UntilDestroy()
 @Component({
@@ -36,10 +36,7 @@ export class DevScriptsComponent implements OnInit {
   scriptAlreadyExists: boolean;
   imageTooLarge: boolean;
   imageError: boolean;
-  imageData: string | ArrayBuffer;
   editScriptName: string;
-  authModuleResponse: string;
-  devLoaderResponse: string;
 
   setting = {
     element: {
@@ -48,6 +45,15 @@ export class DevScriptsComponent implements OnInit {
   };
 
   @ViewChild('authModuleCodeModal') authModuleCodeTemplate: TemplateRef<any>;
+
+  private static downloadFile(data: any, fileType: string): void {
+    const blob = new Blob([data], {
+      type: fileType
+    });
+
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+  }
 
   constructor(private router: Router, private formBuilder: FormBuilder, private modalService: NgbModal,
               private scriptService: ScriptService, private slugifyPipe: SlugifyPipe) { }
@@ -324,9 +330,8 @@ export class DevScriptsComponent implements OnInit {
   public getAuthModule(): void {
     this.scriptService.getAuthModule(this.authModuleId, this.authModuleForm.get('callback').value)
         .pipe(untilDestroyed(this)).subscribe(response => {
-      this.authModuleResponse = response;
       this.closeModal();
-      this.openModal(this.authModuleCodeTemplate);
+      DevScriptsComponent.downloadFile(response, 'text/plain');
     });
   }
 
@@ -355,7 +360,7 @@ export class DevScriptsComponent implements OnInit {
 
   public getDevLoader(scriptId: number): void {
     this.scriptService.getDevLoader(scriptId).subscribe(response => {
-      this.devLoaderResponse = response;
+      DevScriptsComponent.downloadFile(response, 'application/zip');
     });
   }
 
