@@ -81,7 +81,7 @@ export class IndexComponent implements OnInit {
         this.scriptToAdd.purchaseLength = 7;
       } else if (this.scriptToAdd.price_1_month !== -1) {
         this.scriptToAdd.purchaseLength = 31;
-      } else if (this.scriptToAdd.price_eur !== 9999999) {
+      } else if (this.scriptToAdd.price_eur !== -1) {
         this.scriptToAdd.purchaseLength = -1;
       }
     }

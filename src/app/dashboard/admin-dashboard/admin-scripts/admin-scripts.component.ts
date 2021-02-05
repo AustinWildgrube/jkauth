@@ -46,6 +46,7 @@ export class AdminScriptsComponent implements OnInit {
     this.editScriptForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       editName: [null],
+      editPriceFree: [null],
       editPriceDay: [null],
       editPriceWeek: [null],
       editPriceMonth: [null],
@@ -95,23 +96,26 @@ export class AdminScriptsComponent implements OnInit {
     this.editScriptFormData = new FormData();
     this.editScriptFormData.append('sname', this.editScriptName);
 
-    if (this.editScriptForm.get('editPriceDay').value) {
-      this.editScriptFormData.append('price_1_day', this.editScriptForm.get('editPriceDay').value);
-    }
+    if (this.editScriptForm.get('editPriceFree').value === true) {
+      this.editScriptFormData.append('price_eur', '0');
+    } else {
+      if (this.editScriptForm.get('editPriceDay').value) {
+        this.editScriptFormData.append('price_1_day', this.editScriptForm.get('editPriceDay').value);
+      }
 
-    if (this.editScriptForm.get('editPriceWeek').value) {
-      this.editScriptFormData.append('price_1_week', this.editScriptForm.get('editPriceWeek').value);
-    }
+      if (this.editScriptForm.get('editPriceWeek').value) {
+        this.editScriptFormData.append('price_1_week', this.editScriptForm.get('editPriceWeek').value);
+      }
 
-    if (this.editScriptForm.get('editPriceMonth').value) {
-      this.editScriptFormData.append('price_1_month', this.editScriptForm.get('editPriceMonth').value);
-    }
+      if (this.editScriptForm.get('editPriceMonth').value) {
+        this.editScriptFormData.append('price_1_month', this.editScriptForm.get('editPriceMonth').value);
+      }
 
-    if (this.editScriptForm.get('editPriceLife').value) {
-      this.editScriptFormData.append('price_eur', this.editScriptForm.get('editPriceLife').value);
-    } else if (this.editScriptForm.get('editPriceDay').value || this.editScriptForm.get('editPriceWeek').value ||
-        this.editScriptForm.get('editPriceMonth').value) {
-      this.editScriptFormData.append('price_eur', '9999999');
+      if (this.editScriptForm.get('editPriceLife').value) {
+        this.editScriptFormData.append('price_eur', this.editScriptForm.get('editPriceLife').value);
+      } else {
+        this.editScriptFormData.append('price_eur', '-1');
+      }
     }
 
     if (this.editScriptForm.get('editName').value) {

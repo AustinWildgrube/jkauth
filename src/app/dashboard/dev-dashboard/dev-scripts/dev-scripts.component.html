@@ -131,24 +131,33 @@
           <input class="form-control" id="trial-time" formControlName="trialTime" type="text">
         </div>
 
+        <div class="form-group col-12">
+          <input class="form-check-input" id="free-script" formControlName="priceFree" type="checkbox">
+          <label class="form-check-label" for="free-script">Make Script Free</label>
+        </div>
+
         <div class="form-group col-6 pr-2">
           <label class="form-control-label" for="script-price-day">Price 1 Day (EUR)</label>
-          <input class="form-control" id="script-price-day" formControlName="priceDay" type="number">
+          <input class="form-control" id="script-price-day" formControlName="priceDay"
+                 [attr.disabled]="addScriptForm.get('priceFree').value ? true : null" type="number">
         </div>
 
         <div class="form-group col-6 pl-2">
           <label class="form-control-label" for="script-price-week">Price 7 Days (EUR)</label>
-          <input class="form-control" id="script-price-week" formControlName="priceWeek" type="number">
+          <input class="form-control" id="script-price-week" formControlName="priceWeek"
+                 [attr.disabled]="addScriptForm.get('priceFree').value ? true : null" type="number">
         </div>
 
         <div class="form-group col-6 pr-2">
           <label class="form-control-label" for="script-price-month">Price 1 Month (EUR)</label>
-          <input class="form-control" id="script-price-month" formControlName="priceMonth" type="number">
+          <input class="form-control" id="script-price-month" formControlName="priceMonth"
+                 [attr.disabled]="addScriptForm.get('priceFree').value ? true : null" type="number">
         </div>
 
         <div class="form-group col-6 pl-2">
           <label class="form-control-label" for="script-price-life">Price Life Time (EUR)</label>
-          <input class="form-control" id="script-price-life" formControlName="priceLife" type="number">
+          <input class="form-control" id="script-price-life" formControlName="priceLife"
+                 [attr.disabled]="addScriptForm.get('priceFree').value ? true : null" type="number">
         </div>
 
         <div class="form-group col-12">
@@ -198,24 +207,33 @@
           <input class="form-control" id="edit-trial-time" formControlName="editTrialTime" type="text">
         </div>
 
+        <div class="form-group col-12">
+          <input class="form-check-input" id="edit-free-script" formControlName="editPriceFree" type="checkbox">
+          <label class="form-check-label" for="edit-free-script">Make Script Free</label>
+        </div>
+
         <div class="form-group col-6 pr-2">
           <label class="form-control-label" for="edit-script-price-day">Price 1 Day (EUR)</label>
-          <input class="form-control" id="edit-script-price-day" formControlName="editPriceDay" type="number">
+          <input class="form-control" id="edit-script-price-day" formControlName="editPriceDay"
+                 [attr.disabled]="editScriptForm.get('editPriceFree').value ? true : null" type="number">
         </div>
 
         <div class="form-group col-6 pl-2">
           <label class="form-control-label" for="edit-script-price-week">Price 7 Days (EUR)</label>
-          <input class="form-control" id="edit-script-price-week" formControlName="editPriceWeek" type="number">
+          <input class="form-control" id="edit-script-price-week" formControlName="editPriceWeek"
+                 [attr.disabled]="editScriptForm.get('editPriceFree').value ? true : null" type="number">
         </div>
 
         <div class="form-group col-6 pr-2">
           <label class="form-control-label" for="edit-script-price-month">Price 1 Month (EUR)</label>
-          <input class="form-control" id="edit-script-price-month" formControlName="editPriceMonth" type="number">
+          <input class="form-control" id="edit-script-price-month" formControlName="editPriceMonth"
+                 [attr.disabled]="editScriptForm.get('editPriceFree').value ? true : null" type="number">
         </div>
 
         <div class="form-group col-6 pl-2">
           <label class="form-control-label" for="edit-script-price-life">Price Life Time (EUR)</label>
-          <input class="form-control" id="edit-script-price-life" formControlName="editPriceLife" type="number">
+          <input class="form-control" id="edit-script-price-life" formControlName="editPriceLife"
+                 [attr.disabled]="editScriptForm.get('editPriceFree').value ? true : null" type="number">
         </div>
 
         <div class="form-group col-12">
