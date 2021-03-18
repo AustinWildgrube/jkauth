@@ -38,11 +38,11 @@ export class CartService {
     delete item.author;
     delete item.trial_time;
 
-    this.state$.pipe(first()).subscribe(product => {
-      product.cart.forEach(test => {
-        item.amount += test.amount;
+    this.state$.pipe(first()).subscribe(cartItems => {
+      cartItems.cart.forEach(cartItem => {
+        if (cartItem.id === item.id && cartItem.purchaseLength === item.purchaseLength) {
+          item.amount += cartItem.amount;
 
-        if (test.id === item.id) {
           if (item.id === 38) {
             if (item.amount >= 1 && item.amount <= 19) {
               item.price_1_month = 4.5;
@@ -58,7 +58,7 @@ export class CartService {
           }
 
           this.alreadyInCart = true;
-          this.cartRemove.next({...test, remove: true});
+          this.cartRemove.next({...cartItem, remove: true});
           this.cartAdd.next({...item, uuid: uuid()});
         }
       });
