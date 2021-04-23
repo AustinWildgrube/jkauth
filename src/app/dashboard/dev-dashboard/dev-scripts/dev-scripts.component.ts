@@ -342,7 +342,7 @@ export class DevScriptsComponent implements OnInit {
     this.scriptService.getAuthModule(this.authModuleId, this.authModuleForm.get('callback').value)
         .pipe(untilDestroyed(this)).subscribe(response => {
       this.closeModal();
-      DevScriptsComponent.downloadFile(response, 'text/plain');
+      DevScriptsComponent.downloadFile(response, 'application/zip');
     });
   }
 

@@ -50,9 +50,9 @@ export class ScriptService {
     return this.http.get<Hwid[]>(`${environment.apiEndpoint}/developer/hwid/get_by_script.php?script_id=` + scriptId);
   }
 
-  public getAuthModule(scriptId: number, callback: string): Observable<string> {
+  public getAuthModule(scriptId: number, callback: string): Observable<any> {
     return this.http.get(`${environment.apiEndpoint}/developer/lua/get_auth_module.php?sid=` + scriptId +
-        `&callback=` +  callback, {responseType: 'text'});
+        `&callback=` +  callback, {responseType: 'arraybuffer'});
   }
 
   public getDevLoader(scriptId: number): Observable<ArrayBuffer> {
