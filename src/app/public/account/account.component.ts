@@ -12,6 +12,7 @@ import { AdminUser } from '../../shared/models/admin-user';
 import { UserPayments } from '../../shared/models/user-payments';
 
 import Swal from 'sweetalert2';
+import { Base64 } from 'js-base64';
 
 @UntilDestroy()
 @Component({
@@ -53,7 +54,7 @@ export class AccountComponent implements OnInit {
       response => {
         this.dyanmicDownloadByHtmlTag({
           fileName: 'jk_auth.key',
-          text: JSON.stringify(response)
+          text: Base64.decode(response)
         }
       );
     },
